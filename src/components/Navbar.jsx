@@ -7,12 +7,14 @@ const Navbar = () => {
     <header className="container">
       <nav className="flex justify-between items-center md:justify-around py-4 bg-white fixed top-0 left-0 right-0 z-10 md:px-10">
         <div className="flex items-center justify-center">
-          <a className="cursor-pointer">
-            <img className="w-48 px-2 md:px-0" src={Logo} alt="Store Logo" />
-          </a>
+          <img
+            className="w-48 px-2 md:px-0 cursor-pointer"
+            src={Logo}
+            alt="Logo"
+          />
         </div>
 
-        <div className="items-center md:space-x-10 justify-center justify-items-start md:justify-items-center hidden md:flex w-full left-0 top-16 px-5 md:px-10 md:py-0 border-t md:border-t-0">
+        <div className="items-center md:space-x-10 justify-center justify-items-start md:justify-items-center hidden md:flex w-full left-0 top-16 px-5 md:px-10 md:py-0 text-sm lg:text-base">
           <a>
             <Link
               to="dashboard"

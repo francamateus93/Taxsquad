@@ -4,7 +4,7 @@ import Dashboard from "../views/Dashboard";
 import Invoices from "../views/Invoices";
 import Taxes from "../views/Taxes";
 import Documents from "../views/Documents";
-// import Profile from "../views/Profile";
+import Profile from "../views/Profile";
 
 const AppRouter = () => {
   return (
@@ -15,7 +15,7 @@ const AppRouter = () => {
         <Route path="/invoices" element={<Invoices />} />
         <Route path="/taxes" element={<Taxes />} />
         <Route path="/documents" element={<Documents />} />
-        {/* <Route path="/profile" element={<Profile />} /> */}
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
   );

@@ -31,7 +31,7 @@ const Navbar = () => {
 
   return (
     <header className="container">
-      <nav className="flex justify-between items-center md:justify-around py-4 bg-white fixed top-0 left-0 right-0 z-10 md:px-10">
+      <nav className="flex justify-between items-center py-4 bg-white fixed top-0 left-0 right-0 z-50 md:px-5">
         <div className="flex items-center justify-center">
           <img
             className="w-48 px-2 md:px-0 cursor-pointer"

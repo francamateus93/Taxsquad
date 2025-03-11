@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const DashboardHome = () => {
+const DashboardPage = () => {
   const [stats, setStats] = useState({ income: 0, expenses: 0, invoices: 0 });
 
-  // Carrega dados do JSON Server
   useEffect(() => {
     const fetchStats = async () => {
       try {
@@ -38,4 +37,4 @@ const DashboardHome = () => {
   );
 };
 
-export default DashboardHome;
+export default DashboardPage;

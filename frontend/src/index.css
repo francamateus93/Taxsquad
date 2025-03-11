@@ -5,6 +5,9 @@
   line-height: 1.5;
   font-weight: 400;
 
+  margin: 0 auto;
+  padding: 0rem;
+
   color-scheme: light dark;
   color: rgb(19, 19, 19);
   background-color: rgb(255, 255, 255);

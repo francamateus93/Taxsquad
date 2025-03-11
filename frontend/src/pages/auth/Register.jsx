@@ -45,6 +45,11 @@ const Register = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          <div>
+            <input type="checkbox" name="privacy" className="m-2" required />
+            <span>I agree to the terms of service and privacy policy.</span>
+          </div>
+
           <button className="bg-green-600 text-white p-2 rounded" type="submit">
             Register
           </button>

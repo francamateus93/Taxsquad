@@ -6,6 +6,7 @@ import {
   loginWithEmail,
   loginWithGoogle,
 } from "../../services/firebaseAuthService";
+import Navbar from "../../components/Navbar/Navbar";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -17,8 +18,9 @@ const Login = () => {
     e.preventDefault();
     dispatch(setLoading(true));
     try {
-      const user = await loginWithEmail(email, password);
-      dispatch(setUser(user));
+      const firebaseUser = await loginWithEmail(email, password);
+      const { uid, email: userEmail, displayName } = firebaseUser || {};
+      dispatch(setUser({ uid, email: userEmail, displayName }));
       navigate("/dashboard");
     } catch (error) {
       dispatch(setError(error.message));
@@ -30,8 +32,9 @@ const Login = () => {
   const handleGoogleLogin = async () => {
     dispatch(setLoading(true));
     try {
-      const user = await loginWithGoogle();
-      dispatch(setUser(user));
+      const firebaseUser = await loginWithEmail(email, password);
+      const { uid, email: userEmail, displayName } = firebaseUser || {};
+      dispatch(setUser({ uid, email: userEmail, displayName }));
       navigate("/dashboard");
     } catch (error) {
       dispatch(setError(error.message));
@@ -42,6 +45,7 @@ const Login = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <Navbar />
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
         <form onSubmit={handleLogin} className="flex flex-col">

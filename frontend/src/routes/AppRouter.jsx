@@ -1,23 +1,82 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LandingPage from "../views/LandingPage";
-import Dashboard from "../views/Dashboard";
-import Invoices from "../views/Invoices";
-import Taxes from "../views/Taxes";
-import Documents from "../views/Documents";
-import Profile from "../views/Profile";
+import { Provider } from "react-redux";
+import { store } from "../store/store";
+import Navbar from "../components/Navbar/Navbar";
+import Login from "../pages/auth/Login";
+import Register from "../pages/auth/Register";
+import LandingPage from "../pages/LandingPage";
+import DashboardLayout from "../components/Layouts/DashboardLayout";
+import DashboardPage from "../pages/dashboard/DashboardPage";
+import Invoices from "../pages/Invoices";
+import Taxes from "../pages/Taxes";
+import Documents from "../pages/Documents";
+import Profile from "../pages/Profile";
+import PrivateRoute from "./PrivateRoute";
 
 const AppRouter = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/invoices" element={<Invoices />} />
-        <Route path="/taxes" element={<Taxes />} />
-        <Route path="/documents" element={<Documents />} />
-        <Route path="/profile" element={<Profile />} />
-      </Routes>
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+
+          {/* Private Routes */}
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <DashboardLayout>
+                  <DashboardPage />
+                </DashboardLayout>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/invoices"
+            element={
+              <PrivateRoute>
+                <DashboardLayout>
+                  <Invoices />
+                </DashboardLayout>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/taxes"
+            element={
+              <PrivateRoute>
+                <DashboardLayout>
+                  <Taxes />
+                </DashboardLayout>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/documents"
+            element={
+              <PrivateRoute>
+                <DashboardLayout>
+                  <Documents />
+                </DashboardLayout>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <DashboardLayout>
+                  <Profile />
+                </DashboardLayout>
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </Router>
+    </Provider>
   );
 };
 

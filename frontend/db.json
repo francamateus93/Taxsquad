@@ -1,0 +1,11 @@
+{
+  "stats": {
+    "income": 12345,
+    "expenses": 2345,
+    "invoices": 14
+  },
+  "users": [
+    { "id": 1, "name": "John", "role": "admin" },
+    { "id": 2, "name": "Jane", "role": "user" }
+  ]
+}

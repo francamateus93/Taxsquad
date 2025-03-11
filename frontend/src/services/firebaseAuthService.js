@@ -1,4 +1,3 @@
-// import { auth, googleProvider } from "./firebaseConfig";
 import { initializeApp } from "firebase/app";
 import {
   signInWithPopup,
@@ -7,6 +6,7 @@ import {
   signOut,
   getAuth,
   GoogleAuthProvider,
+  onAuthStateChanged,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -20,7 +20,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth();
+const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
 export const loginWithGoogle = async () => {
@@ -56,4 +56,24 @@ export const logoutUser = async () => {
   } catch (error) {
     console.error(error);
   }
+};
+
+export const getCurrentUser = async () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (user) => {
+        unsubscribe();
+        if (user) {
+          resolve(user);
+        } else {
+          resolve(null);
+        }
+      },
+      (error) => {
+        unsubscribe();
+        reject(error);
+      }
+    );
+  });
 };

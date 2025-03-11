@@ -1,16 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { logout } from "../store/authSlice";
-import { logoutUser } from "../services/firebaseAuthService";
-import Logo from "../assets/Logo_TaxSquad.png";
-import Button from "./Button";
+import { logout, login } from "../../store/authSlice";
+import { logoutUser, getCurrentUser } from "../../services/firebaseAuthService";
+import Logo from "../../assets/Logo_TaxSquad.png";
+import Button from "../buttons/Button";
+import { FaUserCircle } from "react-icons/fa";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const currentUser = await getCurrentUser();
+      if (currentUser) {
+        dispatch(login({ email: currentUser.email, uid: currentUser.uid }));
+      }
+    };
+    fetchUsers();
+  }, [dispatch]);
 
   const handleLogout = async () => {
     await logoutUser();
@@ -30,7 +41,7 @@ const Navbar = () => {
           />
         </div>
 
-        {/* Navegation */}
+        {/* Navegação */}
         <div className="items-center md:space-x-10 justify-center hidden md:flex text-sm lg:text-base">
           <Link
             to="/dashboard"
@@ -72,20 +83,22 @@ const Navbar = () => {
               </Link>
             </>
           ) : (
-            <button
-              className="text-sm px-4 py-2 text-red-600 bg-red-50 rounded hover:bg-red-200"
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
+            <div className="flex items-center space-x-4">
+              <Link to="/profile">
+                <FaUserCircle className="text-2xl text-gray-700 hover:text-emerald-500 cursor-pointer" />
+              </Link>
+              <button
+                className="text-sm px-4 py-2 text-red-600 bg-red-50 rounded hover:bg-red-200"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </div>
           )}
         </div>
 
         {/* Menu Hamburguer */}
-        <button
-          className="p-4 md:hidden"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
+        <button className="p-4 md:hidden" onClick={() => setIsOpen(!isOpen)}>
           <svg
             className="w-10 h-10"
             xmlns="http://www.w3.org/2000/svg"
@@ -96,33 +109,29 @@ const Navbar = () => {
         </button>
 
         {/* Menu Mobile */}
-        {menuOpen && (
-          <div className="absolute top-16 left-0 w-full bg-white shadow-md flex flex-col items-center md:hidden">
+        {isOpen && (
+          <div className="absolute top-16 left-0 w-full bg-white flex flex-col items-center md:hidden">
             <Link
               to="/dashboard"
               className="py-2"
-              onClick={() => setMenuOpen(false)}
+              onClick={() => setIsOpen(false)}
             >
               Dashboard
             </Link>
             <Link
               to="/invoices"
               className="py-2"
-              onClick={() => setMenuOpen(false)}
+              onClick={() => setIsOpen(false)}
             >
               Invoices
             </Link>
-            <Link
-              to="/taxes"
-              className="py-2"
-              onClick={() => setMenuOpen(false)}
-            >
+            <Link to="/taxes" className="py-2" onClick={() => setIsOpen(false)}>
               Taxes
             </Link>
             <Link
               to="/documents"
               className="py-2"
-              onClick={() => setMenuOpen(false)}
+              onClick={() => setIsOpen(false)}
             >
               Documents
             </Link>
@@ -132,22 +141,32 @@ const Navbar = () => {
                 <Link
                   to="/register"
                   className="py-2"
-                  onClick={() => setMenuOpen(false)}
+                  onClick={() => setIsOpen(false)}
                 >
                   Register
                 </Link>
                 <Link
                   to="/login"
                   className="py-2"
-                  onClick={() => setMenuOpen(false)}
+                  onClick={() => setIsOpen(false)}
                 >
                   Login
                 </Link>
               </>
             ) : (
-              <button className="py-2 text-red-600" onClick={handleLogout}>
-                Logout
-              </button>
+              <div className="py-2 flex flex-col items-center space-y-2">
+                <Link
+                  to="/profile"
+                  className="text-gray-700 hover:text-emerald-500 flex items-center space-x-2"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <FaUserCircle className="text-xl" />
+                  <span>Profile</span>
+                </Link>
+                <button className="text-red-600" onClick={handleLogout}>
+                  Logout
+                </button>
+              </div>
             )}
           </div>
         )}

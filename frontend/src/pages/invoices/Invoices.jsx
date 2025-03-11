@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setInvoices, setLoading, setError } from "../store/invoicesSlice";
+import { setInvoices, setLoading, setError } from "../../store/invoicesSlice";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -29,7 +29,6 @@ const Invoices = () => {
       dispatch(setLoading(true));
       try {
         // Se estiver usando JSON Server: http://localhost:3001/invoices
-        // ou uma rota do backend real:
         const response = await axios.get("http://localhost:3001/invoices");
         dispatch(setInvoices(response.data));
       } catch (err) {
@@ -103,12 +102,22 @@ const Invoices = () => {
       </div>
 
       {/* Botão para criar nova fatura */}
-      <div>
-        <Link to="/invoices/new">
-          <button className="px-4 py-2 bg-blue-600 text-white rounded">
-            Create New Invoice
-          </button>
-        </Link>
+      <div className="flex space-x-2 justify-center">
+        <div>
+          <Link to="/invoices/new-income">
+            <button className="px-4 py-2 bg-blue-600 text-white rounded">
+              New Invoice
+            </button>
+          </Link>
+        </div>
+
+        <div>
+          <Link to="/invoices/new-expense">
+            <button className="px-4 py-2 bg-blue-600 text-white rounded">
+              New Expense
+            </button>
+          </Link>
+        </div>
       </div>
 
       {/* Lista de faturas */}

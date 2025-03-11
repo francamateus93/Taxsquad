@@ -7,7 +7,9 @@ import Register from "../pages/auth/Register";
 import LandingPage from "../pages/LandingPage";
 import DashboardLayout from "../components/Layouts/DashboardLayout";
 import DashboardPage from "../pages/dashboard/DashboardPage";
-import Invoices from "../pages/Invoices";
+import Invoices from "../pages/invoices/Invoices";
+import NewInvoiceExpense from "../pages/invoices/NewInvoiceExpense";
+import NewInvoiceIncome from "../pages/invoices/NewInvoiceIncome";
 import Taxes from "../pages/Taxes";
 import Documents from "../pages/Documents";
 import Profile from "../pages/Profile";
@@ -40,6 +42,26 @@ const AppRouter = () => {
               <PrivateRoute>
                 <DashboardLayout>
                   <Invoices />
+                </DashboardLayout>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/invoices/new-income"
+            element={
+              <PrivateRoute>
+                <DashboardLayout>
+                  <NewInvoiceIncome />
+                </DashboardLayout>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/invoices/new-expense"
+            element={
+              <PrivateRoute>
+                <DashboardLayout>
+                  <NewInvoiceExpense />
                 </DashboardLayout>
               </PrivateRoute>
             }

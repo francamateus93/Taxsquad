@@ -28,7 +28,6 @@ const Invoices = () => {
     const fetchInvoices = async () => {
       dispatch(setLoading(true));
       try {
-        // Se estiver usando JSON Server: http://localhost:3001/invoices
         const response = await axios.get("http://localhost:3001/invoices");
         dispatch(setInvoices(response.data));
       } catch (err) {
@@ -87,7 +86,7 @@ const Invoices = () => {
       {/* Filtro de Data */}
       <div className="flex items-center space-x-2">
         <label htmlFor="dateFilter" className="font-semibold">
-          Filter by Date ({">"}=):
+          Filter
         </label>
         <input
           id="dateFilter"
@@ -106,7 +105,7 @@ const Invoices = () => {
         <div>
           <Link to="/invoices/new-income">
             <button className="px-4 py-2 bg-blue-600 text-white rounded">
-              New Invoice
+              New Income
             </button>
           </Link>
         </div>
@@ -126,18 +125,20 @@ const Invoices = () => {
 
       {!loading && !error && (
         <div className="space-y-2">
+          <h2>Invoices</h2>
           {paginatedInvoices.map((invoice) => (
             <div
               key={invoice.id}
               onClick={() => handleInvoiceClick(invoice)}
-              className="bg-white p-4 rounded shadow cursor-pointer hover:bg-gray-100"
+              className="bg-white p-4 rounded cursor-pointer hover:bg-gray-100"
             >
-              <p className="font-semibold">Invoice #{invoice.number}</p>
+              <p className="font-semibold">Invoice #{invoice.id}</p>
               <p>{invoice.date}</p>
-              <p>{invoice.clientName || invoice.supplierName}</p>
-              <p>
+              <p>{invoice.amount}</p>
+              <p>{invoice.status}</p>
+              {/* <p>
                 Total: {invoice.totalAmount} {invoice.currency}
-              </p>
+              </p> */}
             </div>
           ))}
         </div>

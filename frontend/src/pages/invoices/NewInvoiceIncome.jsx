@@ -1,4 +1,3 @@
-// src/pages/dashboard/NewInvoiceIncome.jsx
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addInvoice } from "../../store/invoicesSlice";
@@ -58,11 +57,7 @@ const NewInvoiceIncome = () => {
       paymentMethod: form.paymentMethod,
       totalAmount: total,
     };
-
-    // Adicionamos ao Redux (ou enviamos ao backend)
     dispatch(addInvoice(newInvoice));
-
-    // Redirecionar para Invoices
     navigate("/invoices");
   };
 

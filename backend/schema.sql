@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS documents (
 INSERT INTO users (
   first_name, last_name, date_of_birth, identification_number, phone, address, city
 ) VALUES (
-  'Mateus', 'Franca', '12-30-1993', 'Y7027045F', '34 642245212', 'Avenida de la Mare de Deu de Montserrat, 172 - Bajo 2', 'Barcelona'
+  'Mateus', 'Franca', '1993-12-30', 'Y7027045F', '34 642245212', 'Avenida de la Mare de Deu de Montserrat, 172 - Bajo 2', 'Barcelona'
 );
 
 INSERT INTO invoices (
@@ -55,12 +55,12 @@ INSERT INTO invoices (
   currency, payment_method
 ) VALUES
 (
-  1, 'income', 'INC-0001', '10-01-2024', 
+  1, 'income', 'INC-0001', '2024-10-11', 
   'ACME Corp', 1000.00, 210.00, 0.00, 1210.00,
   'EUR', 'Bank Transfer'
 ),
 (
-  1, 'expense', 'EXP-0002', '10-05-2024', 
+  1, 'expense', 'EXP-0002', '2024-10-10', 
   'Paper Supplies Ltd.', 300.00, 63.00, 0.00, 363.00,
   'EUR', 'Credit Card'
 );

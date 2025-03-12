@@ -1,7 +1,8 @@
-import express from "express";
-import pool from "../db.js";
+import express, { Router } from "express";
+import { db } from "../server.js";
 
-const router = express.Router();
+const router = Router();
+router.use(express.json());
 
 // Criar invoice
 router.post("/", async (req, res) => {
@@ -19,7 +20,7 @@ router.post("/", async (req, res) => {
     payment_method,
   } = req.body;
 
-  const [result] = await pool.query(
+  const [result] = await db.query(
     `INSERT INTO invoices (user_id, invoice_type, invoice_number, invoice_date,
       client_or_supplier_name, base_amount, vat_amount, irpf_amount,
       total_amount, currency, payment_method)
@@ -44,7 +45,7 @@ router.post("/", async (req, res) => {
 
 // Obter invoices income
 router.get("/income", async (req, res) => {
-  const [rows] = await pool.query(
+  const [rows] = await db.query(
     `SELECT * FROM invoices WHERE invoice_type='income'`
   );
   res.json(rows);
@@ -52,16 +53,16 @@ router.get("/income", async (req, res) => {
 
 // Obter invoices expense
 router.get("/expense", async (req, res) => {
-  const [rows] = await pool.query(
+  const [rows] = await db.query(
     `SELECT * FROM invoices WHERE invoice_type='expense'`
   );
   res.json(rows);
 });
 
-// Atualizar invoice por id
+// Atualizar invoice ºr id
 router.put("/:id", async (req, res) => {
   const { client_or_supplier_name, total_amount } = req.body;
-  await pool.query(
+  await db.query(
     `UPDATE invoices SET client_or_supplier_name=?, total_amount=? WHERE invoice_id=?`,
     [client_or_supplier_name, total_amount, req.params.id]
   );
@@ -70,7 +71,7 @@ router.put("/:id", async (req, res) => {
 
 // Deletar invoice por id
 router.delete("/:id", async (req, res) => {
-  await pool.query(`DELETE FROM invoices WHERE invoice_id=?`, [req.params.id]);
+  await db.query(`DELETE FROM invoices WHERE invoice_id=?`, [req.params.id]);
   res.json({ message: "Invoice deleted" });
 });
 

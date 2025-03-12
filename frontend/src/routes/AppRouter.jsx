@@ -14,6 +14,7 @@ import Taxes from "../pages/Taxes";
 import Documents from "../pages/Documents";
 import Profile from "../pages/Profile";
 import PrivateRoute from "./PrivateRoute";
+import NotFound from "../pages/NotFound";
 
 const AppRouter = () => {
   return (
@@ -24,6 +25,7 @@ const AppRouter = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="*" element={<NotFound />} />
 
           {/* Private Routes */}
           <Route

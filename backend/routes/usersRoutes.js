@@ -1,7 +1,8 @@
-import express from "express";
-import pool from "../db.js";
+import express, { Router } from "express";
+import { db } from "../server.js";
 
-const router = express.Router();
+const router = Router();
+router.use(express.json());
 
 // Criar usuário
 router.post("/", async (req, res) => {
@@ -13,7 +14,7 @@ router.post("/", async (req, res) => {
     phone,
     address,
   } = req.body;
-  const [result] = await pool.query(
+  const [result] = await db.query(
     `INSERT INTO users (first_name, last_name, date_of_birth, identification_number, phone, address) VALUES (?, ?, ?, ?, ?, ?)`,
     [
       first_name,
@@ -29,7 +30,7 @@ router.post("/", async (req, res) => {
 
 // Obter usuário por id
 router.get("/:id", async (req, res) => {
-  const [rows] = await pool.query(`SELECT * FROM users WHERE user_id = ?`, [
+  const [rows] = await db.query(`SELECT * FROM users WHERE user_id = ?`, [
     req.params.id,
   ]);
   res.json(rows[0]);
@@ -38,7 +39,7 @@ router.get("/:id", async (req, res) => {
 // Atualizar usuário por id
 router.put("/:id", async (req, res) => {
   const { first_name, last_name, phone, address } = req.body;
-  await pool.query(
+  await db.query(
     `UPDATE users SET first_name=?, last_name=?, phone=?, address=? WHERE user_id=?`,
     [first_name, last_name, phone, address, req.params.id]
   );
@@ -47,7 +48,7 @@ router.put("/:id", async (req, res) => {
 
 // Deletar usuário por id
 router.delete("/:id", async (req, res) => {
-  await pool.query(`DELETE FROM users WHERE user_id=?`, [req.params.id]);
+  await db.query(`DELETE FROM users WHERE user_id=?`, [req.params.id]);
   res.json({ message: "User deleted" });
 });
 

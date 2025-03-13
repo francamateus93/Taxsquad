@@ -4,7 +4,6 @@ import { db } from "../server.js";
 const router = Router();
 router.use(express.json());
 
-// Adicionar documento
 router.post("/", async (req, res) => {
   const { user_id, document_type, file_name, file_path } = req.body;
   const [result] = await db.query(
@@ -15,7 +14,6 @@ router.post("/", async (req, res) => {
   res.json({ document_id: result.insertId });
 });
 
-// Obter documento por id
 router.get("/:id", async (req, res) => {
   const [rows] = await db.query(`SELECT * FROM documents WHERE document_id=?`, [
     req.params.id,
@@ -23,7 +21,6 @@ router.get("/:id", async (req, res) => {
   res.json(rows[0]);
 });
 
-// Atualizar documento por id
 router.put("/:id", async (req, res) => {
   const { file_name, file_path } = req.body;
   await db.query(
@@ -33,7 +30,6 @@ router.put("/:id", async (req, res) => {
   res.json({ message: "Document updated" });
 });
 
-// Deletar documento por id
 router.delete("/:id", async (req, res) => {
   await db.query(`DELETE FROM documents WHERE document_id=?`, [req.params.id]);
   res.json({ message: "Document deleted" });

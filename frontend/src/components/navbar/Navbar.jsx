@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { logout, login } from "../../store/authSlice";
-import { logoutUser, getCurrentUser } from "../../services/firebaseAuthService";
+import {
+  logoutUser,
+  getCurrentUser,
+} from "../../services/auth/firebaseAuthService.js";
 import Logo from "../../assets/Logo_TaxSquad.png";
 import Button from "../buttons/Button";
 import { FaUserCircle } from "react-icons/fa";

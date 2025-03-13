@@ -69,5 +69,8 @@ INSERT INTO documents (
   user_id, document_type, file_name, file_path
 ) VALUES
 (
-  1, 'tax_declaration', 'Tax_Declaration_2025.pdf', '/documents/Tax_Declaration_2025.pdf'
+  1, 'tax_declaration_3t', 'Tax_Declaration_3T.pdf', '/documents/Tax_Declaration_3T.pdf'
+),
+(
+  1, 'tax_declaration_4t', 'Tax_Declaration_4T.pdf', '/documents/Tax_Declaration_4T.pdf'
 );

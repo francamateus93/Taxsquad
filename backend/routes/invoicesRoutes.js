@@ -4,7 +4,6 @@ import { db } from "../server.js";
 const router = Router();
 router.use(express.json());
 
-// Criar invoice
 router.post("/", async (req, res) => {
   const {
     user_id,
@@ -43,7 +42,6 @@ router.post("/", async (req, res) => {
   res.json({ invoice_id: result.insertId });
 });
 
-// Obter invoices income
 router.get("/income", async (req, res) => {
   const [rows] = await db.query(
     `SELECT * FROM invoices WHERE invoice_type='income'`
@@ -51,7 +49,6 @@ router.get("/income", async (req, res) => {
   res.json(rows);
 });
 
-// Obter invoices expense
 router.get("/expense", async (req, res) => {
   const [rows] = await db.query(
     `SELECT * FROM invoices WHERE invoice_type='expense'`
@@ -59,7 +56,6 @@ router.get("/expense", async (req, res) => {
   res.json(rows);
 });
 
-// Atualizar invoice ºr id
 router.put("/:id", async (req, res) => {
   const { client_or_supplier_name, total_amount } = req.body;
   await db.query(
@@ -69,7 +65,6 @@ router.put("/:id", async (req, res) => {
   res.json({ message: "Invoice updated" });
 });
 
-// Deletar invoice por id
 router.delete("/:id", async (req, res) => {
   await db.query(`DELETE FROM invoices WHERE invoice_id=?`, [req.params.id]);
   res.json({ message: "Invoice deleted" });

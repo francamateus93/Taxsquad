@@ -4,7 +4,6 @@ import { db } from "../server.js";
 const router = Router();
 router.use(express.json());
 
-// Criar usuário
 router.post("/", async (req, res) => {
   const {
     first_name,
@@ -28,7 +27,6 @@ router.post("/", async (req, res) => {
   res.json({ user_id: result.insertId });
 });
 
-// Obter usuário por id
 router.get("/:id", async (req, res) => {
   const [rows] = await db.query(`SELECT * FROM users WHERE user_id = ?`, [
     req.params.id,
@@ -36,7 +34,6 @@ router.get("/:id", async (req, res) => {
   res.json(rows[0]);
 });
 
-// Atualizar usuário por id
 router.put("/:id", async (req, res) => {
   const { first_name, last_name, phone, address } = req.body;
   await db.query(
@@ -46,7 +43,6 @@ router.put("/:id", async (req, res) => {
   res.json({ message: "User updated" });
 });
 
-// Deletar usuário por id
 router.delete("/:id", async (req, res) => {
   await db.query(`DELETE FROM users WHERE user_id=?`, [req.params.id]);
   res.json({ message: "User deleted" });

@@ -5,7 +5,7 @@ import { setUser, setError, setLoading } from "../../store/authSlice";
 import {
   loginWithEmail,
   loginWithGoogle,
-} from "../../services/firebaseAuthService";
+} from "../../services/auth/firebaseAuthService.js";
 import Navbar from "../../components/Navbar/Navbar";
 
 const Login = () => {

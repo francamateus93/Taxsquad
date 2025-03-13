@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setUser, setError, setLoading } from "../../store/authSlice";
-import { registerWithEmail } from "../../services/firebaseAuthService";
+import { registerWithEmail } from "../../services/auth/firebaseAuthService.js";
 
 const Register = () => {
   const [email, setEmail] = useState("");

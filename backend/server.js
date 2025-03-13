@@ -3,20 +3,15 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 
-import documentsRoutes from "./routes/documentsRoutes";
-import invoicesRoutes from "./routes/invoicesRoutes";
-import usersRoutes from "./routes/usersRoutes";
+import documentsRoutes from "./routes/documentsRoutes.js";
+import invoicesRoutes from "./routes/invoicesRoutes.js";
+import usersRoutes from "./routes/usersRoutes.js";
 
 dotenv.config();
-const corsOptions = {
-  origin: ["http://localhost:5173"],
-  credentials: true,
-};
 
 const app = express();
-
 app.use(express.json());
-app.use(cors(corsOptions));
+app.use(cors({ origin: "http://localhost:5173" }));
 
 export const db = createPool({
   host: process.env.MYSQL_DB_HOST || "localhost",
@@ -28,9 +23,9 @@ export const db = createPool({
   queueLimit: 0,
 });
 
-// app.use("/users", usersRoutes);
-// app.use("/invoice", invoiceRoutes);
-// app.use("/documents", documentsRoutes);
+app.use("/users", usersRoutes);
+app.use("/invoices", invoicesRoutes);
+app.use("/documents", documentsRoutes);
 
 app.get("/", async (_req, res) => {
   res.json({ message: "Service is running" });

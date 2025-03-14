@@ -57,7 +57,7 @@ const NewInvoiceIncome = () => {
       date: form.date,
       clientName: form.clientName,
       clientId: form.clientId,
-      address: form.clientAddress,
+      clientAddress: form.clientAddress,
       city: form.city,
       country: form.country,
       concept: form.concept,
@@ -78,7 +78,7 @@ const NewInvoiceIncome = () => {
   };
 
   return (
-    <div className="p-4">
+    <section className="p-4">
       <h2 className="text-xl font-bold mb-4">New Income Invoice</h2>
       <form onSubmit={handleSave} className="space-y-4 max-w-lg">
         <div>
@@ -123,9 +123,36 @@ const NewInvoiceIncome = () => {
             className="border rounded w-full p-2"
           />
         </div>
-
-        {/* ...outros campos, como address, city, country... */}
-
+        <div>
+          <label className="block font-semibold">Address</label>
+          <input
+            type="text"
+            name="clientAddress"
+            value={form.clientAddress}
+            onChange={handleChange}
+            className="border rounded w-full p-2"
+          />
+        </div>
+        <div>
+          <label className="block font-semibold">City</label>
+          <input
+            type="text"
+            name="city"
+            value={form.city}
+            onChange={handleChange}
+            className="border rounded w-full p-2"
+          />
+        </div>
+        <div>
+          <label className="block font-semibold">Country</label>
+          <input
+            type="text"
+            name="country"
+            value={form.country}
+            onChange={handleChange}
+            className="border rounded w-full p-2"
+          />
+        </div>
         <div>
           <label className="block font-semibold">Concept</label>
           <textarea
@@ -236,7 +263,7 @@ const NewInvoiceIncome = () => {
           </button>
         </div>
       </form>
-    </div>
+    </section>
   );
 };
 

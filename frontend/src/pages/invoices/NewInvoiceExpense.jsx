@@ -70,7 +70,7 @@ const NewInvoiceExpense = () => {
   };
 
   return (
-    <div className="p-4">
+    <section className="p-4">
       <h2 className="text-xl font-bold mb-4">New Income Expensive</h2>
       <form onSubmit={handleSave} className="space-y-4 max-w-lg">
         <div>
@@ -115,9 +115,36 @@ const NewInvoiceExpense = () => {
             className="border rounded w-full p-2"
           />
         </div>
-
-        {/* ...outros campos, como address, city, country... */}
-
+        <div>
+          <label className="block font-semibold">Address</label>
+          <input
+            type="text"
+            name="clientAddress"
+            value={form.clientAddress}
+            onChange={handleChange}
+            className="border rounded w-full p-2"
+          />
+        </div>
+        <div>
+          <label className="block font-semibold">City</label>
+          <input
+            type="text"
+            name="city"
+            value={form.city}
+            onChange={handleChange}
+            className="border rounded w-full p-2"
+          />
+        </div>
+        <div>
+          <label className="block font-semibold">Country</label>
+          <input
+            type="text"
+            name="country"
+            value={form.country}
+            onChange={handleChange}
+            className="border rounded w-full p-2"
+          />
+        </div>
         <div>
           <label className="block font-semibold">Concept</label>
           <textarea
@@ -228,7 +255,7 @@ const NewInvoiceExpense = () => {
           </button>
         </div>
       </form>
-    </div>
+    </section>
   );
 };
 

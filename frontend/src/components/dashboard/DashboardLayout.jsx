@@ -5,7 +5,7 @@ const DashboardLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="relative min-h-screen bg-gray-100">
+    <section className="relative min-h-screen bg-gray-100">
       <SidebarMenu
         open={sidebarOpen}
         onToggle={() => setSidebarOpen(!sidebarOpen)}
@@ -14,7 +14,7 @@ const DashboardLayout = ({ children }) => {
       <div className="flex-1 flex flex-col">
         <main className="pt-16 md:ml-64 transition-all">{children}</main>
       </div>
-    </div>
+    </section>
   );
 };
 

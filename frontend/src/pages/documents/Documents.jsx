@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setDocuments, setLoading, setError } from "../store/documentsSlice";
-import api from "../services/data/Api";
+import { useSearchParams } from "react-router-dom";
+import { setDocuments, setLoading, setError } from "../../store/documentsSlice";
+import api from "../../services/data/Api";
 
-const Documents = () => {
+const Documents = ({ user }) => {
   const dispatch = useDispatch();
   const { documents, loading, error } = useSelector((state) => state.documents);
   const [documentType, setDocumentType] = useState("trimestral");
+  const query = new URLSearchParams(window.location.search);
 
   useEffect(() => {
     const fetchDocuments = async () => {
@@ -26,7 +28,7 @@ const Documents = () => {
   }, [documentType, dispatch]);
 
   return (
-    <div className="p-4 space-y-4">
+    <section className="p-4 space-y-4">
       <h1 className="text-2xl font-bold">Documents</h1>
 
       {/* Buttons: Trimestral and Anual */}
@@ -64,30 +66,17 @@ const Documents = () => {
           {documents
             .filter((doc) => doc.document_type === documentType)
             .map((doc) => (
-              <li
-                key={doc.document_id}
-                className="bg-white shadow-md p-4 rounded hover:bg-gray-100 cursor-pointer"
-              >
-                <h3 className="font-semibold">{doc.file_name}</h3>
-                <p>
-                  Uploaded on: {new Date(doc.created_at).toLocaleDateString()}
-                </p>
-                <a
-                  href={doc.file_path}
-                  target="_blank"
-                  className="text-emerald-600 hover:underline"
-                >
+              <li key={doc.document_id} className="bg-white shadow rounded p-4">
+                <p className="font-semibold">{doc.file_name}</p>
+                <p>{new Date(doc.created_at).toLocaleDateString()}</p>
+                <a href={doc.file_path} target="_blank" rel="noreferrer">
                   View Document
                 </a>
               </li>
             ))}
         </ul>
       )}
-
-      {/* Loading & Error Handling */}
-      {loading && <p className="text-gray-500">Loading documents...</p>}
-      {error && <p className="text-red-600">Error: {error}</p>}
-    </div>
+    </section>
   );
 };
 

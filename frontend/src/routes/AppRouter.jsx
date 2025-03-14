@@ -12,7 +12,7 @@ import NewInvoiceExpense from "../pages/invoices/NewInvoiceExpense";
 import NewInvoiceIncome from "../pages/invoices/NewInvoiceIncome";
 import Taxes from "../pages/taxes/Taxes.jsx";
 import Documents from "../pages/documents/Documents.jsx";
-import Profile from "../pages/Profile";
+import Profile from "../pages/profile/Profile.jsx";
 import PrivateRoute from "./PrivateRoute";
 import NotFound from "../pages/NotFound";
 

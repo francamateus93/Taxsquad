@@ -13,10 +13,13 @@ router.post("/", async (req, res) => {
     phone,
     address,
     city,
+    email,
+    password,
+    uid,
   } = req.body;
 
   const [result] = await db.query(
-    `INSERT INTO users (first_name, last_name, date_of_birth, identification_number, phone, address, city) VALUES (?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO users (first_name, last_name, date_of_birth, identification_number, phone, address, city, email, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       first_name,
       last_name,
@@ -25,6 +28,9 @@ router.post("/", async (req, res) => {
       phone,
       address,
       city,
+      email,
+      password,
+      uid,
     ]
   );
   res.json({ user_id: result.insertId });
@@ -38,10 +44,29 @@ router.get("/:id", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  const { first_name, last_name, phone, address } = req.body;
+  const {
+    first_name,
+    last_name,
+    date_of_birth,
+    phone,
+    address,
+    city,
+    email,
+    password,
+  } = req.body;
   await db.query(
-    `UPDATE users SET first_name=?, last_name=?, phone=?, address=? WHERE user_id=?`,
-    [first_name, last_name, phone, address, req.params.id]
+    `UPDATE users SET first_name=?, last_name=?, date_of_birth=?, phone=?, address=?, city=?, email=?, password=? WHERE user_id=?`,
+    [
+      first_name,
+      last_name,
+      date_of_birth,
+      phone,
+      address,
+      city,
+      email,
+      password,
+      req.params.id,
+    ]
   );
   res.json({ message: "User updated" });
 });

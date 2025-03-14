@@ -29,6 +29,7 @@ export const loginWithGoogle = async () => {
     return result.user;
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 
@@ -38,6 +39,7 @@ export const registerWithEmail = async (email, password) => {
     return result.user;
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 
@@ -47,6 +49,7 @@ export const loginWithEmail = async (email, password) => {
     return result.user;
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 
@@ -55,6 +58,7 @@ export const logoutUser = async () => {
     await signOut(auth);
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 

@@ -12,10 +12,11 @@ router.post("/", async (req, res) => {
     identification_number,
     phone,
     address,
+    city,
   } = req.body;
 
   const [result] = await db.query(
-    `INSERT INTO users (first_name, last_name, date_of_birth, identification_number, phone, address) VALUES (?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO users (first_name, last_name, date_of_birth, identification_number, phone, address, city) VALUES (?, ?, ?, ?, ?, ?)`,
     [
       first_name,
       last_name,
@@ -23,6 +24,7 @@ router.post("/", async (req, res) => {
       identification_number,
       phone,
       address,
+      city,
     ]
   );
   res.json({ user_id: result.insertId });

@@ -2,6 +2,8 @@ CREATE TABLE IF NOT EXISTS users (
   user_id INT AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(50) NOT NULL,
   last_name VARCHAR(50) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  password VARCHAR(100) NOT NULL,
   date_of_birth DATE,
   identification_number VARCHAR(50),
   phone VARCHAR(30),
@@ -44,9 +46,9 @@ CREATE TABLE IF NOT EXISTS documents (
 );
 
 INSERT INTO users (
-  first_name, last_name, date_of_birth, identification_number, phone, address, city
+  first_name, last_name, email, password, date_of_birth, identification_number, phone, address, city
 ) VALUES (
-  'Mateus', 'Franca', '1993-12-30', 'Y7027045F', '34 642245212', 'Avenida de la Mare de Deu de Montserrat, 172 - Bajo 2', 'Barcelona'
+  'Mateus', 'Franca', 'francamateus@gmail.com', 'mateus123', '1993-12-30', 'Y7027045F', '34 642245212', 'Avenida de la Mare de Deu de Montserrat, 172 - Bajo 2', 'Barcelona'
 );
 
 INSERT INTO invoices (

@@ -118,4 +118,13 @@ router.put("/:uid", async (req, res) => {
   res.json({ message: "User updated" });
 });
 
+router.delete("/:uid", async (req, res) => {
+  try {
+    await db.query(`DELETE FROM users WHERE uid=?`, [req.params.uid]);
+    res.json({ message: "User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 export default router;

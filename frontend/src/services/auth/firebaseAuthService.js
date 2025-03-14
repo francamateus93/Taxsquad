@@ -7,6 +7,9 @@ import {
   getAuth,
   GoogleAuthProvider,
   onAuthStateChanged,
+  sendPasswordResetEmail,
+  updateEmail,
+  deleteUser,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -80,4 +83,39 @@ export const getCurrentUser = async () => {
       }
     );
   });
+};
+
+export const resetPasswordWithEmail = async (email) => {
+  try {
+    await sendPasswordResetEmail(auth, email);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const updateUserEmail = async (newEmail) => {
+  try {
+    if (auth.currentUser) {
+      await updateEmail(auth.currentUser, newEmail);
+    } else {
+      throw new Error("No authenticated user.");
+    }
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const deleteCurrentUser = async () => {
+  try {
+    if (auth.currentUser) {
+      await deleteUser(auth.currentUser);
+    } else {
+      throw new Error("No authenticated user.");
+    }
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };

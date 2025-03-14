@@ -1,9 +1,24 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {
+  getAuth,
+  sendPasswordResetEmail,
+  updateEmail,
+} from "../../services/auth/firebaseAuthService";
+import { logout } from "../../store/authSlice";
 import api from "../../services/data/Api";
 
 const Profile = () => {
   const user = useSelector((state) => state.auth.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const auth = getAuth();
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [message, setMessage] = useState(null);
+
   const [profile, setProfile] = useState({
     first_name: "",
     last_name: "",
@@ -15,10 +30,6 @@ const Profile = () => {
     address: "",
     city: "",
   });
-
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -44,115 +55,183 @@ const Profile = () => {
     setLoading(true);
     try {
       await api.put(`/users/${user.uid}`, profile);
-      setSuccess("Profile updated successfully!");
+      setMessage("Profile updated successfully!");
       setError(null);
     } catch (err) {
       setError(err.message);
-      setSuccess(null);
     } finally {
       setLoading(false);
     }
   };
 
-  return (
-    <div className="container mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-4">My Profile</h2>
+  const handlePasswordReset = async () => {
+    setLoading(true);
+    try {
+      await sendPasswordResetEmail(auth, profile.email);
+      alert("An email was sent with instructions to reset your password.");
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+      setMessage(`Error: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
 
-      {loading && <p>Loading...</p>}
-      {error && <p className="text-red-500">{error}</p>}
-      {success && <p className="text-emerald-500">{success}</p>}
+    const handleEmailChange = async () => {
+      const newEmail = prompt("Please enter your new email:", user.email);
+      if (newEmail && newEmail !== user.email) {
+        try {
+          await updateEmail(auth.currentUser, newEmail);
+          await api.put(`/users/${user.uid}`, { ...profile, email: newEmail });
+          setProfile((prev) => ({ ...prev, email: newEmail }));
+          alert("Email updated successfully. Please verify your new email.");
+        } catch (error) {
+          alert(`Error: ${error.message}`);
+        }
+      }
+    };
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label className="font-semibold">First Name</label>
-          <input
-            type="text"
-            className="border rounded w-full p-2"
-            name="first_name"
-            value={profile.first_name}
-            onChange={handleChange}
-          />
+    const handleDeleteAccount = async () => {
+      const confirmDelete = confirm(
+        "Are you sure you want to delete your account? This action cannot be undone."
+      );
+      if (confirmDelete) {
+        try {
+          await api.delete(`/users/${user.uid}`);
+          await deleteUser(auth.currentUser);
+          dispatch(logout());
+          navigate("/");
+        } catch (error) {
+          alert(
+            `Error: ${error.message}\n(You might need to re-login for security reasons.)`
+          );
+        }
+      }
+    };
+
+    return (
+      <div className="container mx-auto p-6">
+        <h2 className="text-2xl font-bold mb-4">My Profile</h2>
+
+        {loading && <p>Loading...</p>}
+        {error && <p className="text-red-500">{error}</p>}
+        {message && <p className="text-emerald-500">{message}</p>}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="font-semibold">First Name</label>
+            <input
+              type="text"
+              className="border rounded w-full p-2"
+              name="first_name"
+              value={profile.first_name}
+              onChange={handleChange}
+              placeholder="First Name"
+            />
+          </div>
+          <div>
+            <label className="font-semibold">Last Name</label>
+            <input
+              type="text"
+              className="border rounded w-full p-2"
+              name="last_name"
+              value={profile.last_name}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label className="font-semibold">Email</label>
+            <input
+              type="email"
+              className="border rounded w-full p-2 bg-gray-100 cursor-not-allowed"
+              name="email"
+              value={profile.email}
+              readOnly
+            />
+          </div>
+          <div>
+            <label className="font-semibold">Date of Birth</label>
+            <input
+              type="date"
+              className="border rounded w-full p-2"
+              name="date_of_birth"
+              value={
+                profile.date_of_birth ? profile.date_of_birth.split("T")[0] : ""
+              }
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label className="font-semibold">Identification Number</label>
+            <input
+              type="text"
+              className="border rounded w-full p-2"
+              name="identification_number"
+              value={profile.identification_number}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label className="font-semibold">Phone</label>
+            <input
+              type="tel"
+              className="border rounded w-full p-2"
+              name="phone"
+              value={profile.phone}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label className="font-semibold">Address</label>
+            <input
+              type="text"
+              className="border rounded w-full p-2"
+              name="address"
+              value={profile.address}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label className="font-semibold">City</label>
+            <input
+              type="text"
+              className="border rounded w-full p-2"
+              name="city"
+              value={profile.city}
+              onChange={handleChange}
+            />
+          </div>
         </div>
-        <div>
-          <label className="font-semibold">Last Name</label>
-          <input
-            type="text"
-            className="border rounded w-full p-2"
-            name="last_name"
-            value={profile.last_name}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label className="font-semibold">Email</label>
-          <input
-            type="email"
-            className="border rounded w-full p-2 bg-gray-100 cursor-not-allowed"
-            name="email"
-            value={profile.email}
-            // readOnly
-          />
-        </div>
-        <div>
-          <label className="font-semibold">Date of Birth</label>
-          <input
-            type="date"
-            className="border rounded w-full p-2"
-            name="date_of_birth"
-            value={profile.date_of_birth.split("T")[0]}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label className="font-semibold">Identification Number</label>
-          <input
-            type="text"
-            className="border rounded w-full p-2"
-            name="identification_number"
-            value={profile.identification_number}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label className="font-semibold">Phone</label>
-          <input
-            type="tel"
-            className="border rounded w-full p-2"
-            name="phone"
-            value={profile.phone}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label className="font-semibold">Address</label>
-          <input
-            type="text"
-            className="border rounded w-full p-2"
-            name="address"
-            value={profile.address}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label className="font-semibold">City</label>
-          <input
-            type="text"
-            className="border rounded w-full p-2"
-            name="city"
-            value={profile.city}
-            onChange={handleChange}
-          />
+
+        <div className="flex space-x-2 mt-6">
+          <button
+            className="bg-emerald-600 text-white px-4 py-2 rounded"
+            onClick={handleSave}
+          >
+            Save Changes
+          </button>
+          <button
+            className="bg-blue-600 text-white px-4 py-2 rounded"
+            onClick={handleEmailChange}
+          >
+            Change Email
+          </button>
+          <button
+            className="bg-yellow-500 text-white px-4 py-2 rounded"
+            onClick={handlePasswordReset}
+          >
+            Change Password
+          </button>
+          <button
+            className="bg-red-600 text-white px-4 py-2 rounded"
+            onClick={handleDeleteAccount}
+          >
+            Delete Account
+          </button>
         </div>
       </div>
-
-      <button
-        onClick={handleSave}
-        className="mt-6 bg-emerald-600 text-white px-4 py-2 rounded"
-      >
-        Save Changes
-      </button>
-    </div>
-  );
+    );
+  };
 };
 
 export default Profile;

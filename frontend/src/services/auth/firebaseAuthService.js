@@ -119,3 +119,5 @@ export const deleteCurrentUser = async () => {
     throw error;
   }
 };
+
+export { auth };

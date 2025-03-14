@@ -1,35 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setInvoices, setLoading, setError } from "../../store/invoicesSlice";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import api from "../../services/data/Api";
 
 const Invoices = () => {
   const dispatch = useDispatch();
   const { invoices, loading, error } = useSelector((state) => state.invoices);
-
   const [invoiceType, setInvoiceType] = useState("income");
   const [dateFilter, setDateFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 25;
 
-  const filteredInvoices = invoices
-    .filter((inv) => inv.type === invoiceType) // filtra por Ingresso/Expense
-    .filter((inv) => {
-      if (!dateFilter) return true;
-      return inv.date >= dateFilter;
-    });
-
-  // Pagination
-  const paginatedInvoices = filteredInvoices.slice(0, currentPage * pageSize);
-  const canLoadMore = filteredInvoices.length > paginatedInvoices.length;
-
   useEffect(() => {
     const fetchInvoices = async () => {
       dispatch(setLoading(true));
       try {
-        const response = await axios.get("http://localhost:3001/invoices");
-        dispatch(setInvoices(response.data));
+        const { data } = await api.get(`/invoices/${invoiceType}`);
+        dispatch(setInvoices(data));
       } catch (err) {
         dispatch(setError(err.message));
       } finally {
@@ -37,8 +25,22 @@ const Invoices = () => {
       }
     };
     fetchInvoices();
-  }, [dispatch]);
+  }, [dispatch, invoiceType]);
 
+  // Filter
+  const filteredInvoices = invoices
+    .filter((inv) => inv.type === invoiceType)
+    .filter((inv) => {
+      if (!dateFilter) return true;
+      return inv.date >= dateFilter;
+    });
+
+  // Pagination
+  const paginatedInvoices = useSelector((state) =>
+    state.invoices.invoices.slice(0, currentPage * pageSize)
+  );
+
+  const canLoadMore = paginatedInvoices.length < invoices.length;
   const handleLoadMore = () => {
     setCurrentPage((prev) => prev + 1);
   };
@@ -104,7 +106,7 @@ const Invoices = () => {
       <div className="flex space-x-2 justify-center">
         <div>
           <Link to="/invoices/new-income">
-            <button className="px-4 py-2 bg-blue-600 text-white rounded">
+            <button className="px-4 py-2 bg-emerald-500 text-white rounded">
               New Income
             </button>
           </Link>
@@ -112,33 +114,32 @@ const Invoices = () => {
 
         <div>
           <Link to="/invoices/new-expense">
-            <button className="px-4 py-2 bg-blue-600 text-white rounded">
+            <button className="px-4 py-2 bg-emerald-500 text-white rounded">
               New Expense
             </button>
           </Link>
         </div>
       </div>
 
-      {/* Lista de faturas */}
+      {/* List */}
       {loading && <p>Loading invoices...</p>}
       {error && <p className="text-red-500">{error}</p>}
 
-      {!loading && !error && (
+      {!loading && !error && paginatedInvoices.length > 0 && (
         <div className="space-y-2">
           <h2>Invoices</h2>
           {paginatedInvoices.map((invoice) => (
             <div
               key={invoice.id}
-              onClick={() => handleInvoiceClick(invoice)}
+              onClick={() => handleInvoiceClick(invoice)} // ADJUST HANDLE CLICK TO UPDATE
               className="bg-white p-4 rounded cursor-pointer hover:bg-gray-100"
             >
-              <p className="font-semibold">Invoice #{invoice.id}</p>
+              <p className="font-semibold">Invoice #{invoice.number}</p>
+              <p>{invoice.clientName}</p>
               <p>{invoice.date}</p>
-              <p>{invoice.amount}</p>
-              <p>{invoice.status}</p>
-              {/* <p>
-                Total: {invoice.totalAmount} {invoice.currency}
-              </p> */}
+              <p>
+                Total: {invoice.total} {invoice.currency}
+              </p>
             </div>
           ))}
         </div>

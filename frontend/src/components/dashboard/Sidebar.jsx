@@ -10,7 +10,7 @@ import {
   MdClose,
 } from "react-icons/md";
 
-const Sidebar = ({ isOpen, onToggle }) => {
+const Sidebar = () => {
   return (
     <>
       {/* Sidebar DESKTOP*/}

@@ -6,7 +6,7 @@ import {
   loginWithEmail,
   loginWithGoogle,
 } from "../../services/auth/firebaseAuthService.js";
-import Navbar from "../../components/Navbar/Navbar";
+import Navbar from "../../components/navbar/Navbar.jsx";
 
 const Login = () => {
   const [email, setEmail] = useState("");

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addInvoice } from "../../store/invoicesSlice";
 import { useNavigate } from "react-router-dom";
+import api from "../../services/data/Api";
 
 const NewInvoiceIncome = () => {
   const dispatch = useDispatch();
@@ -9,6 +10,7 @@ const NewInvoiceIncome = () => {
 
   const [form, setForm] = useState({
     number: "",
+    invoice_type: "income",
     date: "",
     clientName: "",
     clientId: "",
@@ -20,13 +22,13 @@ const NewInvoiceIncome = () => {
     price: 0,
     vat: 21,
     irpf: 0,
+    total: 0,
     currency: "EUR",
     paymentMethod: "",
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   // Calcular total
@@ -35,9 +37,19 @@ const NewInvoiceIncome = () => {
   const irpfAmount = (base * form.irpf) / 100;
   const total = base + vatAmount + irpfAmount;
 
+  // const handleSave = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     await api.post("/invoices", form);
+  //     navigate("/invoices");
+  //   } catch (error) {
+  //     console.error("Erro ao criar fatura:", error);
+  //   }
+  // };
+
   const handleSave = (e) => {
     e.preventDefault();
-    // Montamos o objeto Invoice
+
     const newInvoice = {
       id: Date.now(),
       type: "income",

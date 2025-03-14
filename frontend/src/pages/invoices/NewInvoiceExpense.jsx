@@ -1,4 +1,3 @@
-// src/pages/dashboard/NewInvoiceExpense.jsx
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addInvoice } from "../../store/invoicesSlice";

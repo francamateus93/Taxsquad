@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "../store/store";
-import Navbar from "../components/Navbar/Navbar";
+import Navbar from "../components/navbar/Navbar.jsx";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import LandingPage from "../pages/LandingPage";
-import DashboardLayout from "../components/Layouts/DashboardLayout";
+import DashboardLayout from "../components/dashboard/DashboardLayout";
 import DashboardPage from "../pages/dashboard/DashboardPage";
 import Invoices from "../pages/invoices/Invoices";
 import NewInvoiceExpense from "../pages/invoices/NewInvoiceExpense";

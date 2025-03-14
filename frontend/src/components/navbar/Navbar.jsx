@@ -6,7 +6,7 @@ import {
   logoutUser,
   getCurrentUser,
 } from "../../services/auth/firebaseAuthService.js";
-import Logo from "../../assets/Logo_TaxSquad.png";
+import Logo from "../../assets/logo/Logo_TaxSquad.png";
 import Button from "../buttons/Button";
 import { FaUserCircle } from "react-icons/fa";
 
@@ -45,32 +45,42 @@ const Navbar = () => {
         </div>
 
         {/* Navegação */}
-        <div className="items-center md:space-x-10 justify-center hidden md:flex text-sm lg:text-base">
-          <Link
-            to="/dashboard"
-            className="hover:text-emerald-500 hover:font-semibold"
-          >
-            Dashboard
-          </Link>
-          <Link
-            to="/invoices"
-            className="hover:text-emerald-500 hover:font-semibold"
-          >
-            Invoices
-          </Link>
-          <Link
-            to="/taxes"
-            className="hover:text-emerald-500 hover:font-semibold"
-          >
-            Taxes
-          </Link>
-          <Link
-            to="/documents"
-            className="hover:text-emerald-500 hover:font-semibold"
-          >
-            Documents
-          </Link>
-        </div>
+        <nav className="items-center md:space-x-10 justify-center hidden md:flex text-sm lg:text-base">
+          <ul className="flex space-x-4">
+            <li>
+              <Link
+                to="/dashboard"
+                className="hover:text-emerald-500 hover:font-semibold"
+              >
+                Dashboard
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/invoices"
+                className="hover:text-emerald-500 hover:font-semibold"
+              >
+                Invoices
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/taxes"
+                className="hover:text-emerald-500 hover:font-semibold"
+              >
+                Taxes
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/documents"
+                className="hover:text-emerald-500 hover:font-semibold"
+              >
+                Documents
+              </Link>
+            </li>
+          </ul>
+        </nav>
 
         {/* Login / Logout */}
         <div className="items-center space-x-2 hidden md:flex">
@@ -113,49 +123,69 @@ const Navbar = () => {
 
         {/* Menu Mobile */}
         {isOpen && (
-          <div className="absolute top-16 left-0 w-full bg-white flex flex-col items-center md:hidden">
-            <Link
-              to="/dashboard"
-              className="py-2"
-              onClick={() => setIsOpen(false)}
-            >
-              Dashboard
-            </Link>
-            <Link
-              to="/invoices"
-              className="py-2"
-              onClick={() => setIsOpen(false)}
-            >
-              Invoices
-            </Link>
-            <Link to="/taxes" className="py-2" onClick={() => setIsOpen(false)}>
-              Taxes
-            </Link>
-            <Link
-              to="/documents"
-              className="py-2"
-              onClick={() => setIsOpen(false)}
-            >
-              Documents
-            </Link>
+          <nav className="absolute top-16 left-0 w-full bg-white flex flex-col items-center md:hidden">
+            <ul>
+              <li>
+                <Link
+                  to="/dashboard"
+                  className="py-2"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/invoices"
+                  className="py-2"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Invoices
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/taxes"
+                  className="py-2"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Taxes
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/documents"
+                  className="py-2"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Documents
+                </Link>
+              </li>
+            </ul>
 
             {!user ? (
-              <>
-                <Link
-                  to="/register"
-                  className="py-2"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Register
-                </Link>
-                <Link
-                  to="/login"
-                  className="py-2"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Login
-                </Link>
-              </>
+              <div>
+                <ul>
+                  <li>
+                    <Link
+                      to="/register"
+                      className="py-2"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Register
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/login"
+                      className="py-2"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Login
+                    </Link>
+                  </li>
+                </ul>
+              </div>
             ) : (
               <div className="py-2 flex flex-col items-center space-y-2">
                 <Link
@@ -171,7 +201,7 @@ const Navbar = () => {
                 </button>
               </div>
             )}
-          </div>
+          </nav>
         )}
       </nav>
     </header>

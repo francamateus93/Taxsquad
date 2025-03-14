@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import SidebarMenu from "../Sidebar";
+import SidebarMenu from "./Sidebar";
 
 const DashboardLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);

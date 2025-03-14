@@ -21,6 +21,18 @@ router.get("/:id", async (req, res) => {
   res.json(rows[0]);
 });
 
+router.get("/", async (req, res) => {
+  try {
+    const { user_id } = req.query;
+    const [rows] = await db.query("SELECT * FROM documents WHERE user_id = ?", [
+      user_id,
+    ]);
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 router.put("/:id", async (req, res) => {
   const { file_name, file_path } = req.body;
   await db.query(

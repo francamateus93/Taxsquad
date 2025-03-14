@@ -13,6 +13,7 @@ router.post("/", async (req, res) => {
     phone,
     address,
   } = req.body;
+
   const [result] = await db.query(
     `INSERT INTO users (first_name, last_name, date_of_birth, identification_number, phone, address) VALUES (?, ?, ?, ?, ?, ?)`,
     [

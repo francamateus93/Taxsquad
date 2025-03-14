@@ -136,7 +136,7 @@ const Register = () => {
             <label className="block font-semibold">Phone</label>
             <input
               name="phone"
-              type="number"
+              type="tel"
               placeholder="Phone"
               value={form.phone}
               onChange={handleChange}

@@ -76,4 +76,46 @@ router.delete("/:id", async (req, res) => {
   res.json({ message: "User deleted" });
 });
 
+// UID
+router.get("/:uid", async (req, res) => {
+  try {
+    const [rows] = await db.query(`SELECT * FROM users WHERE uid=?`, [
+      req.params.uid,
+    ]);
+    if (rows.length === 0)
+      return res.status(404).json({ message: "User not found" });
+    res.json(rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.put("/:uid", async (req, res) => {
+  const {
+    first_name,
+    last_name,
+    date_of_birth,
+    phone,
+    address,
+    city,
+    email,
+    password,
+  } = req.body;
+  await db.query(
+    `UPDATE users SET first_name=?, last_name=?, date_of_birth=?, phone=?, address=?, city=?, email=?, password=? WHERE user_id=?`,
+    [
+      first_name,
+      last_name,
+      date_of_birth,
+      phone,
+      address,
+      city,
+      email,
+      password,
+      req.params.id,
+    ]
+  );
+  res.json({ message: "User updated" });
+});
+
 export default router;

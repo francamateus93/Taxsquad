@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { setUser, setError, setLoading } from "../../store/authSlice";
 import { registerWithEmail } from "../../services/auth/firebaseAuthService.js";
 import api from "../../services/data/Api";
@@ -54,134 +54,170 @@ const Register = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-xl bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
+    <section className="flex flex-col items-center justify-center min-h-screen p-4">
+      <div className="w-full max-w-xl bg-white p-2 md:py-14 rounded-lg">
+        <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center tracking-tight">
+          Register
+        </h2>
         <form
           onSubmit={handleRegister}
-          className="grid grid-cols-2 gap-4 text-start"
+          className="flex flex-col md:grid md:grid-cols-2 gap-2 text-start text-xs md:text-sm text-gray-500"
         >
           <div>
-            <label className="block font-semibold">First Name</label>
+            <label className="block mb-1 font-semibold tracking-tight text-xs md:text-sm">
+              First Name*
+            </label>
             <input
               name="first_name"
               type="text"
-              placeholder="First Name"
+              placeholder="Enter First Name"
               value={form.first_name}
               onChange={handleChange}
-              className="p-2 border rounded"
+              className="p-2 md:p-3 mb-2 border border-gray-400 rounded-lg w-full md:w-fit"
               required
             />
           </div>
           <div>
-            <label className="block font-semibold">Last Name</label>
+            <label className="block mb-1 font-semibold tracking-tight text-xs md:text-sm">
+              Last Name*
+            </label>
             <input
               name="last_name"
               type="text"
-              placeholder="Last Name"
+              placeholder="Enter Last Name"
               value={form.last_name}
               onChange={handleChange}
-              className="p-2 border rounded"
+              className="p-2 md:p-3 mb-2 border border-gray-400 rounded-lg w-full md:w-fit"
               required
             />
           </div>
           <div>
-            <label className="block font-semibold">Email</label>
+            <label className="block mb-1 font-semibold tracking-tight text-xs md:text-sm">
+              Email*
+            </label>
             <input
               name="email"
               type="email"
-              placeholder="Email"
+              placeholder="Enter your Email"
               value={form.email}
               onChange={handleChange}
-              className="col-span-2 p-2 border rounded"
+              className="col-span-2 p-2 md:p-3 mb-2 border border-gray-400 rounded-lg w-full md:w-fit"
               required
             />
           </div>
           <div>
-            <label className="block font-semibold">Password</label>
+            <label className="block mb-1 font-semibold tracking-tight text-xs md:text-sm">
+              Password*
+            </label>
             <input
               name="password"
               type="password"
-              placeholder="Password"
+              placeholder="Enter your Password"
               value={form.password}
               onChange={handleChange}
-              className="col-span-2 p-2 border rounded"
+              className="col-span-2 p-2 md:p-3 mb-2 border border-gray-400 rounded-lg w-full md:w-fit"
               required
             />
           </div>
           <div>
-            <label className="block font-semibold">Birth Date</label>
+            <label className="block mb-1 font-semibold tracking-tight text-xs md:text-sm">
+              Birth Date*
+            </label>
             <input
               name="date_of_birth"
               type="date"
               value={form.date_of_birth}
               onChange={handleChange}
-              className="p-2 border rounded"
+              className="p-2 md:p-3 mb-2 border border-gray-400 rounded-lg w-full md:w-fit"
               required
             />
           </div>
           <div>
-            <label className="block font-semibold">Identification number</label>
+            <label className="block mb-1 font-semibold tracking-tight text-xs md:text-sm">
+              Identification number*
+            </label>
             <input
               name="identification_number"
               type="text"
-              placeholder="ID Number"
+              placeholder="Enter your ID Number"
               value={form.identification_number}
               onChange={handleChange}
-              className="p-2 border rounded"
+              className="p-2 md:p-3 mb-2 border border-gray-400 rounded-lg w-full md:w-fit"
               required
             />
           </div>
           <div>
-            <label className="block font-semibold">Phone</label>
+            <label className="block mb-1 font-semibold tracking-tight text-xs md:text-sm">
+              Phone*
+            </label>
             <input
               name="phone"
               type="tel"
-              placeholder="Phone"
+              placeholder="Enter your Phone"
               value={form.phone}
               onChange={handleChange}
-              className="p-2 border rounded"
+              className="p-2 md:p-3 mb-2 border border-gray-400 rounded-lg w-full md:w-fit"
               required
             />
           </div>
           <div>
-            <label className="block font-semibold">Adress</label>
+            <label className="block mb-1 font-semibold tracking-tight text-xs md:text-sm">
+              Adress*
+            </label>
             <input
               name="address"
               type="text"
-              placeholder="Address"
+              placeholder="Enter your Address"
               value={form.address}
               onChange={handleChange}
-              className="p-2 border rounded"
+              className="p-2 md:p-3 mb-2 border border-gray-400 rounded-lg w-full md:w-fit"
               required
             />
           </div>
           <div>
-            <label className="block font-semibold">City</label>
+            <label className="block mb-1 font-semibold tracking-tight text-xs md:text-sm">
+              City*
+            </label>
             <input
               name="city"
               type="text"
-              placeholder="City"
+              placeholder="Enter your City"
               value={form.city}
               onChange={handleChange}
-              className="p-2 border rounded"
+              className="p-2 md:p-3 mb-2 border border-gray-400 rounded-lg w-full md:w-fit"
               required
             />
           </div>
-          <div className="col-span-2 flex items-center">
-            <input type="checkbox" name="privacy" className="m-2" required />
-            <span>I agree to the terms of service and privacy policy.</span>
+          <div className="col-span-2 flex gap-2 items-center my-3">
+            <input type="checkbox" name="checkbox" className="" required />
+            <span>
+              I agree to the{" "}
+              <span className="text-emerald-500 font-semibold cursor-pointer">
+                Terms and Conditions
+              </span>
+              , and our{" "}
+              <span className="text-emerald-500 font-semibold cursor-pointer">
+                Privacy Policy
+              </span>
+              .
+            </span>
           </div>
 
           <button
-            className="col-span-2 bg-green-600 text-white p-2 rounded"
+            className="col-span-2 bg-emerald-600 text-white px-6 py-2 rounded text-xs md:text-base cursor-pointer hover:bg-emerald-500 font-semibold text-center"
             type="submit"
           >
             Register
           </button>
         </form>
+        <p className="text-xs md:text-sm text-gray-600 mt-6">
+          Already have an account?{" "}
+          <Link to={"/login"} className="text-emerald-500 font-semibold">
+            Sign In
+          </Link>
+        </p>
       </div>
-    </div>
+    </section>
   );
 };
 

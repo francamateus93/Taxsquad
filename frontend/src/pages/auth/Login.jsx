@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { setUser, setError, setLoading } from "../../store/authSlice";
 import {
   loginWithEmail,
   loginWithGoogle,
 } from "../../services/auth/firebaseAuthService.js";
-import Navbar from "../../components/navbar/Navbar.jsx";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -45,36 +44,47 @@ const Login = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <Navbar />
-      <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
+      <div className="w-full max-w-md bg-white px-8 py-14 rounded-lg shadow-lg">
+        <h2 className="text-4xl font-bold mb-4 text-center">Login</h2>
+        <p className="mb-6 text-gray-500 text-sm tracking-tight">
+          Enter your email and password to sign in!
+        </p>
         <form onSubmit={handleLogin} className="flex flex-col">
           <input
-            className="p-2 mb-2 border rounded"
+            className="p-3 mb-2 border border-gray-400 rounded-lg text-sm"
             type="email"
-            placeholder="Email"
+            placeholder="info@gmail.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
           <input
-            className="p-2 mb-2 border rounded"
+            className="p-3 mb-6 border border-gray-400 rounded-lg text-sm"
             type="password"
-            placeholder="Password"
+            placeholder="Enter your Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button className="bg-green-600 text-white p-2 rounded" type="submit">
+          <button
+            className="bg-emerald-600 text-white px-6 py-2 rounded cursor-pointer hover:bg-emerald-500 font-semibold"
+            type="submit"
+          >
             Login
           </button>
         </form>
         <button
-          className="mt-4 bg-red-500 text-white p-2 rounded w-full"
+          className="mt-3 bg-gray-300 p-2 text-gray-800 text-sm rounded w-full hover:bg-gray-400"
           onClick={handleGoogleLogin}
         >
           Login with Google
         </button>
+        <p className="text-sm text-gray-600 mt-6">
+          Don't have an account?{" "}
+          <Link to={"/register"} className="text-emerald-500 font-semibold">
+            Register
+          </Link>
+        </p>
       </div>
     </div>
   );

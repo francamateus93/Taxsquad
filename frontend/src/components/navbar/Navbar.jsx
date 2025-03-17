@@ -98,7 +98,7 @@ const Navbar = () => {
           ) : (
             <div className="flex items-center space-x-4">
               <Link to="/profile">
-                <FaUserCircle className="text-2xl text-gray-700 hover:text-emerald-500 cursor-pointer" />
+                <FaUserCircle className="text-2xl text-gray-500 hover:text-emerald-500 cursor-pointer" />
               </Link>
               <button
                 className="text-sm px-4 py-2 text-red-600 bg-red-50 rounded hover:bg-red-200"

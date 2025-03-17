@@ -55,7 +55,7 @@ const Register = () => {
 
   return (
     <section className="flex flex-col items-center justify-center min-h-screen p-4">
-      <div className="w-full max-w-xl bg-white p-2 md:py-14 rounded-lg">
+      <div className="w-full max-w-xl bg-white rounded-lg p-2 md:py-14  mt-20 md:0">
         <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center tracking-tight">
           Register
         </h2>

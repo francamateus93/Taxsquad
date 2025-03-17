@@ -35,22 +35,22 @@ const Navbar = () => {
   return (
     <header className="container">
       <nav className="flex justify-between items-center py-4 bg-white fixed top-0 left-0 right-0 z-50 md:px-5">
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center px-4">
           <img
-            className="w-48 px-2 md:px-0 cursor-pointer"
+            className="w-36 lg:w-48 md:px-0 cursor-pointer"
             src={Logo}
             alt="Logo"
             onClick={() => navigate("/")}
           />
         </div>
 
-        {/* Navegação */}
+        {/* Navigation */}
         <nav className="items-center md:space-x-10 justify-center hidden md:flex text-sm lg:text-base">
           <ul className="flex space-x-4">
             <li>
               <Link
                 to="/dashboard"
-                className="hover:text-emerald-500 hover:font-semibold"
+                className="hover:text-emerald-500 hover:font-semibold transition duration-200"
               >
                 Dashboard
               </Link>
@@ -58,7 +58,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/invoices"
-                className="hover:text-emerald-500 hover:font-semibold"
+                className="hover:text-emerald-500 hover:font-semibold transition duration-200"
               >
                 Invoices
               </Link>
@@ -66,7 +66,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/taxes"
-                className="hover:text-emerald-500 hover:font-semibold"
+                className="hover:text-emerald-500 hover:font-semibold transition duration-200"
               >
                 Taxes
               </Link>
@@ -74,7 +74,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/documents"
-                className="hover:text-emerald-500 hover:font-semibold"
+                className="hover:text-emerald-500 hover:font-semibold transition duration-200"
               >
                 Documents
               </Link>
@@ -87,7 +87,7 @@ const Navbar = () => {
           {!user ? (
             <>
               <Link to="/register">
-                <button className="text-sm px-4 py-2 text-emerald-600 bg-emerald-50 rounded hover:bg-emerald-200">
+                <button className="text-sm px-4 py-2 text-emerald-600 bg-emerald-50 rounded hover:bg-emerald-200 transition duration-200">
                   Register
                 </button>
               </Link>
@@ -98,10 +98,10 @@ const Navbar = () => {
           ) : (
             <div className="flex items-center space-x-4">
               <Link to="/profile">
-                <FaUserCircle className="text-2xl text-gray-500 hover:text-emerald-500 cursor-pointer" />
+                <FaUserCircle className="text-2xl text-gray-500 hover:text-emerald-500 cursor-pointer transition duration-200" />
               </Link>
               <button
-                className="text-sm px-4 py-2 text-red-600 bg-red-50 rounded hover:bg-red-200"
+                className="text-sm px-4 py-2 text-red-600 bg-red-50 rounded hover:bg-red-200 transition duration-200"
                 onClick={handleLogout}
               >
                 Logout
@@ -110,8 +110,8 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* Menu Hamburguer */}
-        <button className="p-4 md:hidden" onClick={() => setIsOpen(!isOpen)}>
+        {/* Toggle */}
+        <button className="px-4 md:hidden" onClick={() => setIsOpen(!isOpen)}>
           <svg
             className="w-10 h-10"
             xmlns="http://www.w3.org/2000/svg"
@@ -123,9 +123,9 @@ const Navbar = () => {
 
         {/* Menu Mobile */}
         {isOpen && (
-          <nav className="absolute top-16 left-0 w-full bg-white flex flex-col items-center md:hidden">
-            <ul>
-              <li>
+          <nav className="absolute top-16 left-0 w-full bg-white shadow-lg flex items-center justify-between md:hidden py-5 px-8 my-1 rounded-lg">
+            <ul className="flex flex-col gap-2 text-sm text-start">
+              <li className="hover:text-emerald-500 hover:font-semibold transition duration-200">
                 <Link
                   to="/dashboard"
                   className="py-2"
@@ -134,7 +134,7 @@ const Navbar = () => {
                   Dashboard
                 </Link>
               </li>
-              <li>
+              <li className="hover:text-emerald-500 hover:font-semibold transition duration-200">
                 <Link
                   to="/invoices"
                   className="py-2"
@@ -143,7 +143,7 @@ const Navbar = () => {
                   Invoices
                 </Link>
               </li>
-              <li>
+              <li className="hover:text-emerald-500 hover:font-semibold transition duration-200">
                 <Link
                   to="/taxes"
                   className="py-2"
@@ -152,7 +152,7 @@ const Navbar = () => {
                   Taxes
                 </Link>
               </li>
-              <li>
+              <li className="hover:text-emerald-500 hover:font-semibold transition duration-200">
                 <Link
                   to="/documents"
                   className="py-2"
@@ -164,33 +164,31 @@ const Navbar = () => {
             </ul>
 
             {!user ? (
-              <div>
-                <ul>
-                  <li>
-                    <Link
-                      to="/register"
-                      className="py-2"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      Register
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/login"
-                      className="py-2"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      Login
-                    </Link>
-                  </li>
-                </ul>
-              </div>
+              <ul className="flex flex-col gap-1 mt-1 text-end">
+                <li className="hover:text-emerald-500 hover:font-semibold transition duration-200">
+                  <Link
+                    to="/register"
+                    className="py-2 font-semibold"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Register
+                  </Link>
+                </li>
+                <li className="hover:text-emerald-500 hover:font-semibold transition duration-200">
+                  <Link
+                    to="/login"
+                    className="py-2 font-semibold"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Login
+                  </Link>
+                </li>
+              </ul>
             ) : (
               <div className="py-2 flex flex-col items-center space-y-2">
                 <Link
                   to="/profile"
-                  className="text-gray-700 hover:text-emerald-500 flex items-center space-x-2"
+                  className="text-gray-600 hover:text-emerald-500 flex items-center space-x-2 transition duration-200"
                   onClick={() => setIsOpen(false)}
                 >
                   <FaUserCircle className="text-xl" />

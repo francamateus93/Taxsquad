@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { setInvoices, setLoading, setError } from "../../store/invoicesSlice";
 import { Link } from "react-router-dom";
 import api from "../../services/data/Api";
+import Button from "../../components/buttons/Button";
+import ButtonSecondary from "../../components/buttons/ButtonSecondary";
 
 const Invoices = () => {
   const dispatch = useDispatch();
@@ -62,10 +64,10 @@ const Invoices = () => {
             setInvoiceType("income");
             setCurrentPage(1);
           }}
-          className={`px-4 py-2 rounded ${
+          className={`px-6 py-2 rounded cursor-pointer text-center ${
             invoiceType === "income"
-              ? "bg-emerald-500 text-white"
-              : "bg-gray-200"
+              ? "bg-emerald-500 text-white font-semibold hover:bg-emerald-600"
+              : "bg-emerald-50 text-emerald-600 font-normal hover:bg-emerald-200 transition duration-200"
           }`}
         >
           Income
@@ -75,10 +77,10 @@ const Invoices = () => {
             setInvoiceType("expense");
             setCurrentPage(1);
           }}
-          className={`px-4 py-2 rounded ${
+          className={`px-4 py-2 rounded cursor-pointer text-center ${
             invoiceType === "expense"
-              ? "bg-emerald-500 text-white"
-              : "bg-gray-200"
+              ? "bg-emerald-500 text-white font-semibold hover:bg-emerald-600"
+              : "bg-emerald-50 text-emerald-600 font-normal hover:bg-emerald-200 transition duration-200"
           }`}
         >
           Expenses
@@ -86,7 +88,7 @@ const Invoices = () => {
       </div>
 
       {/* Filtro de Data */}
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-2 text-gray-500">
         <label htmlFor="dateFilter" className="font-semibold">
           Filter
         </label>
@@ -106,17 +108,13 @@ const Invoices = () => {
       <div className="flex space-x-2 justify-center">
         <div>
           <Link to="/invoices/new-income">
-            <button className="px-4 py-2 bg-emerald-500 text-white rounded">
-              New Income
-            </button>
+            <Button>New Income</Button>
           </Link>
         </div>
 
         <div>
           <Link to="/invoices/new-expense">
-            <button className="px-4 py-2 bg-emerald-500 text-white rounded">
-              New Expense
-            </button>
+            <ButtonSecondary>New Expense</ButtonSecondary>
           </Link>
         </div>
       </div>

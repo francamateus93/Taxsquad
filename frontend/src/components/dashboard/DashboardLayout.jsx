@@ -12,7 +12,7 @@ const DashboardLayout = ({ children }) => {
       />
 
       <div className="flex-1 flex flex-col">
-        <main className="pt-16 md:ml-64 transition-all">{children}</main>
+        <main className="mt-20 md:ml-64 transition-all">{children}</main>
       </div>
     </section>
   );

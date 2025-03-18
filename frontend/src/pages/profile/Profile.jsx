@@ -8,6 +8,8 @@ import {
   deleteCurrentUser,
 } from "../../services/auth/firebaseAuthService";
 import { logout } from "../../store/authSlice";
+import Button from "../../components/buttons/Button";
+import ButtonSecondary from "../../components/buttons/ButtonSecondary";
 
 const Profile = () => {
   const user = useSelector((state) => state.auth.user);
@@ -113,53 +115,41 @@ const Profile = () => {
 
   return (
     <section className="container mx-auto p-6 space-y-6">
-      <h2 className="text-2xl font-bold mb-4">My Profile</h2>
+      <div className="w-full bg-white">
+        <h2 className="text-2xl font-bold mb-6 text-center tracking-tight">
+          My Profile
+        </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {Object.entries(profile).map(([key, value]) => (
-          <div key={key}>
-            <label className="font-semibold capitalize">
-              {key.replace("_", " ")}
-            </label>
-            <input
-              type={key === "date_of_birth" ? "date" : "text"}
-              name={key}
-              value={value}
-              onChange={handleChange}
-              className={`border rounded w-full p-2 ${
-                key === "email" ? "bg-gray-100 cursor-not-allowed" : ""
-              }`}
-              readOnly={key === "email"}
-            />
-          </div>
-        ))}
-      </div>
+        <div className="flex flex-col md:grid md:grid-cols-2 gap-6 text-start text-xs md:text-sm">
+          {Object.entries(profile).map(([key, value]) => (
+            <div key={key}>
+              <label className="flex font-semibold capitalize">
+                {key.replace("_", " ")}*
+              </label>
+              <input
+                type={key === "date_of_birth" ? "date" : "text"}
+                name={key}
+                value={value}
+                onChange={handleChange}
+                className="p-2 md:p-3 mb-2 border border-gray-300 rounded-lg w-full"
+                readOnly={key === "email"}
+              />
+            </div>
+          ))}
+        </div>
 
-      <div className="flex space-x-2 mt-6">
-        <button
-          className="bg-emerald-600 text-white px-4 py-2 rounded"
-          onClick={handleSave}
-        >
-          Save Changes
-        </button>
-        <button
-          className="bg-blue-600 text-white px-4 py-2 rounded"
-          onClick={handleEmailChange}
-        >
-          Change Email
-        </button>
-        <button
-          className="bg-yellow-500 text-white px-4 py-2 rounded"
-          onClick={handlePasswordReset}
-        >
-          Change Password
-        </button>
-        <button
-          className="bg-red-600 text-white px-4 py-2 rounded"
-          onClick={handleDeleteAccount}
-        >
-          Delete Account
-        </button>
+        <div className="flex justify-between space-x-2 mt-6">
+          <Button onClick={handleSave}>Save Changes</Button>
+          <ButtonSecondary onClick={handleEmailChange}>
+            Change Email
+          </ButtonSecondary>
+          <ButtonSecondary onClick={handlePasswordReset}>
+            Change Password
+          </ButtonSecondary>
+          <ButtonSecondary onClick={handleDeleteAccount}>
+            Delete Account
+          </ButtonSecondary>
+        </div>
       </div>
     </section>
   );

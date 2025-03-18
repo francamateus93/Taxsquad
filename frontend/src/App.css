@@ -3,4 +3,8 @@
   margin: 0 auto;
   padding: 0;
   text-align: center;
+
+  color-scheme: light dark;
+  color: #718096;
+  background-color: rgb(255, 255, 255);
 }

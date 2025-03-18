@@ -35,10 +35,10 @@ const Documents = ({ user }) => {
       <div className="flex space-x-4">
         <button
           onClick={() => setDocumentType("trimestral")}
-          className={`px-4 py-2 rounded ${
+          className={`px-6 py-2 rounded cursor-pointer text-center ${
             documentType === "trimestral"
-              ? "bg-emerald-500 text-white"
-              : "bg-gray-200"
+              ? "bg-emerald-500 text-white font-semibold hover:bg-emerald-600"
+              : "bg-emerald-50 text-emerald-600 font-normal hover:bg-emerald-200 transition duration-200"
           }`}
         >
           Trimestral
@@ -46,10 +46,10 @@ const Documents = ({ user }) => {
 
         <button
           onClick={() => setDocumentType("anual")}
-          className={`px-4 py-2 rounded ${
+          className={`px-6 py-2 rounded cursor-pointer text-center ${
             documentType === "anual"
-              ? "bg-emerald-500 text-white"
-              : "bg-gray-200"
+              ? "bg-emerald-500 text-white font-semibold hover:bg-emerald-600"
+              : "bg-emerald-50 text-emerald-600 font-normal hover:bg-emerald-200 transition duration-200"
           }`}
         >
           Anual

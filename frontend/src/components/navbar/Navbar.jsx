@@ -9,6 +9,7 @@ import {
 import Logo from "../../assets/logo/Logo_TaxSquad.png";
 import Button from "../buttons/Button";
 import { FaUserCircle } from "react-icons/fa";
+import ButtonSecondary from "../buttons/ButtonSecondary.jsx";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -46,7 +47,7 @@ const Navbar = () => {
 
         {/* Navigation */}
         <nav className="items-center md:space-x-10 justify-center hidden md:flex text-sm lg:text-base">
-          <ul className="flex space-x-4">
+          <ul className="flex space-x-8 font-medium">
             <li>
               <Link
                 to="/dashboard"
@@ -87,9 +88,9 @@ const Navbar = () => {
           {!user ? (
             <>
               <Link to="/register">
-                <button className="text-sm px-4 py-2 text-emerald-600 bg-emerald-50 rounded hover:bg-emerald-200 transition duration-200">
+                <ButtonSecondary className="text-sm px-4 py-2 text-emerald-600 bg-emerald-50 rounded hover:bg-emerald-200 transition duration-200">
                   Register
-                </button>
+                </ButtonSecondary>
               </Link>
               <Link to="/login">
                 <Button>{"Login"}</Button>

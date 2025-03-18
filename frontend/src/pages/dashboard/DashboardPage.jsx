@@ -17,7 +17,7 @@ const DashboardPage = () => {
   }, []);
 
   return (
-    <section className="container mx-auto p-6 space-y-6">
+    <section className="container mx-auto p-12 space-y-6">
       <h2 className="text-2xl font-bold mb-2">Dashboard Overview</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-white shadow-md rounded p-4">

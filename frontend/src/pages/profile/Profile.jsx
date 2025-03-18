@@ -114,9 +114,9 @@ const Profile = () => {
   };
 
   return (
-    <section className="container mx-auto p-6">
-      <div className="w-full bg-white">
-        <h2 className="text-2xl font-bold mb-6 text-center tracking-tight">
+    <section className="container mx-auto p-12">
+      <div className="w-full bg-white p-10 rounded-lg">
+        <h2 className="text-2xl font-bold mb-8 text-center tracking-tight">
           Personal information
         </h2>
 

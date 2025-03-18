@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { logout, setUser } from "../../store/authSlice";
+import { logout, setUser, login } from "../../store/authSlice.js";
 import {
   logoutUser,
   getCurrentUser,
 } from "../../services/auth/firebaseAuthService.js";
 import Logo from "../../assets/logo/Logo_TaxSquad.png";
-import Button from "../buttons/Button";
-import { FaUserCircle } from "react-icons/fa";
+import Button from "../buttons/Button.jsx";
+import Icon from "../../assets/icon-perfil.png";
 import ButtonSecondary from "../buttons/ButtonSecondary.jsx";
 
 const Navbar = () => {
@@ -99,7 +99,12 @@ const Navbar = () => {
           ) : (
             <div className="flex items-center space-x-4">
               <Link to="/profile">
-                <FaUserCircle className="text-2xl text-gray-900 hover:text-emerald-500 cursor-pointer transition duration-200" />
+                {/* <FaUserCircle className="text-2xl text-emerald-500 hover:text-emerald-600 hover:scale-110 cursor-pointer transition duration-200" /> */}
+                <img
+                  src={Icon}
+                  alt="icon profile"
+                  className="w-11 hover:scale-120 transition duration-200"
+                />
               </Link>
               <button
                 className="text-sm px-4 py-2 text-emerald-600 bg-emerald-50 rounded hover:bg-red-200 hover:text-red-500 transition duration-200"
@@ -124,9 +129,9 @@ const Navbar = () => {
 
         {/* Menu Mobile */}
         {isOpen && (
-          <nav className="absolute top-16 right-0 w-fit bg-white shadow-lg flex flex-col items-end justify-between md:hidden py-5 px-8 my-1 rounded-lg">
-            <ul className="flex flex-col gap-2 text-sm text-end">
-              <li className="hover:text-emerald-500 hover:font-semibold transition duration-200">
+          <nav className="absolute top-17 right-4 bg-white shadow-lg border border-gray-200 flex flex-col items-start justify-between md:hidden p-5 my-1 rounded-lg w-48">
+            <ul className="flex flex-col gap-2 font-medium text-sm text-start border-b border-b-gray-200 pb-4 w-full">
+              <li className="p-2 rounded-lg hover:bg-emerald-200 transition duration-200">
                 <Link
                   to="/dashboard"
                   className="py-2"
@@ -135,7 +140,7 @@ const Navbar = () => {
                   Dashboard
                 </Link>
               </li>
-              <li className="hover:text-emerald-500 hover:font-semibold transition duration-200">
+              <li className="p-2 rounded-lg hover:bg-emerald-200 transition duration-200">
                 <Link
                   to="/invoices"
                   className="py-2"
@@ -144,7 +149,7 @@ const Navbar = () => {
                   Invoices
                 </Link>
               </li>
-              <li className="hover:text-emerald-500 hover:font-semibold transition duration-200">
+              <li className="p-2 rounded-lg hover:bg-emerald-200 transition duration-200">
                 <Link
                   to="/taxes"
                   className="py-2"
@@ -153,7 +158,7 @@ const Navbar = () => {
                   Taxes
                 </Link>
               </li>
-              <li className="hover:text-emerald-500 hover:font-semibold transition duration-200">
+              <li className="p-2 rounded-lg hover:bg-emerald-200 transition duration-200">
                 <Link
                   to="/documents"
                   className="py-2"
@@ -165,7 +170,7 @@ const Navbar = () => {
             </ul>
 
             {!user ? (
-              <ul className="flex flex-col gap-1 mt-1 text-end">
+              <ul className="flex flex-col gap-2 mt-2 text-end">
                 <li className="hover:text-emerald-500 hover:font-semibold transition duration-200">
                   <Link
                     to="/register"
@@ -186,19 +191,27 @@ const Navbar = () => {
                 </li>
               </ul>
             ) : (
-              <div className="py-2 flex flex-col items-center space-y-2">
-                <Link
-                  to="/profile"
-                  className="text-gray-600 hover:text-emerald-500 flex items-center space-x-2 transition duration-200"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <FaUserCircle className="text-xl" />
-                  <span>Profile</span>
-                </Link>
-                <button className="text-red-600" onClick={handleLogout}>
-                  Logout
-                </button>
-              </div>
+              <ul className="flex flex-col gap-2 items-start text-sm mt-4 w-full">
+                <li className="w-full">
+                  <Link
+                    to="/profile"
+                    className="rounded-lg hover:bg-emerald-200 transition duration-200 flex items-center space-x-2"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {/* <FaUserCircle className="text-xl" /> */}
+                    <img src={Icon} alt="icon profile" className="w-9" />
+                    <span className="font-medium">Profile</span>
+                  </Link>
+                </li>
+                <li className="w-full">
+                  <button
+                    className="w-full font-medium rounded-lg hover:bg-red-100 transition duration-200 flex items-center space-x-2 p-2"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </li>
+              </ul>
             )}
           </nav>
         )}

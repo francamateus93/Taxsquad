@@ -14,14 +14,17 @@ const Sidebar = () => {
   return (
     <>
       {/* Sidebar DESKTOP*/}
-      <aside className="hidden md:flex md:flex-col md:fixed md:top-0 md:left-0 md:h-screen md:w-64 bg-gray-50 z-20">
+      <aside className="hidden md:flex md:flex-col md:fixed md:top-0 md:left-0 md:h-screen md:w-64 bg-emerald-50 z-20">
         <div className="flex items-center justify-between p-4 h-22"></div>
         <nav className="flex-1 p-4">
-          <ul className="space-y-2 font-medium">
+          <ul className="space-y-3 font-medium">
+            <span className="text-slate-400 px-3 flex font-normal text-xs mb-4">
+              MENU
+            </span>
             <li>
               <Link
                 to="/dashboard"
-                className="flex items-center px-3 py-2 rounded hover:bg-gray-100 transition duration-200"
+                className="flex items-center px-6 py-2 rounded-lg hover:bg-emerald-200 transition duration-200"
               >
                 <MdDashboard className="mr-2" />
                 Dashboard
@@ -30,7 +33,7 @@ const Sidebar = () => {
             <li>
               <Link
                 to="/invoices"
-                className="flex items-center px-3 py-2 rounded hover:bg-gray-100 transition duration-200"
+                className="flex items-center px-6 py-2 rounded-lg hover:bg-emerald-200 transition duration-200"
               >
                 <MdReceiptLong className="mr-2" />
                 Invoices
@@ -39,7 +42,7 @@ const Sidebar = () => {
             <li>
               <Link
                 to="/taxes"
-                className="flex items-center px-3 py-2 rounded hover:bg-gray-100 transition duration-200"
+                className="flex items-center px-6 py-2 rounded-lg hover:bg-emerald-200 transition duration-200"
               >
                 <MdOutlineCalculate className="mr-2" />
                 Taxes
@@ -48,7 +51,7 @@ const Sidebar = () => {
             <li>
               <Link
                 to="/documents"
-                className="flex items-center px-3 py-2 rounded hover:bg-gray-100 transition duration-200"
+                className="flex items-center px-6 py-2 rounded-lg hover:bg-emerald-200 transition duration-200"
               >
                 <MdAttachFile className="mr-2" />
                 Documents
@@ -57,7 +60,7 @@ const Sidebar = () => {
             <li>
               <Link
                 to="/profile"
-                className="flex items-center px-3 py-2 rounded hover:bg-gray-100 transition duration-200"
+                className="flex items-center px-6 py-2 rounded-lg hover:bg-emerald-200 transition duration-200"
               >
                 <MdPerson className="mr-2" />
                 Profile

@@ -61,7 +61,7 @@ const Register = () => {
         </h2>
         <form
           onSubmit={handleRegister}
-          className="flex flex-col md:grid md:grid-cols-2 gap-2 text-start text-xs md:text-sm text-gray-500"
+          className="flex flex-col md:grid md:grid-cols-2 gap-2 text-start text-xs md:text-sm"
         >
           <div>
             <label className="block mb-1 font-semibold tracking-tight text-xs md:text-sm">

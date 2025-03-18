@@ -28,7 +28,7 @@ const Documents = ({ user }) => {
   }, [documentType, dispatch]);
 
   return (
-    <section className="container mx-auto p-6 space-y-6">
+    <section className="container mx-auto p-12 space-y-6">
       <h1 className="text-2xl font-bold">Documents</h1>
 
       {/* Buttons: Trimestral and Anual */}

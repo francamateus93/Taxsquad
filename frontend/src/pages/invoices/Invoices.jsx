@@ -54,10 +54,10 @@ const Invoices = () => {
   };
 
   return (
-    <section className="container mx-auto p-6 space-y-6">
+    <section className="container mx-auto p-12 space-y-6">
       <h1 className="text-2xl font-bold">Invoices</h1>
 
-      {/* Botões Income / Expenses */}
+      {/* Buttons Income / Expenses */}
       <div className="space-x-2">
         <button
           onClick={() => {
@@ -87,10 +87,10 @@ const Invoices = () => {
         </button>
       </div>
 
-      {/* Filtro de Data */}
-      <div className="flex items-center space-x-2 text-gray-500">
-        <label htmlFor="dateFilter" className="font-semibold">
-          Filter
+      {/* Filter */}
+      <div className="flex items-center space-x-1 text-gray-500">
+        <label htmlFor="dateFilter" className="font-semibold text-sm">
+          Filter:
         </label>
         <input
           id="dateFilter"
@@ -100,11 +100,11 @@ const Invoices = () => {
             setDateFilter(e.target.value);
             setCurrentPage(1);
           }}
-          className="border rounded p-1"
+          className="border-none p-1 text-sm"
         />
       </div>
 
-      {/* Botão para criar nova fatura */}
+      {/* Buttons New Income / New Expense */}
       <div className="flex space-x-2 justify-center">
         <div>
           <Link to="/invoices/new-income">

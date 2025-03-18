@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { addInvoice } from "../../store/invoicesSlice";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/data/Api";
+import Button from "../../components/buttons/Button";
+import ButtonSecondary from "../../components/buttons/ButtonSecondary";
 
 const NewInvoiceIncome = () => {
   const dispatch = useDispatch();
@@ -28,7 +30,8 @@ const NewInvoiceIncome = () => {
   });
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   // Calcular total
@@ -53,20 +56,7 @@ const NewInvoiceIncome = () => {
     const newInvoice = {
       id: Date.now(),
       type: "income",
-      number: form.number,
-      date: form.date,
-      clientName: form.clientName,
-      clientId: form.clientId,
-      clientAddress: form.clientAddress,
-      city: form.city,
-      country: form.country,
-      concept: form.concept,
-      quantity: form.quantity,
-      price: form.price,
-      vat: form.vat,
-      irpf: form.irpf,
-      currency: form.currency,
-      paymentMethod: form.paymentMethod,
+      ...form,
       totalAmount: total,
     };
     dispatch(addInvoice(newInvoice));
@@ -78,191 +68,195 @@ const NewInvoiceIncome = () => {
   };
 
   return (
-    <section className="p-4">
-      <h2 className="text-xl font-bold mb-4">New Income Invoice</h2>
-      <form onSubmit={handleSave} className="space-y-4 max-w-lg">
-        <div>
-          <label className="block font-semibold">Invoice Number</label>
-          <input
-            type="text"
-            name="number"
-            value={form.number}
-            onChange={handleChange}
-            className="border rounded w-full p-2"
-            required
-          />
-        </div>
-        <div>
-          <label className="block font-semibold">Date</label>
-          <input
-            type="date"
-            name="date"
-            value={form.date}
-            onChange={handleChange}
-            className="border rounded w-full p-2"
-            required
-          />
-        </div>
-        <div>
-          <label className="block font-semibold">Client Name</label>
-          <input
-            type="text"
-            name="clientName"
-            value={form.clientName}
-            onChange={handleChange}
-            className="border rounded w-full p-2"
-          />
-        </div>
-        <div>
-          <label className="block font-semibold">Client ID (CIF/NIF/NIE)</label>
-          <input
-            type="text"
-            name="clientId"
-            value={form.clientId}
-            onChange={handleChange}
-            className="border rounded w-full p-2"
-          />
-        </div>
-        <div>
-          <label className="block font-semibold">Address</label>
-          <input
-            type="text"
-            name="clientAddress"
-            value={form.clientAddress}
-            onChange={handleChange}
-            className="border rounded w-full p-2"
-          />
-        </div>
-        <div>
-          <label className="block font-semibold">City</label>
-          <input
-            type="text"
-            name="city"
-            value={form.city}
-            onChange={handleChange}
-            className="border rounded w-full p-2"
-          />
-        </div>
-        <div>
-          <label className="block font-semibold">Country</label>
-          <input
-            type="text"
-            name="country"
-            value={form.country}
-            onChange={handleChange}
-            className="border rounded w-full p-2"
-          />
-        </div>
-        <div>
-          <label className="block font-semibold">Concept</label>
-          <textarea
-            name="concept"
-            value={form.concept}
-            onChange={handleChange}
-            className="border rounded w-full p-2"
-          />
-        </div>
-
-        <div className="flex space-x-4">
-          <div>
-            <label className="block font-semibold">Quantity</label>
-            <input
-              type="number"
-              name="quantity"
-              value={form.quantity}
-              onChange={handleChange}
-              className="border rounded w-full p-2"
-            />
+    <section className="container mx-auto p-12">
+      <div className="max-w-3xl mx-auto">
+        <h2 className="text-2xl font-bold mb-6 text-center tracking-tight">
+          New Expense Invoice
+        </h2>
+        <form
+          onSubmit={handleSave}
+          className="grid md:grid-cols-2 gap-x-8 gap-y-4 text-sm"
+        >
+          {/* Left column */}
+          <div className="space-y-4">
+            <div className="flex flex-col">
+              <label className="font-semibold">Invoice Number</label>
+              <input
+                type="text"
+                name="number"
+                value={form.number}
+                onChange={handleChange}
+                className="p-2 mb-2 border border-gray-300 rounded-lg w-full"
+              />
+            </div>
+            <div>
+              <label className="font-semibold">Date</label>
+              <input
+                type="date"
+                name="date"
+                value={form.date}
+                onChange={handleChange}
+                className="p-2 mb-2 border border-gray-300 rounded-lg w-full"
+              />
+            </div>
+            <div>
+              <label className="font-semibold">Client Name</label>
+              <input
+                type="text"
+                name="clientName"
+                value={form.clientName}
+                onChange={handleChange}
+                className="p-2 mb-2 border border-gray-300 rounded-lg w-full"
+              />
+            </div>
+            <div>
+              <label className="font-semibold">Client ID (CIF/NIF/NIE)</label>
+              <input
+                type="text"
+                name="clientId"
+                value={form.clientId}
+                onChange={handleChange}
+                className="p-2 mb-2 border border-gray-300 rounded-lg w-full"
+              />
+            </div>
+            <div>
+              <label className="font-semibold">Address</label>
+              <input
+                type="text"
+                name="clientAddress"
+                value={form.clientAddress}
+                onChange={handleChange}
+                className="p-2 mb-2 border border-gray-300 rounded-lg w-full"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="font-semibold">City</label>
+                <input
+                  type="text"
+                  name="city"
+                  value={form.city}
+                  onChange={handleChange}
+                  className="p-2 mb-2 border border-gray-300 rounded-lg w-full"
+                />
+              </div>
+              <div>
+                <label className="font-semibold">Country</label>
+                <input
+                  type="text"
+                  name="country"
+                  value={form.country}
+                  onChange={handleChange}
+                  className="p-2 mb-2 border border-gray-300 rounded-lg w-full"
+                />
+              </div>
+              <div className="pt-2">
+                <p className="font-semibold text-lg">
+                  Total:{" "}
+                  <span className="text-green-600">{total.toFixed(2)}</span>
+                </p>
+              </div>
+            </div>
           </div>
-          <div>
-            <label className="block font-semibold">Price</label>
-            <input
-              type="number"
-              name="price"
-              value={form.price}
-              onChange={handleChange}
-              className="border rounded w-full p-2"
-            />
+
+          {/* Right column */}
+          <div className="space-y-4">
+            <div>
+              <label className="font-semibold">Concept</label>
+              <textarea
+                name="concept"
+                value={form.concept}
+                onChange={handleChange}
+                className="p-2 mb-2 border border-gray-300 rounded-lg w-full h-28"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="font-semibold">Quantity</label>
+                <input
+                  type="number"
+                  name="quantity"
+                  value={form.quantity}
+                  onChange={handleChange}
+                  className="p-2 mb-2 border border-gray-300 rounded-lg w-full"
+                />
+              </div>
+              <div>
+                <label className="font-semibold">Price</label>
+                <input
+                  type="number"
+                  name="price"
+                  value={form.price}
+                  onChange={handleChange}
+                  className="p-2 mb-2 border border-gray-300 rounded-lg w-full"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="font-semibold">VAT (%)</label>
+                <select
+                  name="vat"
+                  value={form.vat}
+                  onChange={handleChange}
+                  className="p-2 mb-2 border border-gray-300 rounded-lg w-full"
+                >
+                  <option value={21}>21%</option>
+                  <option value={10}>10%</option>
+                  <option value={5}>5%</option>
+                  <option value={0}>0%</option>
+                </select>
+              </div>
+              <div>
+                <label className="font-semibold">IRPF (%)</label>
+                <select
+                  name="irpf"
+                  value={form.irpf}
+                  onChange={handleChange}
+                  className="p-2 mb-2 border border-gray-300 rounded-lg w-full"
+                >
+                  <option value={0}>0%</option>
+                  <option value={-7}>-7%</option>
+                  <option value={-15}>-15%</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="font-semibold">Currency</label>
+              <select
+                name="currency"
+                value={form.currency}
+                onChange={handleChange}
+                className="p-2 mb-2 border border-gray-300 rounded-lg w-full"
+              >
+                <option value="EUR">EUR</option>
+                <option value="USD">USD</option>
+                <option value="GBP">GBP</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="font-semibold">Payment Method</label>
+              <input
+                type="text"
+                name="paymentMethod"
+                value={form.paymentMethod}
+                onChange={handleChange}
+                className="p-2 mb-2 border border-gray-300 rounded-lg w-full"
+              />
+            </div>
+            <div className="flex justify-end gap-4 mt-4">
+              <ButtonSecondary type="button" onClick={handleCancel}>
+                Cancel
+              </ButtonSecondary>
+              <Button type="submit">Save Invoice</Button>
+            </div>
           </div>
-        </div>
-
-        <div className="flex space-x-4">
-          <div>
-            <label className="block font-semibold">VAT (%)</label>
-            <select
-              name="vat"
-              value={form.vat}
-              onChange={handleChange}
-              className="border rounded w-full p-2"
-            >
-              <option value={21}>21%</option>
-              <option value={10}>10%</option>
-              <option value={5}>5%</option>
-              <option value={0}>0%</option>
-            </select>
-          </div>
-          <div>
-            <label className="block font-semibold">IRPF (%)</label>
-            <select
-              name="irpf"
-              value={form.irpf}
-              onChange={handleChange}
-              className="border rounded w-full p-2"
-            >
-              <option value={0}>0%</option>
-              <option value={-7}>-7%</option>
-              <option value={-15}>-15%</option>
-            </select>
-          </div>
-        </div>
-
-        <div>
-          <label className="block font-semibold">Currency</label>
-          <select
-            name="currency"
-            value={form.currency}
-            onChange={handleChange}
-            className="border rounded w-full p-2"
-          >
-            <option value="EUR">EUR</option>
-            <option value="USD">USD</option>
-            <option value="GBP">GBP</option>
-          </select>
-        </div>
-
-        <div>
-          <label className="block font-semibold">Payment Method</label>
-          <input
-            type="text"
-            name="paymentMethod"
-            value={form.paymentMethod}
-            onChange={handleChange}
-            className="border rounded w-full p-2"
-          />
-        </div>
-
-        <div>
-          <p className="font-semibold">
-            Total: <span className="text-green-600">{total.toFixed(2)}</span>
-          </p>
-        </div>
-
-        <div className="space-x-2">
-          <button
-            type="button"
-            onClick={handleCancel}
-            className="px-4 py-2 bg-gray-300 rounded"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="px-4 py-2 bg-emerald-600 text-white rounded"
-          >
-            Save Invoice
-          </button>
-        </div>
-      </form>
+        </form>
+      </div>
     </section>
   );
 };

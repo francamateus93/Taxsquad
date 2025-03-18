@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { logout, login } from "../../store/authSlice";
+import { logout, setUser } from "../../store/authSlice";
 import {
   logoutUser,
   getCurrentUser,
@@ -20,7 +20,7 @@ const Navbar = () => {
     const fetchUsers = async () => {
       const currentUser = await getCurrentUser();
       if (currentUser) {
-        dispatch(login({ email: currentUser.email, uid: currentUser.uid }));
+        dispatch(setUser({ email: currentUser.email, uid: currentUser.uid }));
       }
     };
     fetchUsers();
@@ -34,7 +34,7 @@ const Navbar = () => {
 
   return (
     <header className="container">
-      <nav className="flex justify-between items-center py-4 bg-white fixed top-0 left-0 right-0 z-50 md:px-5">
+      <nav className="flex justify-between items-center py-4 bg-white shadow fixed top-0 left-0 right-0 z-50 md:px-5">
         <div className="flex items-center justify-center px-4">
           <img
             className="w-36 lg:w-48 md:px-0 cursor-pointer"
@@ -98,10 +98,10 @@ const Navbar = () => {
           ) : (
             <div className="flex items-center space-x-4">
               <Link to="/profile">
-                <FaUserCircle className="text-2xl text-gray-500 hover:text-emerald-500 cursor-pointer transition duration-200" />
+                <FaUserCircle className="text-2xl text-gray-900 hover:text-emerald-500 cursor-pointer transition duration-200" />
               </Link>
               <button
-                className="text-sm px-4 py-2 text-red-600 bg-red-50 rounded hover:bg-red-200 transition duration-200"
+                className="text-sm px-4 py-2 text-emerald-600 bg-emerald-50 rounded hover:bg-red-200 hover:text-red-500 transition duration-200"
                 onClick={handleLogout}
               >
                 Logout
@@ -123,8 +123,8 @@ const Navbar = () => {
 
         {/* Menu Mobile */}
         {isOpen && (
-          <nav className="absolute top-16 left-0 w-full bg-white shadow-lg flex items-center justify-between md:hidden py-5 px-8 my-1 rounded-lg">
-            <ul className="flex flex-col gap-2 text-sm text-start">
+          <nav className="absolute top-16 right-0 w-fit bg-white shadow-lg flex flex-col items-end justify-between md:hidden py-5 px-8 my-1 rounded-lg">
+            <ul className="flex flex-col gap-2 text-sm text-end">
               <li className="hover:text-emerald-500 hover:font-semibold transition duration-200">
                 <Link
                   to="/dashboard"

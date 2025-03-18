@@ -6,6 +6,7 @@ import {
   loginWithEmail,
   loginWithGoogle,
 } from "../../services/auth/firebaseAuthService.js";
+import Button from "../../components/buttons/Button";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -15,7 +16,6 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    dispatch(setLoading(true));
     try {
       const firebaseUser = await loginWithEmail(email, password);
       const { uid, email: userEmail, displayName } = firebaseUser || {};
@@ -23,28 +23,23 @@ const Login = () => {
       navigate("/dashboard");
     } catch (error) {
       dispatch(setError(error.message));
-    } finally {
-      dispatch(setLoading(false));
     }
   };
 
   const handleGoogleLogin = async () => {
-    dispatch(setLoading(true));
     try {
-      const firebaseUser = await loginWithEmail(email, password);
+      const firebaseUser = await loginWithGoogle(email, password);
       const { uid, email: userEmail, displayName } = firebaseUser || {};
       dispatch(setUser({ uid, email: userEmail, displayName }));
       navigate("/dashboard");
     } catch (error) {
       dispatch(setError(error.message));
-    } finally {
-      dispatch(setLoading(false));
     }
   };
 
   return (
     <section className="flex flex-col items-center justify-center min-h-screen p-4">
-      <div className="w-full max-w-md bg-white p-8 md:py-14 rounded-lg shadow-xl">
+      <div className="w-full max-w-md bg-white p-8 md:py-14">
         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center tracking-tight">
           Login
         </h2>
@@ -56,7 +51,7 @@ const Login = () => {
           className="flex flex-col text-xs md:text-sm"
         >
           <input
-            className="p-2 md:p-3 mb-2 border border-gray-400 rounded-lg"
+            className="p-2 md:p-3 mb-2 border border-gray-300 rounded-lg"
             type="email"
             placeholder="info@gmail.com"
             value={email}
@@ -64,21 +59,17 @@ const Login = () => {
             required
           />
           <input
-            className="p-2 md:p-3 mb-6 border border-gray-400 rounded-lg"
+            className="p-2 md:p-3 mb-6 border border-gray-300 rounded-lg"
             type="password"
             placeholder="Enter your Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          <Button type="submit">Login</Button>
           <button
-            className="bg-emerald-600 text-white px-6 py-2 rounded cursor-pointer text-xs md:text-base  hover:bg-emerald-500 font-semibold"
-            type="submit"
-          >
-            Login
-          </button>
-          <button
-            className="mt-3 bg-gray-300 p-2 text-gray-800 rounded w-full text-xs md:text-base hover:bg-gray-400"
+            type="button"
+            className="px-6 py-2 mt-3 bg-gray-200 p-2 text-gray-800 rounded w-full text-xs md:text-sm hover:bg-gray-300"
             onClick={handleGoogleLogin}
           >
             Login with Google

@@ -17,7 +17,7 @@ const DashboardPage = () => {
   }, []);
 
   return (
-    <div className="space-y-4">
+    <section className="container mx-auto p-6 space-y-6">
       <h2 className="text-2xl font-bold mb-2">Dashboard Overview</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-white shadow-md rounded p-4">
@@ -33,7 +33,7 @@ const DashboardPage = () => {
           <p className="text-xl text-blue-600">{stats.invoices} total</p>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

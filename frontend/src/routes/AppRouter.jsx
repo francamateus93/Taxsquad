@@ -15,11 +15,13 @@ import Documents from "../pages/documents/Documents.jsx";
 import Profile from "../pages/profile/Profile.jsx";
 import PrivateRoute from "./PrivateRoute";
 import NotFound from "../pages/NotFound";
+import AuthListener from "../components/auth/AuthListener.jsx";
 
 const AppRouter = () => {
   return (
     <Provider store={store}>
       <Router>
+        <AuthListener />
         <Navbar />
         <Routes>
           <Route path="/" element={<LandingPage />} />

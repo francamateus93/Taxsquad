@@ -1,5 +1,5 @@
 import React from "react";
-// import Navbar from "../components/Navbar/Navbar";
+import { Link } from "react-router-dom";
 import Button from "../components/buttons/Button";
 
 const LandingPage = () => {
@@ -21,8 +21,14 @@ const LandingPage = () => {
               </p>
             </div>
 
-            <div className="text-center flex justify-center md:justify-start text-2xl md:text-left">
-              <Button>Get Started</Button>
+            <div className="text-center flex gap-4 justify-center md:justify-start text-xl md:text-left">
+              <Link to="/register">
+                <Button>Get Started</Button>
+              </Link>
+
+              <button className="px-6 py-2 text-emerald-600 bg-emerald-50 rounded hover:bg-emerald-200 transition duration-200 text-base">
+                More Info
+              </button>
             </div>
           </div>
 

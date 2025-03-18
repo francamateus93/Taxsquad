@@ -73,7 +73,7 @@ const Register = () => {
               placeholder="Enter First Name"
               value={form.first_name}
               onChange={handleChange}
-              className="p-2 md:p-3 mb-2 border border-gray-400 rounded-lg w-full md:w-fit"
+              className="p-2 md:p-3 mb-2 border border-gray-300 rounded-lg w-full md:w-fit"
               required
             />
           </div>
@@ -87,7 +87,7 @@ const Register = () => {
               placeholder="Enter Last Name"
               value={form.last_name}
               onChange={handleChange}
-              className="p-2 md:p-3 mb-2 border border-gray-400 rounded-lg w-full md:w-fit"
+              className="p-2 md:p-3 mb-2 border border-gray-300 rounded-lg w-full md:w-fit"
               required
             />
           </div>
@@ -101,7 +101,7 @@ const Register = () => {
               placeholder="Enter your Email"
               value={form.email}
               onChange={handleChange}
-              className="col-span-2 p-2 md:p-3 mb-2 border border-gray-400 rounded-lg w-full md:w-fit"
+              className="col-span-2 p-2 md:p-3 mb-2 border border-gray-300 rounded-lg w-full md:w-fit"
               required
             />
           </div>
@@ -115,7 +115,7 @@ const Register = () => {
               placeholder="Enter your Password"
               value={form.password}
               onChange={handleChange}
-              className="col-span-2 p-2 md:p-3 mb-2 border border-gray-400 rounded-lg w-full md:w-fit"
+              className="col-span-2 p-2 md:p-3 mb-2 border border-gray-300 rounded-lg w-full md:w-fit"
               required
             />
           </div>
@@ -128,7 +128,7 @@ const Register = () => {
               type="date"
               value={form.date_of_birth}
               onChange={handleChange}
-              className="p-2 md:p-3 mb-2 border border-gray-400 rounded-lg w-full md:w-fit"
+              className="p-2 md:p-3 mb-2 border border-gray-300 rounded-lg w-full md:w-fit"
               required
             />
           </div>
@@ -142,7 +142,7 @@ const Register = () => {
               placeholder="Enter your ID Number"
               value={form.identification_number}
               onChange={handleChange}
-              className="p-2 md:p-3 mb-2 border border-gray-400 rounded-lg w-full md:w-fit"
+              className="p-2 md:p-3 mb-2 border border-gray-300 rounded-lg w-full md:w-fit"
               required
             />
           </div>
@@ -156,7 +156,7 @@ const Register = () => {
               placeholder="Enter your Phone"
               value={form.phone}
               onChange={handleChange}
-              className="p-2 md:p-3 mb-2 border border-gray-400 rounded-lg w-full md:w-fit"
+              className="p-2 md:p-3 mb-2 border border-gray-300 rounded-lg w-full md:w-fit"
               required
             />
           </div>
@@ -170,7 +170,7 @@ const Register = () => {
               placeholder="Enter your Address"
               value={form.address}
               onChange={handleChange}
-              className="p-2 md:p-3 mb-2 border border-gray-400 rounded-lg w-full md:w-fit"
+              className="p-2 md:p-3 mb-2 border border-gray-300 rounded-lg w-full md:w-fit"
               required
             />
           </div>
@@ -184,7 +184,7 @@ const Register = () => {
               placeholder="Enter your City"
               value={form.city}
               onChange={handleChange}
-              className="p-2 md:p-3 mb-2 border border-gray-400 rounded-lg w-full md:w-fit"
+              className="p-2 md:p-3 mb-2 border border-gray-300 rounded-lg w-full md:w-fit"
               required
             />
           </div>

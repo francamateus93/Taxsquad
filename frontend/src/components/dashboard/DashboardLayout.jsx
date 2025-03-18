@@ -5,7 +5,7 @@ const DashboardLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <section className="relative min-h-screen bg-gray-100">
+    <section className="relative min-h-screen">
       <SidebarMenu
         open={sidebarOpen}
         onToggle={() => setSidebarOpen(!sidebarOpen)}

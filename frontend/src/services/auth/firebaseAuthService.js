@@ -26,16 +26,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
-export const loginWithGoogle = async () => {
-  try {
-    const result = await signInWithPopup(auth, googleProvider);
-    return result.user;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
 export const registerWithEmail = async (email, password) => {
   try {
     const result = await createUserWithEmailAndPassword(auth, email, password);
@@ -56,9 +46,41 @@ export const loginWithEmail = async (email, password) => {
   }
 };
 
+export const loginWithGoogle = async () => {
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    return result.user;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
 export const logoutUser = async () => {
   try {
     await signOut(auth);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const resetPasswordWithEmail = async (email) => {
+  try {
+    await sendPasswordResetEmail(auth, email);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const updateUserEmail = async (newEmail) => {
+  try {
+    if (auth.currentUser) {
+      await updateEmail(auth.currentUser, newEmail);
+    } else {
+      throw new Error("No authenticated user.");
+    }
   } catch (error) {
     console.error(error);
     throw error;
@@ -83,28 +105,6 @@ export const getCurrentUser = async () => {
       }
     );
   });
-};
-
-export const resetPasswordWithEmail = async (email) => {
-  try {
-    await sendPasswordResetEmail(auth, email);
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
-export const updateUserEmail = async (newEmail) => {
-  try {
-    if (auth.currentUser) {
-      await updateEmail(auth.currentUser, newEmail);
-    } else {
-      throw new Error("No authenticated user.");
-    }
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
 };
 
 export const deleteCurrentUser = async () => {

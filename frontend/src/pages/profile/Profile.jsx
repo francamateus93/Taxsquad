@@ -114,10 +114,10 @@ const Profile = () => {
   };
 
   return (
-    <section className="container mx-auto p-6 space-y-6">
+    <section className="container mx-auto p-6">
       <div className="w-full bg-white">
         <h2 className="text-2xl font-bold mb-6 text-center tracking-tight">
-          My Profile
+          Personal information
         </h2>
 
         <div className="flex flex-col md:grid md:grid-cols-2 gap-6 text-start text-xs md:text-sm">

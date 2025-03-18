@@ -7,8 +7,8 @@ const LandingPage = () => {
     <div className="w-full">
       <main className="flex flex-col items-center justify-center">
         {/* Hero */}
-        <section className="flex flex-wrap items-center mx-3 px-4 w-full lg:max-w-screen-xl sm:max-w-screen-sm pb-20 h-screen mt-32">
-          <div className="px-3 w-full lg:w-3/5">
+        <section className="flex flex-wrap items-center mx-auto px-8 w-full lg:max-w-screen-xl sm:max-w-screen-sm pb-20 h-screen mt-32">
+          <div className="px-8 w-full lg:w-2/5">
             <div className="mb-8 max-w-lg lg:mx-0 lg:max-w-md text-center md:text-left">
               <h2 className="mb-4 font-bold text-6xl leading-14">
                 Your tax management in a{" "}
@@ -32,14 +32,17 @@ const LandingPage = () => {
             </div>
           </div>
 
-          <div className="px-3 mb-12 w-full lg:mb-0 lg:w-3/5">
+          <div className="px-3 mb-12 w-full lg:mb-0 lg:w-4/5">
             <div className="flex justify-center items-center"></div>
           </div>
         </section>
 
         {/* Pricing */}
-        <section className="mt-4" id="pricing">
-          <div className="mx-auto bg-emerald-700 pb-20 max-w-7xl px-6 py-12 lg:px-8">
+        <section
+          className="mx-auto bg-linear-to-tl from-emerald-800 to-emerald-400 pb-20 px-6 py-12 lg:px-8"
+          id="pricing"
+        >
+          <div>
             <div className="mx-auto max-w-4xl pt-8 text-center flex flex-col gap-4 md:gap-0">
               {/* <h1 className="text-base leading-7 my-8 text-white">Pricing</h1> */}
               <p className="my-2 text-4xl font-bold tracking-tight text-white sm:text-5xl">

@@ -29,7 +29,9 @@ const Documents = ({ user }) => {
 
   return (
     <section className="container mx-auto p-12 space-y-6">
-      <h1 className="text-2xl font-bold">Documents</h1>
+      <h1 className="text-2xl font-bold uppercase tracking-tighter">
+        Documents
+      </h1>
 
       {/* Buttons: Trimestral and Anual */}
       <div className="flex space-x-4">

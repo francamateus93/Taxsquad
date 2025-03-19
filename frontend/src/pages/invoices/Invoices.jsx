@@ -54,39 +54,7 @@ const Invoices = () => {
   };
 
   return (
-    <section className="container mx-auto p-12 space-y-6">
-      <h1 className="text-2xl font-bold">Invoices</h1>
-
-      {/* Buttons Income / Expenses */}
-      <div className="space-x-2">
-        <button
-          onClick={() => {
-            setInvoiceType("income");
-            setCurrentPage(1);
-          }}
-          className={`px-6 py-2 rounded cursor-pointer text-center ${
-            invoiceType === "income"
-              ? "bg-emerald-500 text-white font-semibold hover:bg-emerald-600"
-              : "bg-emerald-50 text-emerald-600 font-normal hover:bg-emerald-200 transition duration-200"
-          }`}
-        >
-          Income
-        </button>
-        <button
-          onClick={() => {
-            setInvoiceType("expense");
-            setCurrentPage(1);
-          }}
-          className={`px-4 py-2 rounded cursor-pointer text-center ${
-            invoiceType === "expense"
-              ? "bg-emerald-500 text-white font-semibold hover:bg-emerald-600"
-              : "bg-emerald-50 text-emerald-600 font-normal hover:bg-emerald-200 transition duration-200"
-          }`}
-        >
-          Expenses
-        </button>
-      </div>
-
+    <section className="container mx-auto p-10 md:py-12 md:px-20 space-y-6">
       {/* Filter */}
       <div className="flex items-center space-x-1 text-gray-500">
         <label htmlFor="dateFilter" className="font-semibold text-sm">
@@ -100,49 +68,84 @@ const Invoices = () => {
             setDateFilter(e.target.value);
             setCurrentPage(1);
           }}
-          className="border-none p-1 text-sm"
+          className="border-none text-sm"
         />
       </div>
 
+      {/* Buttons Income / Expenses */}
+      <div className="flex justify-start space-x-2 mb-10">
+        <button
+          onClick={() => {
+            setInvoiceType("income");
+            setCurrentPage(1);
+          }}
+          className={`px-6 py-2 rounded-lg cursor-pointer tracking-tighter text-center ${
+            invoiceType === "income"
+              ? "bg-emerald-200 w-40 h-14 text-2xl font-semibold hover:bg-emerald-300 text-emerald-600 transition duration-200"
+              : "bg-emerald-50 text-emerald-600 w-40 h-14 text-lg font-normal hover:bg-emerald-200 transition duration-200"
+          }`}
+        >
+          Income
+        </button>
+        <button
+          onClick={() => {
+            setInvoiceType("expense");
+            setCurrentPage(1);
+          }}
+          className={`px-4 py-2 rounded-lg cursor-pointer tracking-tighter text-center ${
+            invoiceType === "expense"
+              ? "bg-emerald-200 w-40 h-14 text-2xl font-semibold hover:bg-emerald-300 text-emerald-600 transition duration-200"
+              : "bg-emerald-50 text-emerald-600 w-40 h-14 text-lg font-normal hover:bg-emerald-200 transition duration-200"
+          }`}
+        >
+          Expenses
+        </button>
+      </div>
+
       {/* Buttons New Income / New Expense */}
-      <div className="flex space-x-2 justify-center">
+      <div className="flex space-x-2 justify-end">
         <div>
           <Link to="/invoices/new-income">
-            <Button>New Income</Button>
+            <button className="px-4 py-2 text-white bg-emerald-600 rounded-lg hover:bg-emerald-500 transition duration-200 text-sm">
+              + New Income
+            </button>
           </Link>
         </div>
 
         <div>
           <Link to="/invoices/new-expense">
-            <ButtonSecondary>New Expense</ButtonSecondary>
+            <button className="px-4 py-2 text-emerald-600 bg-emerald-50 rounded-lg hover:bg-emerald-600 hover:text-white transition duration-200 text-sm">
+              + New Expense
+            </button>
           </Link>
         </div>
       </div>
 
       {/* List */}
-      {loading && <p>Loading invoices...</p>}
-      {error && <p className="text-red-500">{error}</p>}
+      <div className="space-y-2 bg-gray-100 h-[600px] rounded-2xl">
+        {loading && <p>Loading invoices...</p>}
+        {error && <p className="py-4 font-medium">{error}</p>}
 
-      {!loading && !error && paginatedInvoices.length > 0 && (
-        <div className="space-y-2">
-          <h2>Invoices</h2>
-          {paginatedInvoices.map((invoice) => (
-            <div
-              key={invoice.id}
-              onClick={() => handleInvoiceClick(invoice)} // ADJUST HANDLE CLICK TO UPDATE
-              className="bg-white p-4 rounded cursor-pointer hover:bg-gray-100"
-            >
-              <p className="font-semibold">Invoice #{invoice.number}</p>
-              <p>{invoice.clientName}</p>
-              <p>{invoice.date}</p>
-              <p>
-                Total: {invoice.total} {invoice.currency}
-              </p>
-            </div>
-          ))}
-        </div>
-      )}
-
+        {!loading && !error && paginatedInvoices.length > 0 && (
+          <div className="space-y-2 bg-gray-200">
+            <h2>Invoices</h2>
+            {paginatedInvoices.map((invoice) => (
+              <div
+                key={invoice.id}
+                onClick={() => handleInvoiceClick(invoice)}
+                className="bg-white p-4 rounded cursor-pointer hover:bg-gray-100"
+              >
+                <p className="font-semibold">Invoice #{invoice.number}</p>
+                <p>{invoice.clientName}</p>
+                <p>{invoice.date}</p>
+                <p>
+                  Total: {invoice.total} {invoice.currency}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
       {/* Paginação */}
       {canLoadMore && (
         <button

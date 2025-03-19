@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { logout, setUser, login } from "../../store/authSlice.js";
 import {
   logoutUser,
@@ -17,6 +17,8 @@ const Navbar = () => {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isActive = (path) => location.pathname === path;
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -36,7 +38,7 @@ const Navbar = () => {
 
   return (
     <header className="container">
-      <nav className="flex justify-between items-center py-4 bg-white shadow fixed top-0 left-0 right-0 z-50 md:px-5">
+      <nav className="flex justify-between items-center py-4 bg-white border-b border-gray-200 fixed top-0 left-0 right-0 z-50 md:px-5">
         <div className="flex items-center justify-center px-4">
           <img
             className="w-36 lg:w-48 md:px-0 cursor-pointer"
@@ -52,7 +54,9 @@ const Navbar = () => {
             <li>
               <Link
                 to="/dashboard"
-                className="hover:text-emerald-500 hover:font-semibold transition duration-200"
+                className={`hover:text-emerald-500 hover:font-semibold transition duration-200 ${
+                  isActive("/dashboard") ? "font-semibold text-emerald-600" : ""
+                }`}
               >
                 Dashboard
               </Link>
@@ -60,7 +64,9 @@ const Navbar = () => {
             <li>
               <Link
                 to="/invoices"
-                className="hover:text-emerald-500 hover:font-semibold transition duration-200"
+                className={`hover:text-emerald-500 hover:font-semibold transition duration-200 ${
+                  isActive("/invoices") ? "font-semibold text-emerald-600" : ""
+                }`}
               >
                 Invoices
               </Link>
@@ -68,7 +74,9 @@ const Navbar = () => {
             <li>
               <Link
                 to="/taxes"
-                className="hover:text-emerald-500 hover:font-semibold transition duration-200"
+                className={`hover:text-emerald-500 hover:font-semibold transition duration-200 ${
+                  isActive("/taxes") ? "font-semibold text-emerald-600" : ""
+                }`}
               >
                 Taxes
               </Link>
@@ -76,7 +84,9 @@ const Navbar = () => {
             <li>
               <Link
                 to="/documents"
-                className="hover:text-emerald-500 hover:font-semibold transition duration-200"
+                className={`hover:text-emerald-500 hover:font-semibold transition duration-200 ${
+                  isActive("/documents") ? "font-semibold text-emerald-600" : ""
+                }`}
               >
                 Documents
               </Link>
@@ -108,7 +118,7 @@ const Navbar = () => {
               </Link>
               <div className="flex gap-2 items-center justify-center">
                 <FaSignOutAlt
-                  className="text-2xl hover:text-red-600"
+                  className="text-xl hover:text-red-700"
                   onClick={handleLogout}
                   alt="logout"
                   title="Logout"
@@ -136,7 +146,9 @@ const Navbar = () => {
               <li className="p-2 rounded-lg hover:bg-emerald-200 transition duration-200">
                 <Link
                   to="/dashboard"
-                  className="py-2"
+                  className={`py-2 ${
+                    isActive("/dashboard") ? "font-bold text-emerald-600" : ""
+                  }`}
                   onClick={() => setIsOpen(false)}
                 >
                   Dashboard
@@ -145,7 +157,9 @@ const Navbar = () => {
               <li className="p-2 rounded-lg hover:bg-emerald-200 transition duration-200">
                 <Link
                   to="/invoices"
-                  className="py-2"
+                  className={`py-2 ${
+                    isActive("/invoices") ? "font-bold text-emerald-600" : ""
+                  }`}
                   onClick={() => setIsOpen(false)}
                 >
                   Invoices
@@ -154,7 +168,9 @@ const Navbar = () => {
               <li className="p-2 rounded-lg hover:bg-emerald-200 transition duration-200">
                 <Link
                   to="/taxes"
-                  className="py-2"
+                  className={`py-2 ${
+                    isActive("/taxes") ? "font-bold text-emerald-600" : ""
+                  }`}
                   onClick={() => setIsOpen(false)}
                 >
                   Taxes
@@ -163,7 +179,9 @@ const Navbar = () => {
               <li className="p-2 rounded-lg hover:bg-emerald-200 transition duration-200">
                 <Link
                   to="/documents"
-                  className="py-2"
+                  className={`py-2 ${
+                    isActive("/documents") ? "font-bold text-emerald-600" : ""
+                  }`}
                   onClick={() => setIsOpen(false)}
                 >
                   Documents

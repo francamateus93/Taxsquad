@@ -39,7 +39,7 @@ const Documents = ({ user }) => {
               : "bg-emerald-50 text-emerald-600 w-40 h-14 text-lg font-normal hover:bg-emerald-200 transition duration-200"
           }`}
         >
-          Trimestral
+          Quarterly
         </button>
 
         <button
@@ -50,7 +50,7 @@ const Documents = ({ user }) => {
               : "bg-emerald-50 text-emerald-600 w-40 h-14 text-lg font-normal hover:bg-emerald-200 transition duration-200"
           }`}
         >
-          Anual
+          Annual
         </button>
       </div>
 

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../services/auth/firebaseAuthService";
-import { setUser, logout } from "../../store/authSlice";
+import { setUser, logout, setLoading } from "../../store/authSlice";
 
 const AuthListener = () => {
   const dispatch = useDispatch();
@@ -20,6 +20,7 @@ const AuthListener = () => {
       } else {
         dispatch(logout());
       }
+      dispatch(setLoading(false));
     });
 
     return () => unsubscribe();

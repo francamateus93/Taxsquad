@@ -54,7 +54,7 @@ const Invoices = () => {
   };
 
   return (
-    <section className="container mx-auto p-10 md:py-12 md:px-20 space-y-6">
+    <section className="container mx-auto p-10 lg:py-12 lg:px-20 space-y-6">
       {/* Filter */}
       <div className="flex items-center space-x-1 text-gray-500">
         <label htmlFor="dateFilter" className="font-semibold text-sm">

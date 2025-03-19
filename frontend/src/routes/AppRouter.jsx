@@ -16,12 +16,14 @@ import Profile from "../pages/profile/Profile.jsx";
 import PrivateRoute from "./PrivateRoute";
 import NotFound from "../pages/NotFound";
 import AuthListener from "../components/auth/AuthListener.jsx";
+import NewAnnual from "../pages/taxes/NewAnnual.jsx";
+import NewQuarterly from "../pages/taxes/NewQuarterly.jsx";
 
 const AppRouter = () => {
   return (
     <Provider store={store}>
+      <AuthListener />
       <Router>
-        <AuthListener />
         <Navbar />
         <Routes>
           <Route path="/" element={<LandingPage />} />
@@ -76,6 +78,26 @@ const AppRouter = () => {
               <PrivateRoute>
                 <DashboardLayout>
                   <Taxes />
+                </DashboardLayout>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/taxes/new-annual"
+            element={
+              <PrivateRoute>
+                <DashboardLayout>
+                  <NewAnnual />
+                </DashboardLayout>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/taxes/new-quarterly"
+            element={
+              <PrivateRoute>
+                <DashboardLayout>
+                  <NewQuarterly />
                 </DashboardLayout>
               </PrivateRoute>
             }

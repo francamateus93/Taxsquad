@@ -115,12 +115,12 @@ const Profile = () => {
 
   return (
     <section className="container p-10 md:py-12 md:px-20">
-      <div className="max-w-4xl mx-auto bg-white rounded-lg">
+      <div className="max-w-3xl mx-auto bg-white rounded-lg">
         <h2 className="text-2xl font-bold mb-8 text-center tracking-tight">
           Personal information
         </h2>
 
-        <div className="flex flex-col md:grid md:grid-cols-2 gap-6 text-start text-xs md:text-sm">
+        <div className="flex flex-col md:grid md:grid-cols-2 gap-4 text-start text-xs md:text-sm">
           {Object.entries(profile).map(([key, value]) => (
             <div key={key}>
               <label className="flex font-semibold capitalize">

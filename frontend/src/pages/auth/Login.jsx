@@ -6,7 +6,7 @@ import {
   loginWithEmail,
   loginWithGoogle,
 } from "../../services/auth/firebaseAuthService.js";
-import Button from "../../components/buttons/Button";
+import Button from "../../components/buttons/ButtonPrimary.jsx";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -69,7 +69,7 @@ const Login = () => {
           <Button type="submit">Login</Button>
           <button
             type="button"
-            className="px-6 py-2 mt-3 bg-gray-200 p-2 text-gray-800 rounded w-full text-xs md:text-sm hover:bg-gray-300"
+            className="px-6 py-2 mt-3 bg-gray-200 p-2 text-gray-800 rounded-lg w-full text-xs md:text-sm hover:bg-gray-300"
             onClick={handleGoogleLogin}
           >
             Login with Google

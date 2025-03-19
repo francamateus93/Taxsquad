@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setInvoices, setLoading, setError } from "../../store/invoicesSlice";
 import { Link } from "react-router-dom";
 import api from "../../services/data/Api";
-import Button from "../../components/buttons/Button";
+import ButtonPrimary from "../../components/buttons/ButtonPrimary";
 import ButtonSecondary from "../../components/buttons/ButtonSecondary";
 
 const Invoices = () => {
@@ -68,7 +68,7 @@ const Invoices = () => {
             setDateFilter(e.target.value);
             setCurrentPage(1);
           }}
-          className="border-none text-sm"
+          className="border-none p-1 text-sm"
         />
       </div>
 
@@ -106,7 +106,7 @@ const Invoices = () => {
       <div className="flex space-x-2 justify-end">
         <div>
           <Link to="/invoices/new-income">
-            <button className="px-4 py-2 text-white bg-emerald-600 rounded-lg hover:bg-emerald-500 transition duration-200 text-sm">
+            <button className="px-4 py-2 text-white font-semibold bg-emerald-600 rounded-lg hover:bg-emerald-500 transition duration-200 text-sm">
               + New Income
             </button>
           </Link>
@@ -114,7 +114,7 @@ const Invoices = () => {
 
         <div>
           <Link to="/invoices/new-expense">
-            <button className="px-4 py-2 text-emerald-600 bg-emerald-50 rounded-lg hover:bg-emerald-600 hover:text-white transition duration-200 text-sm">
+            <button className="px-4 py-2 text-emerald-600 font-semibold bg-emerald-50 rounded-lg hover:bg-emerald-600 hover:text-white transition duration-200 text-sm">
               + New Expense
             </button>
           </Link>
@@ -122,7 +122,7 @@ const Invoices = () => {
       </div>
 
       {/* List */}
-      <div className="space-y-2 bg-gray-100 h-[600px] rounded-2xl">
+      <div className="space-y-2 bg-emerald-50 h-[600px] rounded-2xl">
         {loading && <p>Loading invoices...</p>}
         {error && <p className="py-4 font-medium">{error}</p>}
 

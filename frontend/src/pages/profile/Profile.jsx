@@ -8,7 +8,7 @@ import {
   deleteCurrentUser,
 } from "../../services/auth/firebaseAuthService";
 import { logout } from "../../store/authSlice";
-import Button from "../../components/buttons/Button";
+import Button from "../../components/buttons/ButtonPrimary";
 import ButtonSecondary from "../../components/buttons/ButtonSecondary";
 
 const Profile = () => {
@@ -114,8 +114,8 @@ const Profile = () => {
   };
 
   return (
-    <section className="container mx-auto p-12">
-      <div className="w-full bg-white rounded-lg">
+    <section className="container p-10 md:py-12 md:px-20">
+      <div className="max-w-4xl mx-auto bg-white rounded-lg">
         <h2 className="text-2xl font-bold mb-8 text-center tracking-tight">
           Personal information
         </h2>

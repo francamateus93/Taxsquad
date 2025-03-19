@@ -28,19 +28,15 @@ const Documents = ({ user }) => {
   }, [documentType, dispatch]);
 
   return (
-    <section className="container mx-auto p-12 space-y-6">
-      <h1 className="text-2xl font-bold uppercase tracking-tighter">
-        Documents
-      </h1>
-
+    <section className="container mx-auto p-10 md:py-12 md:px-20 space-y-6">
       {/* Buttons: Trimestral and Anual */}
       <div className="flex space-x-4">
         <button
           onClick={() => setDocumentType("trimestral")}
-          className={`px-6 py-2 rounded cursor-pointer text-center ${
+          className={`px-6 py-2 rounded-lg cursor-pointer tracking-tighter text-center ${
             documentType === "trimestral"
-              ? "bg-emerald-500 text-white font-semibold hover:bg-emerald-600"
-              : "bg-emerald-50 text-emerald-600 font-normal hover:bg-emerald-200 transition duration-200"
+              ? "bg-emerald-200 w-40 h-14 text-2xl font-semibold hover:bg-emerald-300 text-emerald-600 transition duration-200"
+              : "bg-emerald-50 text-emerald-600 w-40 h-14 text-lg font-normal hover:bg-emerald-200 transition duration-200"
           }`}
         >
           Trimestral
@@ -48,10 +44,10 @@ const Documents = ({ user }) => {
 
         <button
           onClick={() => setDocumentType("anual")}
-          className={`px-6 py-2 rounded cursor-pointer text-center ${
+          className={`px-6 py-2 rounded-lg cursor-pointer tracking-tighter text-center ${
             documentType === "anual"
-              ? "bg-emerald-500 text-white font-semibold hover:bg-emerald-600"
-              : "bg-emerald-50 text-emerald-600 font-normal hover:bg-emerald-200 transition duration-200"
+              ? "bg-emerald-200 w-40 h-14 text-2xl font-semibold hover:bg-emerald-300 text-emerald-600 transition duration-200"
+              : "bg-emerald-50 text-emerald-600 w-40 h-14 text-lg font-normal hover:bg-emerald-200 transition duration-200"
           }`}
         >
           Anual

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../../services/data/Api";
 import ButtonPrimary from "../../components/buttons/ButtonPrimary";
 import ButtonSecondary from "../../components/buttons/ButtonSecondary";
@@ -33,7 +33,9 @@ const NewAnnual = () => {
     navigate("/taxes");
   };
 
-  const handleCancel = () => navigate("/taxes");
+  const handleCancel = () => {
+    navigate("/invoices");
+  };
 
   return (
     <section className="container mx-auto p-8">
@@ -46,21 +48,18 @@ const NewAnnual = () => {
           placeholder="Year"
           onChange={handleChange}
           className="border p-2 rounded w-full"
-          required
         />
         <input
           name="taxpayerName"
           placeholder="Taxpayer Name"
           onChange={handleChange}
           className="border p-2 rounded w-full"
-          required
         />
         <input
           name="taxpayerNIF"
           placeholder="Taxpayer NIF"
           onChange={handleChange}
           className="border p-2 rounded w-full"
-          required
         />
         <input
           name="spouseName"
@@ -79,21 +78,18 @@ const NewAnnual = () => {
           placeholder="Marital Status"
           onChange={handleChange}
           className="border p-2 rounded w-full"
-          required
         />
         <input
           name="address"
           placeholder="Address"
           onChange={handleChange}
           className="border p-2 rounded w-full"
-          required
         />
         <input
           name="autonomousCommunity"
           placeholder="Autonomous Community"
           onChange={handleChange}
           className="border p-2 rounded w-full"
-          required
         />
         <input
           name="incomeWork"
@@ -121,7 +117,9 @@ const NewAnnual = () => {
         />
         <div className="flex gap-2">
           <ButtonPrimary type="submit">Save</ButtonPrimary>
-          <ButtonSecondary onClick={handleCancel}>Cancel</ButtonSecondary>
+          <Link to="/taxes">
+            <ButtonSecondary>Cancel</ButtonSecondary>
+          </Link>
         </div>
       </form>
     </section>

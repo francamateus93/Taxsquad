@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../../services/data/Api";
 import ButtonPrimary from "../../components/buttons/ButtonPrimary";
 import ButtonSecondary from "../../components/buttons/ButtonSecondary";
@@ -29,7 +29,9 @@ const NewQuarterly = () => {
     navigate("/taxes");
   };
 
-  const handleCancel = () => navigate("/taxes");
+  const handleCancel = () => {
+    navigate("/taxes");
+  };
 
   return (
     <section className="container mx-auto p-8">
@@ -40,35 +42,30 @@ const NewQuarterly = () => {
           placeholder="Year"
           onChange={handleChange}
           className="border p-2 rounded w-full"
-          required
         />
         <input
           name="quarter"
           placeholder="Quarter (e.g., Q1)"
           onChange={handleChange}
           className="border p-2 rounded w-full"
-          required
         />
         <input
           name="income"
           placeholder="Total Income"
           onChange={handleChange}
           className="border p-2 rounded w-full"
-          required
         />
         <input
           name="deductibleExpenses"
           placeholder="Deductible Expenses"
           onChange={handleChange}
           className="border p-2 rounded w-full"
-          required
         />
         <input
           name="netIncome"
           placeholder="Net Income"
           onChange={handleChange}
           className="border p-2 rounded w-full"
-          required
         />
         <input
           name="previousPayments"
@@ -89,8 +86,10 @@ const NewQuarterly = () => {
           className="border p-2 rounded w-full"
         />
         <div className="flex gap-2">
-          <ButtonPrimary type="submit">Save</ButtonPrimary>
-          <ButtonSecondary onClick={handleCancel}>Cancel</ButtonSecondary>
+          <ButtonPrimary type="submit">Submit</ButtonPrimary>
+          <Link to="/taxes">
+            <ButtonSecondary onClick={handleCancel}>Cancel</ButtonSecondary>
+          </Link>
         </div>
       </form>
     </section>

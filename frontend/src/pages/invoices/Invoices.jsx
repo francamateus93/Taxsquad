@@ -3,8 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { setInvoices, setLoading, setError } from "../../store/invoicesSlice";
 import { Link } from "react-router-dom";
 import api from "../../services/data/Api";
-import ButtonPrimary from "../../components/buttons/ButtonPrimary";
-import ButtonSecondary from "../../components/buttons/ButtonSecondary";
 
 const Invoices = () => {
   const dispatch = useDispatch();

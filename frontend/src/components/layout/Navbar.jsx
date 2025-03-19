@@ -10,6 +10,7 @@ import Logo from "../../assets/logo/Logo_TaxSquad.png";
 import Button from "../buttons/Button.jsx";
 import Icon from "../../assets/icon-perfil.png";
 import ButtonSecondary from "../buttons/ButtonSecondary.jsx";
+import { FaSignOutAlt } from "react-icons/fa";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -99,19 +100,20 @@ const Navbar = () => {
           ) : (
             <div className="flex items-center space-x-4">
               <Link to="/profile">
-                {/* <FaUserCircle className="text-2xl text-emerald-500 hover:text-emerald-600 hover:scale-110 cursor-pointer transition duration-200" /> */}
                 <img
                   src={Icon}
                   alt="icon profile"
-                  className="w-11 hover:scale-120 transition duration-200"
+                  className="w-9 hover:scale-120 transition duration-200"
                 />
               </Link>
-              <button
-                className="text-sm px-4 py-2 text-emerald-600 bg-emerald-50 rounded hover:bg-red-200 hover:text-red-500 transition duration-200"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
+              <div className="flex gap-2 items-center justify-center">
+                <FaSignOutAlt
+                  className="text-2xl hover:text-red-600"
+                  onClick={handleLogout}
+                  alt="logout"
+                  title="Logout"
+                />
+              </div>
             </div>
           )}
         </div>
@@ -119,7 +121,7 @@ const Navbar = () => {
         {/* Toggle */}
         <button className="px-4 md:hidden" onClick={() => setIsOpen(!isOpen)}>
           <svg
-            className="w-10 h-10"
+            className="w-10 h-10 rounded-lg"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >
@@ -198,7 +200,6 @@ const Navbar = () => {
                     className="rounded-lg hover:bg-emerald-200 transition duration-200 flex items-center space-x-2"
                     onClick={() => setIsOpen(false)}
                   >
-                    {/* <FaUserCircle className="text-xl" /> */}
                     <img src={Icon} alt="icon profile" className="w-9" />
                     <span className="font-medium">Profile</span>
                   </Link>
@@ -208,6 +209,7 @@ const Navbar = () => {
                     className="w-full font-medium rounded-lg hover:bg-red-100 transition duration-200 flex items-center space-x-2 p-2"
                     onClick={handleLogout}
                   >
+                    <FaSignOutAlt className="text-lg mr-2" />
                     Logout
                   </button>
                 </li>

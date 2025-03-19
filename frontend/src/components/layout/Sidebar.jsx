@@ -14,7 +14,7 @@ const Sidebar = () => {
   return (
     <>
       {/* Sidebar DESKTOP*/}
-      <aside className="hidden md:flex md:flex-col md:fixed md:top-0 md:left-0 md:h-screen md:w-64 bg-emerald-50 z-20">
+      <aside className="hidden md:flex md:flex-col md:fixed md:top-0 md:left-0 md:h-screen md:w-64 bg-emerald-50 shadow-md z-20">
         <div className="flex items-center justify-between p-4 h-22"></div>
         <nav className="flex-1 p-4">
           <ul className="space-y-3 font-medium">

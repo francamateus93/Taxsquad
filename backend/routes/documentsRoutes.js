@@ -9,10 +9,18 @@ import {
 } from "../controllers/documentsController";
 import { verifyToken } from "../utils/jwtUtils";
 
-router.get("/users/:userId/documents", getDocuments);
-router.post("/users/:userId/documents", createDocument);
-router.post("/users/:userId/documents/:documentId", getDocumentById);
-router.put("/users/:userId/documents/:documentId", updateDocument);
-router.delete("/users/:userId/documents/:documentId", deleteDocument);
+router.get("/users/:userId/documents", verifyToken, getDocuments);
+router.get(
+  "/users/:userId/documents/:documentId",
+  verifyToken,
+  getDocumentById
+);
+router.post("/users/:userId/documents", verifyToken, createDocument);
+router.put("/users/:userId/documents/:documentId", verifyToken, updateDocument);
+router.delete(
+  "/users/:userId/documents/:documentId",
+  verifyToken,
+  deleteDocument
+);
 
 export default router;

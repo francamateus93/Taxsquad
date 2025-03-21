@@ -38,13 +38,14 @@ CREATE TABLE invoices (
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE TABLE tax_documents (
+CREATE TABLE documents (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT,
-  document_type ENUM('quarterly', 'annual'),
+  document_name VARCHAR(100),
   year INT,
-  quarter INT NULL,
+  period INT NULL,
   document_data JSON,
+  document_type ENUM('quarterly', 'annual'),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(id)

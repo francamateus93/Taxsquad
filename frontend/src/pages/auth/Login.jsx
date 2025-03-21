@@ -1,18 +1,20 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { setUser, setError, setLoading } from "../../store/authSlice";
 import {
   loginWithEmail,
   loginWithGoogle,
 } from "../../services/auth/firebaseAuthService.js";
+import { loginUser } from "../../store/slices/authSlice.js";
 import Button from "../../components/buttons/ButtonPrimary.jsx";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { loading, error } = useSelector((state) => state.auth);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -35,6 +37,14 @@ const Login = () => {
     } catch (error) {
       dispatch(setError(error.message));
     }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(loginUser({ email, password }))
+      .unwrap()
+      .then(() => navigate("/dashboard"))
+      .catch((error) => console.error(error));
   };
 
   return (
@@ -66,7 +76,9 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <Button type="submit">Login</Button>
+          <Button type="submit" onClick={handleSubmit} disabled={loading}>
+            Login
+          </Button>
           <button
             type="button"
             className="px-6 py-2 mt-3 bg-gray-200 p-2 text-gray-800 rounded-lg w-full text-xs md:text-sm hover:bg-gray-300"

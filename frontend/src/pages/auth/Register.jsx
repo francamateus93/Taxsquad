@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { setUser, setError, setLoading } from "../../store/authSlice";
+import { registerUser } from "../../store/slices/authSlice.js";
 import { registerWithEmail } from "../../services/auth/firebaseAuthService.js";
 import api from "../../services/data/Api";
 
 const Register = () => {
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { loading, error } = useSelector((state) => state.auth);
   const [form, setForm] = useState({
     first_name: "",
     last_name: "",
@@ -49,8 +49,15 @@ const Register = () => {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(registerUser(form))
+      .unwrap()
+      .then(() => navigate("/dashboard"))
+      .catch((err) => console.error(err));
   };
 
   return (
@@ -206,6 +213,8 @@ const Register = () => {
           <button
             className="col-span-2 bg-emerald-600 text-white px-6 py-2 rounded text-xs md:text-base cursor-pointer hover:bg-emerald-500 font-semibold text-center"
             type="submit"
+            disabled={loading}
+            onClick={handleSubmit}
           >
             Register
           </button>

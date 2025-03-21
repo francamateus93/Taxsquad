@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "../store/store";
-import Navbar from "../components/layout/Navbar.jsx";
+import Navbar from "../components/navbar/Navbar.jsx";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import LandingPage from "../pages/LandingPage";

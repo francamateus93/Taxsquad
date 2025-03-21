@@ -116,7 +116,7 @@ const NewAnnual = () => {
           className="border p-2 rounded w-full"
         />
         <div className="flex gap-2">
-          <ButtonPrimary type="submit">Save</ButtonPrimary>
+          <ButtonPrimary type="submit">Save Tax</ButtonPrimary>
           <Link to="/taxes">
             <ButtonSecondary>Cancel</ButtonSecondary>
           </Link>

@@ -49,13 +49,13 @@ const Navbar = () => {
         </div>
 
         {/* Navigation */}
-        <nav className="items-center md:space-x-10 justify-center hidden md:flex text-sm lg:text-base">
+        <nav className="items-center md:space-x-10 justify-center hidden md:flex text-lg tracking-tight">
           <ul className="flex space-x-8 font-medium">
             <li>
               <Link
                 to="/dashboard"
                 className={`hover:text-emerald-500 hover:font-semibold transition duration-200 ${
-                  isActive("/dashboard") ? "font-semibold text-emerald-600" : ""
+                  isActive("/dashboard") ? "font-semibold text-emerald-500" : ""
                 }`}
               >
                 Dashboard
@@ -65,7 +65,7 @@ const Navbar = () => {
               <Link
                 to="/invoices"
                 className={`hover:text-emerald-500 hover:font-semibold transition duration-200 ${
-                  isActive("/invoices") ? "font-semibold text-emerald-600" : ""
+                  isActive("/invoices") ? "font-semibold text-emerald-500" : ""
                 }`}
               >
                 Invoices
@@ -75,7 +75,7 @@ const Navbar = () => {
               <Link
                 to="/taxes"
                 className={`hover:text-emerald-500 hover:font-semibold transition duration-200 ${
-                  isActive("/taxes") ? "font-semibold text-emerald-600" : ""
+                  isActive("/taxes") ? "font-semibold text-emerald-500" : ""
                 }`}
               >
                 Taxes
@@ -85,7 +85,7 @@ const Navbar = () => {
               <Link
                 to="/documents"
                 className={`hover:text-emerald-500 hover:font-semibold transition duration-200 ${
-                  isActive("/documents") ? "font-semibold text-emerald-600" : ""
+                  isActive("/documents") ? "font-semibold text-emerald-500" : ""
                 }`}
               >
                 Documents

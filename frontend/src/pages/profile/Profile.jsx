@@ -116,7 +116,7 @@ const Profile = () => {
   return (
     <section className="container p-10 md:py-12 md:px-20">
       <div className="max-w-3xl mx-auto bg-white rounded-lg">
-        <h2 className="text-2xl font-bold mb-8 text-center tracking-tight">
+        <h2 className="text-2xl font-bold mb-8 text-center tracking-tighter">
           Personal information
         </h2>
 
@@ -138,17 +138,17 @@ const Profile = () => {
           ))}
         </div>
 
-        <div className="flex justify-between space-x-2 mt-6">
+        <div className="grid grid-cols-1 gap-4 lg:flex md:justify-between space-x-2 mt-6">
           <Button onClick={handleSave}>Save Changes</Button>
-          <ButtonSecondary onClick={handleEmailChange}>
-            Change Email
-          </ButtonSecondary>
           <ButtonSecondary onClick={handlePasswordReset}>
             Change Password
           </ButtonSecondary>
-          <ButtonSecondary onClick={handleDeleteAccount}>
+          <button
+            onClick={handleDeleteAccount}
+            className="px-6 py-2 text-red-600 bg-red-50 rounded-lg hover:bg-red-200 transition duration-200 cursor-pointer"
+          >
             Delete Account
-          </ButtonSecondary>
+          </button>
         </div>
       </div>
     </section>

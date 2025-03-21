@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Button from "../../components/buttons/ButtonPrimary";
+import ButtonPrimary from "../../components/buttons/ButtonPrimary";
 
 const TaxesCard = ({ title, date, deadline, documentType }) => {
   const routesMap = {
@@ -11,7 +11,7 @@ const TaxesCard = ({ title, date, deadline, documentType }) => {
   const route = routesMap[documentType];
 
   const handleViewDocuments = () => {
-    navigate(`/documents?type=${documentType}`);
+    navigate("/documents");
   };
 
   return (
@@ -27,15 +27,14 @@ const TaxesCard = ({ title, date, deadline, documentType }) => {
       </div>
       <div className="flex justify-center space-x-4">
         <Link to={route}>
-          <Button>Create New Tax</Button>
+          <ButtonPrimary>Create New Tax</ButtonPrimary>
         </Link>
 
-        <button
-          onClick={handleViewDocuments}
-          className="px-6 py-2 bg-white rounded-lg text-emerald-600 font-semibold transition duration-200 cursor-pointer leading-5"
-        >
-          View Submitted Taxes
-        </button>
+        <Link to="/documents">
+          <button className="px-6 py-2 bg-white rounded-lg text-emerald-600 font-semibold transition duration-200 cursor-pointer leading-5">
+            View Submitted Taxes
+          </button>
+        </Link>
       </div>
     </div>
   );

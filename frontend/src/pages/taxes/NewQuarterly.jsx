@@ -86,7 +86,7 @@ const NewQuarterly = () => {
           className="border p-2 rounded w-full"
         />
         <div className="flex gap-2">
-          <ButtonPrimary type="submit">Submit</ButtonPrimary>
+          <ButtonPrimary type="submit">Save Tax</ButtonPrimary>
           <Link to="/taxes">
             <ButtonSecondary onClick={handleCancel}>Cancel</ButtonSecondary>
           </Link>

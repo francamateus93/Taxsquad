@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { setUser, setError, setLoading } from "../../store/authSlice";
-import {
-  loginWithEmail,
-  loginWithGoogle,
-} from "../../services/auth/firebaseAuthService.js";
 import { loginUser } from "../../store/slices/authSlice.js";
 import Button from "../../components/buttons/ButtonPrimary.jsx";
+// import { setUser, setError, setLoading } from "../../store/slices/authSlice";
+// import {
+//   loginWithEmail,
+//   loginWithGoogle,
+// } from "../../services/auth/firebaseAuthService.js";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -16,28 +16,28 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const { loading, error } = useSelector((state) => state.auth);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const firebaseUser = await loginWithEmail(email, password);
-      const { uid, email: userEmail, displayName } = firebaseUser || {};
-      dispatch(setUser({ uid, email: userEmail, displayName }));
-      navigate("/dashboard");
-    } catch (error) {
-      dispatch(setError(error.message));
-    }
-  };
+  // const handleLogin = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const firebaseUser = await loginWithEmail(email, password);
+  //     const { uid, email: userEmail, displayName } = firebaseUser || {};
+  //     dispatch(setUser({ uid, email: userEmail, displayName }));
+  //     navigate("/dashboard");
+  //   } catch (error) {
+  //     dispatch(setError(error.message));
+  //   }
+  // };
 
-  const handleGoogleLogin = async () => {
-    try {
-      const firebaseUser = await loginWithGoogle(email, password);
-      const { uid, email: userEmail, displayName } = firebaseUser || {};
-      dispatch(setUser({ uid, email: userEmail, displayName }));
-      navigate("/dashboard");
-    } catch (error) {
-      dispatch(setError(error.message));
-    }
-  };
+  // const handleGoogleLogin = async () => {
+  //   try {
+  //     const firebaseUser = await loginWithGoogle(email, password);
+  //     const { uid, email: userEmail, displayName } = firebaseUser || {};
+  //     dispatch(setUser({ uid, email: userEmail, displayName }));
+  //     navigate("/dashboard");
+  //   } catch (error) {
+  //     dispatch(setError(error.message));
+  //   }
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -57,7 +57,7 @@ const Login = () => {
           Enter your email and password to sign in!
         </p>
         <form
-          onSubmit={handleLogin}
+          onSubmit={handleSubmit}
           className="flex flex-col text-xs md:text-sm"
         >
           <input
@@ -76,7 +76,7 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <Button type="submit" onClick={handleSubmit} disabled={loading}>
+          <Button type="submit" disabled={loading}>
             Login
           </Button>
           <button
@@ -86,6 +86,7 @@ const Login = () => {
           >
             Login with Google
           </button>
+          {error && <p>{error}</p>}
         </form>
         <p className="text-xs md:text-sm text-gray-600 mt-6">
           Don't have an account?{" "}

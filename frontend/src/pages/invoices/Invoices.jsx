@@ -1,55 +1,57 @@
-import React, { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setInvoices, setLoading, setError } from "../../store/invoicesSlice";
+import { fetchInvoicesByType } from "../../store/slices/invoicesSlice";
 import { Link } from "react-router-dom";
-import api from "../../services/data/Api";
+// import api from "../../services/data/Api";
 
 const Invoices = () => {
   const dispatch = useDispatch();
+  const userId = useSelector((state) => state.auth.user.id);
   const { invoices, loading, error } = useSelector((state) => state.invoices);
-  const [invoiceType, setInvoiceType] = useState("income");
-  const [dateFilter, setDateFilter] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 25;
+  const [type, setType] = useState("income");
+
+  // useEffect(() => {
+  //   const fetchInvoices = async () => {
+  //     dispatch(setLoading(true));
+  //     try {
+  //       const { data } = await api.get(`/invoices/${invoiceType}`);
+  //       dispatch(setInvoices(data));
+  //     } catch (err) {
+  //       dispatch(setError(err.message));
+  //     } finally {
+  //       dispatch(setLoading(false));
+  //     }
+  //   };
+  //   fetchInvoices();
+  // }, [dispatch, invoiceType]);
+
+  // // Filter
+  // const filteredInvoices = invoices
+  //   .filter((inv) => inv.type === invoiceType)
+  //   .filter((inv) => {
+  //     if (!dateFilter) return true;
+  //     return inv.date >= dateFilter;
+  //   });
+
+  // // Pagination
+  // const paginatedInvoices = useSelector((state) =>
+  //   state.invoices.invoices.slice(0, currentPage * pageSize)
+  // );
+
+  // const canLoadMore = paginatedInvoices.length < invoices.length;
+  // const handleLoadMore = () => {
+  //   setCurrentPage((prev) => prev + 1);
+  // };
+
+  // const handleInvoiceClick = (invoice) => {
+  //   console.log("Clicked invoice", invoice);
+  //   // Exibir modal de opções: Edit, Duplicate, Download, Delete...
+  //   // ou navegar para uma tela de detalhes.
+  // };
 
   useEffect(() => {
-    const fetchInvoices = async () => {
-      dispatch(setLoading(true));
-      try {
-        const { data } = await api.get(`/invoices/${invoiceType}`);
-        dispatch(setInvoices(data));
-      } catch (err) {
-        dispatch(setError(err.message));
-      } finally {
-        dispatch(setLoading(false));
-      }
-    };
-    fetchInvoices();
-  }, [dispatch, invoiceType]);
-
-  // Filter
-  const filteredInvoices = invoices
-    .filter((inv) => inv.type === invoiceType)
-    .filter((inv) => {
-      if (!dateFilter) return true;
-      return inv.date >= dateFilter;
-    });
-
-  // Pagination
-  const paginatedInvoices = useSelector((state) =>
-    state.invoices.invoices.slice(0, currentPage * pageSize)
-  );
-
-  const canLoadMore = paginatedInvoices.length < invoices.length;
-  const handleLoadMore = () => {
-    setCurrentPage((prev) => prev + 1);
-  };
-
-  const handleInvoiceClick = (invoice) => {
-    console.log("Clicked invoice", invoice);
-    // Exibir modal de opções: Edit, Duplicate, Download, Delete...
-    // ou navegar para uma tela de detalhes.
-  };
+    dispatch(fetchInvoicesByType({ type, userId }));
+  }, [dispatch, type, userId]);
 
   return (
     <section className="container mx-auto p-10 lg:py-12 lg:px-20 space-y-6">
@@ -73,10 +75,7 @@ const Invoices = () => {
       {/* Buttons Income / Expenses */}
       <div className="flex justify-start space-x-2 mb-10">
         <button
-          onClick={() => {
-            setInvoiceType("income");
-            setCurrentPage(1);
-          }}
+          onClick={() => setType("income")}
           className={`px-6 py-2 rounded-lg cursor-pointer tracking-tighter text-center ${
             invoiceType === "income"
               ? "bg-emerald-200 w-40 h-14 text-2xl font-semibold hover:bg-emerald-300 text-emerald-600 transition duration-200"
@@ -86,10 +85,7 @@ const Invoices = () => {
           Income
         </button>
         <button
-          onClick={() => {
-            setInvoiceType("expense");
-            setCurrentPage(1);
-          }}
+          onClick={() => setType("expense")}
           className={`px-4 py-2 rounded-lg cursor-pointer tracking-tighter text-center ${
             invoiceType === "expense"
               ? "bg-emerald-200 w-40 h-14 text-2xl font-semibold hover:bg-emerald-300 text-emerald-600 transition duration-200"
@@ -127,7 +123,7 @@ const Invoices = () => {
         {!loading && !error && paginatedInvoices.length > 0 && (
           <div className="space-y-2 bg-gray-200">
             <h2>Invoices</h2>
-            {paginatedInvoices.map((invoice) => (
+            {invoices.map((invoice) => (
               <div
                 key={invoice.id}
                 onClick={() => handleInvoiceClick(invoice)}
@@ -145,14 +141,14 @@ const Invoices = () => {
         )}
       </div>
       {/* Paginação */}
-      {canLoadMore && (
+      {/* {canLoadMore && (
         <button
           onClick={handleLoadMore}
           className="mt-4 px-4 py-2 bg-gray-300 rounded"
         >
           Load More
         </button>
-      )}
+      )} */}
     </section>
   );
 };

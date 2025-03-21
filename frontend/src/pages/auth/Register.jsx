@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { setUser, setError, setLoading } from "../../store/authSlice";
 import { registerUser } from "../../store/slices/authSlice.js";
-import { registerWithEmail } from "../../services/auth/firebaseAuthService.js";
-import api from "../../services/data/Api";
+// import { setUser, setError, setLoading } from "../../store/slices/authSlice.js";
+// import { registerWithEmail } from "../../services/auth/firebaseAuthService.js";
+// import api from "../../services/data/Api";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -22,31 +22,31 @@ const Register = () => {
     city: "",
   });
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    dispatch(setLoading(true));
-    try {
-      const firebaseUser = await registerWithEmail(email, password);
-      await api.post("/users", {
-        first_name: form.first_name,
-        last_name: form.last_name,
-        email: form.email,
-        password: form.password,
-        date_of_birth: form.date_of_birth,
-        identification_number: form.identification_number,
-        phone: form.phone,
-        address: form.address,
-        city: form.city,
-        uid: firebaseUser.uid,
-      });
-      dispatch(setUser(firebaseUser));
-      navigate("/dashboard");
-    } catch (error) {
-      dispatch(setError(error.message));
-    } finally {
-      dispatch(setLoading(false));
-    }
-  };
+  // const handleRegister = async (e) => {
+  //   e.preventDefault();
+  //   dispatch(setLoading(true));
+  //   try {
+  //     const firebaseUser = await registerWithEmail(email, password);
+  //     await api.post("/users", {
+  //       first_name: form.first_name,
+  //       last_name: form.last_name,
+  //       email: form.email,
+  //       password: form.password,
+  //       date_of_birth: form.date_of_birth,
+  //       identification_number: form.identification_number,
+  //       phone: form.phone,
+  //       address: form.address,
+  //       city: form.city,
+  //       uid: firebaseUser.uid,
+  //     });
+  //     dispatch(setUser(firebaseUser));
+  //     navigate("/dashboard");
+  //   } catch (error) {
+  //     dispatch(setError(error.message));
+  //   } finally {
+  //     dispatch(setLoading(false));
+  //   }
+  // };
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -67,7 +67,7 @@ const Register = () => {
           Register
         </h2>
         <form
-          onSubmit={handleRegister}
+          onSubmit={handleSubmit}
           className="flex flex-col md:grid md:grid-cols-2 gap-2 text-start text-xs md:text-sm"
         >
           <div>
@@ -214,10 +214,10 @@ const Register = () => {
             className="col-span-2 bg-emerald-600 text-white px-6 py-2 rounded text-xs md:text-base cursor-pointer hover:bg-emerald-500 font-semibold text-center"
             type="submit"
             disabled={loading}
-            onClick={handleSubmit}
           >
             Register
           </button>
+          {error && <p>{error}</p>}
         </form>
         <p className="text-xs md:text-sm text-gray-600 mt-6">
           Already have an account?{" "}

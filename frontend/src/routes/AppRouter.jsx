@@ -16,8 +16,8 @@ import Profile from "../pages/profile/Profile.jsx";
 import PrivateRoute from "./PrivateRoute";
 import NotFound from "../pages/NotFound";
 import AuthListener from "../components/auth/AuthListener.jsx";
-import NewAnnual from "../pages/taxes/NewAnnual.jsx";
-import NewQuarterly from "../pages/taxes/NewQuarterly.jsx";
+import NewAnnual from "../pages/documents/NewAnnual.jsx";
+import NewQuarterly from "../pages/documents/NewQuarterly.jsx";
 
 const AppRouter = () => {
   return (

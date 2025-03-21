@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addInvoice } from "../../store/invoicesSlice";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createInvoice } from "../../store/slices/invoicesSlice";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/data/Api";
 import Button from "../../components/buttons/ButtonPrimary";
@@ -9,7 +9,7 @@ import ButtonSecondary from "../../components/buttons/ButtonSecondary";
 const NewInvoiceIncome = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const userId = useSelector((state) => state.auth.user.id);
   const [form, setForm] = useState({
     number: "",
     invoice_type: "income",
@@ -30,8 +30,20 @@ const NewInvoiceIncome = () => {
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(
+      createInvoice({ userId, invoiceData: { ...form, invoice_type: type } })
+    )
+      .unwrap()
+      .then(() => navigate("/invoices"));
+  };
+
+  const handleCancel = () => {
+    navigate("/invoices");
   };
 
   // Calcular total
@@ -50,22 +62,18 @@ const NewInvoiceIncome = () => {
   //   }
   // };
 
-  const handleSave = (e) => {
-    e.preventDefault();
+  // const handleSave = (e) => {
+  //   e.preventDefault();
 
-    const newInvoice = {
-      id: Date.now(),
-      type: "income",
-      ...form,
-      totalAmount: total,
-    };
-    dispatch(addInvoice(newInvoice));
-    navigate("/invoices");
-  };
-
-  const handleCancel = () => {
-    navigate("/invoices");
-  };
+  //   const newInvoice = {
+  //     id: Date.now(),
+  //     type: "income",
+  //     ...form,
+  //     totalAmount: total,
+  //   };
+  //   dispatch(addInvoice(newInvoice));
+  //   navigate("/invoices");
+  // };
 
   return (
     <section className="container mx-auto p-12">
@@ -74,7 +82,7 @@ const NewInvoiceIncome = () => {
           New Expense Invoice
         </h2>
         <form
-          onSubmit={handleSave}
+          onSubmit={handleSubmit}
           className="grid md:grid-cols-2 gap-x-8 gap-y-4 text-sm"
         >
           {/* Left column */}

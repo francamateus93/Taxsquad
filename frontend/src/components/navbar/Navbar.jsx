@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { logout, setUser } from "../../store/authSlice.js";
+import { logout, setUser } from "../../store/slices/authSlice.js";
 import {
   logoutUser,
   getCurrentUser,
@@ -190,7 +190,7 @@ const Navbar = () => {
             </ul>
 
             {!user ? (
-              <ul className="flex flex-col gap-2 mt-2 text-end">
+              <ul className="flex flex-col gap-2 mt-4 text-start">
                 <li className="hover:text-emerald-500 hover:font-semibold transition duration-200">
                   <Link
                     to="/register"
@@ -203,7 +203,7 @@ const Navbar = () => {
                 <li className="hover:text-emerald-500 hover:font-semibold transition duration-200">
                   <Link
                     to="/login"
-                    className="py-2 font-semibold"
+                    className="py-2 font-semibold text-start"
                     onClick={() => setIsOpen(false)}
                   >
                     Login

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addInvoice } from "../../store/invoicesSlice";
+import { createInvoice } from "../../store/slices/invoicesSlice";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/buttons/ButtonPrimary";
 import ButtonSecondary from "../../components/buttons/ButtonSecondary";
@@ -44,7 +44,7 @@ const NewInvoiceExpense = () => {
       ...form,
       totalAmount: total,
     };
-    dispatch(addInvoice(newInvoice));
+    dispatch(createInvoice(newInvoice));
     navigate("/invoices");
   };
 

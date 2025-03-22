@@ -42,25 +42,32 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const [rows] = await db.execute(`SELECT * FROM users WHERE email = ?`, [
-      email,
-    ]);
-    if (rows.length === 0) {
-      return res.status(401).json({ error: "User not found" });
-    }
-    const user = rows[0];
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      return res.status(401).json({ error: "Your Password is incorrect" });
-    }
-    const token = createToken(user.id);
-    res.json({ message: "Login successful", token, user });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  const userId = req.userId;
+  const [user] = await db.execute(`SELECT * FROM users WHERE id = ?`, [userId]);
+  if (!user.length) return res.status(404).json({ error: "User not found" });
+  res.json(user[0]);
 };
+
+// export const login = async (req, res) => {
+//   const { email, password } = req.body;
+//   try {
+//     const [rows] = await db.execute(`SELECT * FROM users WHERE email = ?`, [
+//       email,
+//     ]);
+//     if (rows.length === 0) {
+//       return res.status(401).json({ error: "User not found" });
+//     }
+//     const user = rows[0];
+//     const isPasswordValid = await bcrypt.compare(password, user.password);
+//     if (!isPasswordValid) {
+//       return res.status(401).json({ error: "Your Password is incorrect" });
+//     }
+//     const token = createToken(user.id);
+//     res.json({ message: "Login successful", token, user });
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// };
 
 export const updatedUser = async (req, res) => {
   const { userId } = req.params;

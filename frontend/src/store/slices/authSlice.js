@@ -3,10 +3,10 @@ import api from "../../services/data/Api";
 
 // Async Thunks
 export const loginUser = createAsyncThunk(
-  "auth/loginUser",
+  "users/loginUser",
   async (credentials, thunkAPI) => {
     try {
-      const response = await api.post("/auth/login", credentials);
+      const response = await api.post("/login", credentials);
       localStorage.setItem("token", response.data.token);
       return response.data.user;
     } catch (error) {
@@ -16,10 +16,10 @@ export const loginUser = createAsyncThunk(
 );
 
 export const registerUser = createAsyncThunk(
-  "auth/registerUser",
+  "users/registerUser",
   async (userData, thunkAPI) => {
     try {
-      const response = await api.post("/auth/register", userData);
+      const response = await api.post("/register", userData);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -28,10 +28,10 @@ export const registerUser = createAsyncThunk(
 );
 
 export const updateUser = createAsyncThunk(
-  "auth/updateUser",
+  "users/updateUser",
   async ({ userId, userData }, thunkAPI) => {
     try {
-      const response = await api.put(`/auth/users/${userId}`, userData);
+      const response = await api.put(`/users/${userId}`, userData);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -40,10 +40,10 @@ export const updateUser = createAsyncThunk(
 );
 
 export const deleteUser = createAsyncThunk(
-  "auth/deleteUser",
+  "users/deleteUser",
   async (userId, thunkAPI) => {
     try {
-      const response = await api.delete(`/auth/users/${userId}`);
+      const response = await api.delete(`/users/${userId}`);
       localStorage.removeItem("token");
       return response.data;
     } catch (error) {

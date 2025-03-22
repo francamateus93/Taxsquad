@@ -1,28 +1,28 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../services/auth/firebaseAuthService";
 import { setUser, logout } from "../../store/slices/authSlice";
+import api from "../../services/data/Api";
+// import { onAuthStateChanged } from "firebase/auth";
+// import { auth } from "../../services/auth/firebaseAuthService";
 
 const AuthListener = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      if (firebaseUser) {
-        dispatch(
-          setUser({
-            id: firebaseUser.uid,
-            email: firebaseUser.email,
-            displayName: firebaseUser.displayName,
-          })
-        );
-      } else {
-        dispatch(logout());
+    const loadUser = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const { data } = await api.get("/users/me");
+          dispatch(setUser(data));
+        } catch (err) {
+          console.error(err);
+          dispatch(logout());
+        }
       }
-    });
+    };
 
-    return () => unsubscribe();
+    loadUser();
   }, [dispatch]);
 
   return null;

@@ -7,21 +7,15 @@ const AuthListener = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const loadUser = async () => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        try {
-          const { data } = await api.get("/users/me");
-          dispatch(setUser(data));
-        } catch (err) {
-          console.error(err);
-          dispatch(logout());
-        }
-      }
-    };
+    const token = localStorage.getItem("token");
+    const user = localStorage.getItem("user");
 
-    loadUser();
+    if (token && user) {
+      dispatch(setUser(JSON.parse(user)));
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    } else {
+      dispatch(logout());
+    }
   }, [dispatch]);
 
   return null;

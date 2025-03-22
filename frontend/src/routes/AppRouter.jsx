@@ -1,6 +1,10 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Provider } from "react-redux";
-import { store } from "../store/store";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { useSelector } from "react-redux";
 import Navbar from "../components/navbar/Navbar.jsx";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
@@ -20,111 +24,155 @@ import NewAnnual from "../pages/documents/NewAnnual.jsx";
 import NewQuarterly from "../pages/documents/NewQuarterly.jsx";
 
 const AppRouter = () => {
+  const { user } = useSelector((state) => state.auth);
+
   return (
-    <Provider store={store}>
+    <>
       <AuthListener />
       <Router>
         <Navbar />
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route
+            path="/login"
+            element={!user ? <Login /> : <Navigate to="/dashboard" />}
+          />
+          <Route
+            path="/register"
+            element={!user ? <Register /> : <Navigate to="/dashboard" />}
+          />
           <Route path="*" element={<NotFound />} />
 
           {/* Private Routes */}
           <Route
             path="/dashboard"
             element={
-              <PrivateRoute>
-                <DashboardLayout>
-                  <DashboardPage />
-                </DashboardLayout>
-              </PrivateRoute>
+              user ? (
+                <PrivateRoute>
+                  <DashboardLayout>
+                    <DashboardPage />
+                  </DashboardLayout>
+                </PrivateRoute>
+              ) : (
+                <Navigate to="/login" />
+              )
             }
           />
           <Route
             path="/invoices"
             element={
-              <PrivateRoute>
-                <DashboardLayout>
-                  <Invoices />
-                </DashboardLayout>
-              </PrivateRoute>
+              user ? (
+                <PrivateRoute>
+                  <DashboardLayout>
+                    <Invoices />
+                  </DashboardLayout>
+                </PrivateRoute>
+              ) : (
+                <Navigate to="/login" />
+              )
             }
           />
           <Route
             path="/invoices/new-income"
             element={
-              <PrivateRoute>
-                <DashboardLayout>
-                  <NewInvoiceIncome />
-                </DashboardLayout>
-              </PrivateRoute>
+              user ? (
+                <PrivateRoute>
+                  <DashboardLayout>
+                    <NewInvoiceIncome />
+                  </DashboardLayout>
+                </PrivateRoute>
+              ) : (
+                <Navigate to="/login" />
+              )
             }
           />
           <Route
             path="/invoices/new-expense"
             element={
-              <PrivateRoute>
-                <DashboardLayout>
-                  <NewInvoiceExpense />
-                </DashboardLayout>
-              </PrivateRoute>
+              user ? (
+                <PrivateRoute>
+                  <DashboardLayout>
+                    <NewInvoiceExpense />
+                  </DashboardLayout>
+                </PrivateRoute>
+              ) : (
+                <Navigate to="/login" />
+              )
             }
           />
           <Route
             path="/taxes"
             element={
-              <PrivateRoute>
-                <DashboardLayout>
-                  <Taxes />
-                </DashboardLayout>
-              </PrivateRoute>
+              user ? (
+                <PrivateRoute>
+                  <DashboardLayout>
+                    <Taxes />
+                  </DashboardLayout>
+                </PrivateRoute>
+              ) : (
+                <Navigate to="/login" />
+              )
             }
           />
           <Route
             path="/taxes/new-annual"
             element={
-              <PrivateRoute>
-                <DashboardLayout>
-                  <NewAnnual />
-                </DashboardLayout>
-              </PrivateRoute>
+              user ? (
+                <PrivateRoute>
+                  <DashboardLayout>
+                    <NewAnnual />
+                  </DashboardLayout>
+                </PrivateRoute>
+              ) : (
+                <Navigate to="/login" />
+              )
             }
           />
           <Route
             path="/taxes/new-quarterly"
             element={
-              <PrivateRoute>
-                <DashboardLayout>
-                  <NewQuarterly />
-                </DashboardLayout>
-              </PrivateRoute>
+              user ? (
+                <PrivateRoute>
+                  <DashboardLayout>
+                    <NewQuarterly />
+                  </DashboardLayout>
+                </PrivateRoute>
+              ) : (
+                <Navigate to="/login" />
+              )
             }
           />
           <Route
             path="/documents"
             element={
-              <PrivateRoute>
-                <DashboardLayout>
-                  <Documents />
-                </DashboardLayout>
-              </PrivateRoute>
+              user ? (
+                <PrivateRoute>
+                  <DashboardLayout>
+                    <Documents />
+                  </DashboardLayout>
+                </PrivateRoute>
+              ) : (
+                <Navigate to="/login" />
+              )
             }
           />
           <Route
             path="/profile"
             element={
-              <PrivateRoute>
-                <DashboardLayout>
-                  <Profile />
-                </DashboardLayout>
-              </PrivateRoute>
+              user ? (
+                <PrivateRoute>
+                  <DashboardLayout>
+                    <Profile />
+                  </DashboardLayout>
+                </PrivateRoute>
+              ) : (
+                <Navigate to="/login" />
+              )
             }
           />
         </Routes>
       </Router>
-    </Provider>
+    </>
   );
 };
 

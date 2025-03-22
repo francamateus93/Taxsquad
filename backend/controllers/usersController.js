@@ -63,17 +63,13 @@ export const register = async (req, res) => {
 };
 
 export const getCurrentUser = async (req, res) => {
-  const { userId } = req.user.id;
-
+  const userId = req.userId;
   try {
     const [rows] = await db.execute(
-      "SELECT id, first_name, last_name, email, phone, address, city, country, date_of_birth, identification_number FROM users WHERE id=?",
+      "SELECT id, first_name, last_name, email FROM users WHERE id=?",
       [userId]
     );
-
-    if (!rows.length) {
-      return res.status(404).json({ error: "User not found" });
-    }
+    if (!rows.length) return res.status(404).json({ error: "User not found" });
 
     res.json(rows[0]);
   } catch (err) {
@@ -127,4 +123,4 @@ export const deletedUser = async (req, res) => {
   }
 };
 
-export default { register, login, updatedUser, deletedUser };
+export default { register, login, getCurrentUser, updatedUser, deletedUser };

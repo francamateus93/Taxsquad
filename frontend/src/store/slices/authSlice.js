@@ -9,6 +9,7 @@ export const loginUser = createAsyncThunk(
       const { token, user } = response.data;
 
       localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       return user;
@@ -26,6 +27,7 @@ export const registerUser = createAsyncThunk(
       const { token, user } = response.data;
 
       localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       return user;
@@ -64,10 +66,14 @@ export const deleteUser = createAsyncThunk(
   }
 );
 
+const userFromStorage = localStorage.getItem("user")
+  ? JSON.parse(localStorage.getItem("user"))
+  : null;
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: null,
+    user: userFromStorage,
     loading: false,
     error: null,
   },
@@ -75,6 +81,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
       delete api.defaults.headers.common["Authorization"];
     },
     setUser: (state, action) => {
@@ -90,22 +97,16 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
+        localStorage.setItem("user", JSON.stringify(action.payload));
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(registerUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
-      })
-      .addCase(registerUser.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
+        localStorage.setItem("user", JSON.stringify(action.payload));
       });
   },
 });

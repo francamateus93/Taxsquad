@@ -12,7 +12,7 @@ const router = Router();
 
 router.post("/login", login);
 router.post("/register", register);
-router.get("/me", verifyToken, getCurrentUser);
+router.get("/current-user", verifyToken, getCurrentUser);
 router.put("/:userId", verifyToken, updatedUser);
 router.delete("/:userId", verifyToken, deletedUser);
 

@@ -25,13 +25,13 @@ const Invoices = () => {
   //   fetchInvoices();
   // }, [dispatch, invoiceType]);
 
-  // // Filter
-  // const filteredInvoices = invoices
-  //   .filter((inv) => inv.type === invoiceType)
-  //   .filter((inv) => {
-  //     if (!dateFilter) return true;
-  //     return inv.date >= dateFilter;
-  //   });
+  // Filter
+  const filteredInvoices = invoices
+    .filter((inv) => inv.type === invoiceType)
+    .filter((inv) => {
+      if (!dateFilter) return true;
+      return inv.date >= dateFilter;
+    });
 
   // // Pagination
   // const paginatedInvoices = useSelector((state) =>

@@ -6,8 +6,8 @@ import {
   getDocumentById,
   updateDocument,
   deleteDocument,
-} from "../controllers/documentsController";
-import { verifyToken } from "../utils/jwtUtils";
+} from "../controllers/documentsController.js";
+import { verifyToken } from "../utils/jwtUtils.js";
 
 router.get("/users/:userId/documents", verifyToken, getDocuments);
 router.get(

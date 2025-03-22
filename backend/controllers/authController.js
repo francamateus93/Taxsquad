@@ -1,4 +1,4 @@
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import db from "../models/db.js";
 import { createToken } from "../utils/jwtUtils.js";
 
@@ -99,7 +99,7 @@ export const updatedUser = async (req, res) => {
   }
 };
 
-export const deleteUser = async (req, res) => {
+export const deletedUser = async (req, res) => {
   const { userId } = req.params;
   try {
     await db.execute(`DELETE FROM users WHERE id=?`, [userId]);
@@ -108,3 +108,5 @@ export const deleteUser = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export default { register, login, updatedUser, deletedUser };

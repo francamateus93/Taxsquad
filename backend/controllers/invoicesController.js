@@ -29,7 +29,7 @@ export const getIncomeInvoices = async (req, res) => {
   }
 };
 
-const getExpenseInvoices = async (req, res) => {
+export const getExpenseInvoices = async (req, res) => {
   const { userId } = req.params;
 
   try {

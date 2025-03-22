@@ -79,13 +79,13 @@ const Login = () => {
           <Button type="submit" disabled={loading}>
             Login
           </Button>
-          <button
+          {/* <button
             type="button"
             className="px-6 py-2 mt-3 bg-gray-200 p-2 text-gray-800 rounded-lg w-full text-xs md:text-sm hover:bg-gray-300"
             onClick={handleGoogleLogin}
           >
             Login with Google
-          </button>
+          </button> */}
           {error && <p>{error}</p>}
         </form>
         <p className="text-xs md:text-sm text-gray-600 mt-6">

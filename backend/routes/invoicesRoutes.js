@@ -7,8 +7,8 @@ import {
   deleteInvoice,
   getIncomeInvoices,
   getExpenseInvoices,
-} from "../controllers/invoicesController";
-import { verifyToken } from "../utils/jwtUtils";
+} from "../controllers/invoicesController.js";
+import { verifyToken } from "../utils/jwtUtils.js";
 
 router.get("/users/:userId/invoices", verifyToken, getInvoices);
 router.get("/users/:userId/invoices/income", verifyToken, getIncomeInvoices);

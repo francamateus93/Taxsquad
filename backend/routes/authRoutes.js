@@ -4,7 +4,8 @@ import {
   login,
   updatedUser,
   deletedUser,
-} from "../controllers/authController";
+} from "../controllers/authController.js";
+import { verifyToken } from "../utils/jwtUtils.js";
 
 const router = Router();
 

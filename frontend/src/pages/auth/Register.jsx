@@ -169,7 +169,7 @@ const Register = () => {
           </div>
           <div>
             <label className="block mb-1 font-semibold tracking-tight text-xs md:text-sm">
-              Adress*
+              Address*
             </label>
             <input
               name="address"

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import api from "../../services/data/Api";
+import api from "../../services/data/Api";
 
 // Async Thunks
 export const loginUser = createAsyncThunk(
@@ -10,7 +10,7 @@ export const loginUser = createAsyncThunk(
       localStorage.setItem("token", response.data.token);
       return response.data.user;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }
   }
 );

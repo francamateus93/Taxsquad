@@ -1,5 +1,4 @@
 import { Router } from "express";
-const router = Router();
 import {
   getDocuments,
   createDocument,
@@ -8,6 +7,8 @@ import {
   deleteDocument,
 } from "../controllers/documentsController.js";
 import { verifyToken } from "../utils/jwtUtils.js";
+
+const router = Router();
 
 router.get("/users/:userId/documents", verifyToken, getDocuments);
 router.get(

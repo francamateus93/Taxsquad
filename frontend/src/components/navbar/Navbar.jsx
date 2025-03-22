@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { logout, setUser } from "../../store/slices/authSlice.js";
+import { logout } from "../../store/slices/authSlice.js";
 import {
   logoutUser,
   getCurrentUser,

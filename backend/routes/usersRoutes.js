@@ -9,8 +9,8 @@ import { verifyToken } from "../utils/jwtUtils.js";
 
 const router = Router();
 
-router.post("/register", verifyToken, register);
 router.post("/login", verifyToken, login);
+router.post("/register", verifyToken, register);
 router.put("/:userId", verifyToken, updatedUser);
 router.delete("/:userId", verifyToken, deletedUser);
 

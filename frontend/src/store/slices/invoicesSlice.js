@@ -10,35 +10,9 @@ export const fetchInvoicesByType = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const fetchIncomeInvoices = createAsyncThunk(
-  "invoices/fetchIncomeInvoices",
-  async (userId, thunkAPI) => {
-    try {
-      const response = await api.get(
-        `/invoices/users/${userId}/invoices/income`
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.error || error.message
       );
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const fetchExpenseInvoices = createAsyncThunk(
-  "invoices/fetchExpenseInvoices",
-  async (userId, thunkAPI) => {
-    try {
-      const response = await api.get(
-        `/invoices/users/${userId}/invoices/expense`
-      );
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
     }
   }
 );
@@ -53,34 +27,40 @@ export const createInvoice = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.error || error.message
+      );
     }
   }
 );
 
 export const updateInvoice = createAsyncThunk(
   "invoices/updateInvoice",
-  async ({ invoiceId, invoiceData }, thunkAPI) => {
+  async ({ userId, invoiceId, invoiceData }, thunkAPI) => {
     try {
       const response = await api.put(
-        `/invoices/invoices/${invoiceId}`,
+        `/invoices/users/${userId}/invoices/${invoiceId}`,
         invoiceData
       );
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.error || error.message
+      );
     }
   }
 );
 
 export const deleteInvoice = createAsyncThunk(
   "invoices/deleteInvoice",
-  async (invoiceId, thunkAPI) => {
+  async ({ userId, invoiceId }, thunkAPI) => {
     try {
-      await api.delete(`/invoices/invoices/${invoiceId}`);
+      await api.delete(`/invoices/users/${userId}/invoices/${invoiceId}`);
       return invoiceId;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.error || error.message
+      );
     }
   }
 );
@@ -107,25 +87,14 @@ const invoicesSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-
-      .addCase(fetchIncomeInvoices.fulfilled, (state, action) => {
-        state.invoices = action.payload;
-      })
-
-      .addCase(fetchExpenseInvoices.fulfilled, (state, action) => {
-        state.invoices = action.payload;
-      })
-
       .addCase(createInvoice.fulfilled, (state, action) => {
         state.invoices.unshift(action.payload);
       })
-
       .addCase(updateInvoice.fulfilled, (state, action) => {
         state.invoices = state.invoices.map((inv) =>
-          inv.id === action.payload.invoiceId ? action.payload : inv
+          inv.id === action.payload.id ? action.payload : inv
         );
       })
-
       .addCase(deleteInvoice.fulfilled, (state, action) => {
         state.invoices = state.invoices.filter(
           (inv) => inv.id !== action.payload

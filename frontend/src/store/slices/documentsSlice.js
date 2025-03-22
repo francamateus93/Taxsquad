@@ -10,7 +10,9 @@ export const fetchDocumentsByType = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.error || error.message
+      );
     }
   }
 );
@@ -24,7 +26,9 @@ export const fetchDocumentById = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.error || error.message
+      );
     }
   }
 );
@@ -39,7 +43,9 @@ export const createDocument = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.error || error.message
+      );
     }
   }
 );
@@ -54,7 +60,9 @@ export const updateDocument = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.error || error.message
+      );
     }
   }
 );
@@ -66,7 +74,9 @@ export const deleteDocument = createAsyncThunk(
       await api.delete(`/documents/users/${userId}/documents/${documentId}`);
       return documentId;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.error || error.message
+      );
     }
   }
 );

@@ -7,7 +7,7 @@ export const getDocuments = async (req, res) => {
 
   try {
     const [documents] = await db.execute(
-      `SELECT * FROM documents WHERE user_id = ? AND type = ? ORDER BY created_at DESC`,
+      `SELECT * FROM documents WHERE user_id=? AND document_type=? ORDER BY created_at DESC`,
       [userId, type]
     );
     res.status(200).json(documents);
@@ -18,13 +18,11 @@ export const getDocuments = async (req, res) => {
 
 export const getDocumentById = async (req, res) => {
   const { userId, documentId } = req.params;
-
   try {
     const [document] = await db.execute(
-      `SELECT * FROM documents WHERE user_id = ? AND id = ?`,
+      `SELECT * FROM documents WHERE user_id=? AND id=?`,
       [userId, documentId]
     );
-
     if (document.length === 0)
       return res.status(404).json({ message: "Document not found" });
 
@@ -36,20 +34,27 @@ export const getDocumentById = async (req, res) => {
 
 export const createDocument = async (req, res) => {
   const { userId } = req.params;
-  const { document_name, year, period, data, document_type } = req.body;
+  const { document_name, year, period, document_data, document_type } =
+    req.body;
 
   try {
     const [result] = await db.execute(
-      `INSERT INTO documents 
-      (user_id, document_name, year, period, document_data, document_type)
-      VALUES (?, ?, ?, ?, ?, ?)`,
-      [userId, document_name, year, period, JSON.stringify(data), document_type]
+      `INSERT INTO documents (user_id, document_name, year, period, document_data, document_type) VALUES (?, ?, ?, ?, ?, ?)`,
+      [
+        userId,
+        document_name,
+        year,
+        period,
+        JSON.stringify(document_data),
+        document_type,
+      ]
     );
-
-    res.status(201).json({
-      message: "Document created successfully",
-      documentId: result.insertId,
-    });
+    res
+      .status(201)
+      .json({
+        message: "Document created successfully",
+        documentId: result.insertId,
+      });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

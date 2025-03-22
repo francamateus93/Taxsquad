@@ -2,14 +2,12 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../../store/slices/authSlice.js";
-// import { setUser, setError, setLoading } from "../../store/slices/authSlice.js";
-// import { registerWithEmail } from "../../services/auth/firebaseAuthService.js";
-// import api from "../../services/data/Api";
 
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading, error } = useSelector((state) => state.auth);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [form, setForm] = useState({
     first_name: "",
     last_name: "",
@@ -21,32 +19,6 @@ const Register = () => {
     address: "",
     city: "",
   });
-
-  // const handleRegister = async (e) => {
-  //   e.preventDefault();
-  //   dispatch(setLoading(true));
-  //   try {
-  //     const firebaseUser = await registerWithEmail(email, password);
-  //     await api.post("/users", {
-  //       first_name: form.first_name,
-  //       last_name: form.last_name,
-  //       email: form.email,
-  //       password: form.password,
-  //       date_of_birth: form.date_of_birth,
-  //       identification_number: form.identification_number,
-  //       phone: form.phone,
-  //       address: form.address,
-  //       city: form.city,
-  //       uid: firebaseUser.uid,
-  //     });
-  //     dispatch(setUser(firebaseUser));
-  //     navigate("/dashboard");
-  //   } catch (error) {
-  //     dispatch(setError(error.message));
-  //   } finally {
-  //     dispatch(setLoading(false));
-  //   }
-  // };
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -196,7 +168,12 @@ const Register = () => {
             />
           </div>
           <div className="col-span-2 flex gap-2 items-center my-3">
-            <input type="checkbox" name="checkbox" className="" required />
+            <input
+              type="checkbox"
+              checked={acceptedTerms}
+              onChange={(e) => setAcceptedTerms(e.target.checked)}
+              required
+            />
             <span>
               I agree to the{" "}
               <span className="text-emerald-500 font-semibold cursor-pointer">
@@ -209,15 +186,23 @@ const Register = () => {
               .
             </span>
           </div>
-
           <button
-            className="col-span-2 bg-emerald-600 text-white px-6 py-2 rounded text-xs md:text-base cursor-pointer hover:bg-emerald-500 font-semibold text-center"
+            className={`col-span-2 bg-emerald-600 text-white px-6 py-2 rounded text-xs md:text-base font-semibold text-center ${
+              loading ? "opacity-50 cursor-not-allowed" : "hover:bg-emerald-500"
+            }`}
             type="submit"
-            disabled={loading}
+            disabled={loading || !acceptedTerms}
           >
-            Register
+            {loading ? "Registering..." : "Register"}
           </button>
-          {error && <p>{error}</p>}
+
+          {error && (
+            <p className="text-red-500">
+              {typeof error === "string"
+                ? error
+                : error.error || "Something went wrong."}
+            </p>
+          )}
         </form>
         <p className="text-xs md:text-sm text-gray-600 mt-6">
           Already have an account?{" "}

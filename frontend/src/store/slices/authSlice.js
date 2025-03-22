@@ -1,12 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../services/data/Api";
 
-// Async Thunks
 export const loginUser = createAsyncThunk(
-  "users/loginUser",
+  "auth/loginUser",
   async (credentials, thunkAPI) => {
     try {
-      const response = await api.post("/login", credentials);
+      const response = await api.post("/users/login", credentials);
       localStorage.setItem("token", response.data.token);
       return response.data.user;
     } catch (error) {
@@ -16,38 +15,44 @@ export const loginUser = createAsyncThunk(
 );
 
 export const registerUser = createAsyncThunk(
-  "users/registerUser",
+  "auth/registerUser",
   async (userData, thunkAPI) => {
     try {
-      const response = await api.post("/register", userData);
+      const response = await api.post("/users/register", userData);
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.error || error.message
+      );
     }
   }
 );
 
 export const updateUser = createAsyncThunk(
-  "users/updateUser",
+  "auth/updateUser",
   async ({ userId, userData }, thunkAPI) => {
     try {
       const response = await api.put(`/users/${userId}`, userData);
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.error || error.message
+      );
     }
   }
 );
 
 export const deleteUser = createAsyncThunk(
-  "users/deleteUser",
+  "auth/deleteUser",
   async (userId, thunkAPI) => {
     try {
-      const response = await api.delete(`/users/${userId}`);
+      await api.delete(`/users/${userId}`);
       localStorage.removeItem("token");
-      return response.data;
+      return userId;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.error || error.message
+      );
     }
   }
 );
@@ -64,9 +69,9 @@ const authSlice = createSlice({
       state.user = null;
       localStorage.removeItem("token");
     },
-    setUser: (state, action) => {
-      state.user = action.payload;
-    },
+  },
+  setUser: (state, action) => {
+    state.user = action.payload;
   },
   extraReducers: (builder) => {
     builder
@@ -96,5 +101,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, setUser } = authSlice.actions;
+export const { logout } = authSlice.actions;
 export default authSlice.reducer;

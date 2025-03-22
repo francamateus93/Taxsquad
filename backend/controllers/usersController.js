@@ -23,14 +23,13 @@ export const register = async (req, res) => {
         first_name,
         last_name,
         email,
-        password,
+        hashedPassword,
         phone,
         address,
         city,
         country,
         date_of_birth,
         identification_number,
-        hashedPassword,
       ]
     );
     res.status(201).json({

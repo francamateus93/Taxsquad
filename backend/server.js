@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import documentsRoutes from "./routes/documentsRoutes.js";
 import invoicesRoutes from "./routes/invoicesRoutes.js";
-import usersRoutes from "./routes/authRoutes.js";
+import usersRoutes from "./routes/usersRoutes.js";
 
 dotenv.config();
 
@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:5173" }));
 
-app.use("/auth", usersRoutes);
+app.use("/users", usersRoutes);
 app.use("/invoices", invoicesRoutes);
 app.use("/documents", documentsRoutes);
 

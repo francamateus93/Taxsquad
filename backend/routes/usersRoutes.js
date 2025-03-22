@@ -4,14 +4,14 @@ import {
   login,
   updatedUser,
   deletedUser,
-} from "../controllers/authController.js";
+} from "../controllers/usersController.js";
 import { verifyToken } from "../utils/jwtUtils.js";
 
 const router = Router();
 
 router.post("/register", verifyToken, register);
 router.post("/login", verifyToken, login);
-router.put("/users/:userId", verifyToken, updatedUser);
-router.delete("/users/:userId", verifyToken, deletedUser);
+router.put("/:userId", verifyToken, updatedUser);
+router.delete("/:userId", verifyToken, deletedUser);
 
 export default router;

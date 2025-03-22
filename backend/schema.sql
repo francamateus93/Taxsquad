@@ -55,9 +55,11 @@ INSERT INTO users (first_name, last_name, email, password, phone, address, city,
 VALUES ('Aryane', 'Sanches', 'aryanesanches0@gmail.com', 'aryane', '+34111222333', 'Avinguda Mare de Deu de Montserrat, 172', 'Barcelona', 'Spain', '1989-08-07', 'Y7298287X');
 
 INSERT INTO invoices (user_id, invoice_type, number, date, client_name, client_id, client_address, city, country, concept, quantity, price, vat, irpf, currency, payment_method, total_amount)
-VALUES (1, 'income', 'INV001', '2025-04-10', 'Client A', 'ID001', 'Avinguda Diagonal, 63', 'Barcelona', 'Spain', 'Massage Service', 2, 100, 21, 0, 'EUR', 'transfer', 242),
-VALUES (1, 'expense', 'INV002', '2025-03-10', 'Client B', 'ID002', 'Calle Verdi, 88', 'Barcelona', 'Spain', 'Product supplier', 1, 400, 21, 0, 'EUR', 'transfer', 484);
+VALUES 
+(1, 'income', 'INV001', '2025-04-10', 'Client A', 'ID001', 'Avinguda Diagonal, 63', 'Barcelona', 'Spain', 'Massage Service', 2, 100, 21, 0, 'EUR', 'transfer', 242),
+(1, 'expense', 'INV002', '2025-03-10', 'Client B', 'ID002', 'Calle Verdi, 88', 'Barcelona', 'Spain', 'Product supplier', 1, 400, 21, 0, 'EUR', 'transfer', 484);
 
 INSERT INTO documents (user_id, document_name, document_type, year, period, document_data)
-VALUES (1, 'First quarter', 'quarterly', 2025, 1, '{"field":"value"}'),
-VALUES (1, 'Annual tax', 'annual', 2024, 1, '{"field":"value"}');
+VALUES 
+(1, 'First quarter', 'quarterly', 2025, 1, '{"field":"value"}'),
+(1, 'Annual tax', 'annual', 2024, 1, '{"field":"value"}');

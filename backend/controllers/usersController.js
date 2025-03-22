@@ -2,6 +2,27 @@ import bcrypt from "bcrypt";
 import db from "../models/db.js";
 import { createToken } from "../utils/jwtUtils.js";
 
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const [rows] = await db.execute("SELECT * FROM users WHERE email=?", [
+      email,
+    ]);
+    if (!rows.length) {
+      return res.status(401).json({ error: "User not found" });
+    }
+    const user = rows[0];
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) {
+      return res.status(401).json({ error: "Incorrect password" });
+    }
+    const token = createToken(user.id);
+    res.json({ token, user });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 export const register = async (req, res) => {
   const {
     first_name,
@@ -41,22 +62,20 @@ export const register = async (req, res) => {
   }
 };
 
-export const login = async (req, res) => {
-  const { email, password } = req.body;
+export const getCurrentUser = async (req, res) => {
+  const { userId } = req.user.id;
+
   try {
-    const [rows] = await db.execute("SELECT * FROM users WHERE email=?", [
-      email,
-    ]);
+    const [rows] = await db.execute(
+      "SELECT id, first_name, last_name, email, phone, address, city, country, date_of_birth, identification_number FROM users WHERE id=?",
+      [userId]
+    );
+
     if (!rows.length) {
-      return res.status(401).json({ error: "User not found" });
+      return res.status(404).json({ error: "User not found" });
     }
-    const user = rows[0];
-    const valid = await bcrypt.compare(password, user.password);
-    if (!valid) {
-      return res.status(401).json({ error: "Incorrect password" });
-    }
-    const token = createToken(user.id);
-    res.json({ token, user });
+
+    res.json(rows[0]);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

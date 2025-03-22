@@ -4,18 +4,6 @@ import axios from "axios";
 const DashboardPage = () => {
   const [stats, setStats] = useState({ income: 0, expenses: 0, invoices: 0 });
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const response = await axios.get("http://localhost:3001/stats");
-        setStats(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchStats();
-  }, []);
-
   return (
     <section className="container mx-auto p-12 space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

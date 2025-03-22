@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { logout } from "../../store/slices/authSlice";
+import { logout, setUser } from "../../store/slices/authSlice";
 import api from "../../services/data/Api";
 
 const AuthListener = () => {
@@ -10,6 +10,7 @@ const AuthListener = () => {
     const loadUser = async () => {
       const token = localStorage.getItem("token");
       if (token) {
+        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         try {
           const { data } = await api.get("/users/me");
           dispatch(setUser(data));
@@ -27,35 +28,3 @@ const AuthListener = () => {
 };
 
 export default AuthListener;
-
-// import { useEffect } from "react";
-// import { useDispatch } from "react-redux";
-// import { onAuthStateChanged } from "firebase/auth";
-// import { auth } from "../../services/auth/firebaseAuthService";
-
-// const AuthListener = () => {
-//   const dispatch = useDispatch();
-
-//   useEffect(() => {
-//     const unsubscribe = onAuthStateChanged(auth, (user) => {
-//       if (user) {
-//         dispatch(
-//           setUser({
-//             uid: user.uid,
-//             email: user.email,
-//             displayName: user.displayName,
-//           })
-//         );
-//       } else {
-//         dispatch(logout());
-//       }
-//       dispatch(setLoading(false));
-//     });
-
-//     return () => unsubscribe();
-//   }, [dispatch]);
-
-//   return null;
-// };
-
-// export default AuthListener;

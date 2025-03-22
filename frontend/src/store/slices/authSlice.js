@@ -6,8 +6,12 @@ export const loginUser = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       const response = await api.post("/users/login", credentials);
-      localStorage.setItem("token", response.data.token);
-      return response.data.user;
+      const { token, user } = response.data;
+
+      localStorage.setItem("token", token);
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      return user;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }
@@ -19,11 +23,14 @@ export const registerUser = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       const response = await api.post("/users/register", userData);
-      return response.data;
+      const { token, user } = response.data;
+
+      localStorage.setItem("token", token);
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      return user;
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data?.error || error.message
-      );
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }
   }
 );
@@ -68,10 +75,11 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       localStorage.removeItem("token");
+      delete api.defaults.headers.common["Authorization"];
     },
-  },
-  setUser: (state, action) => {
-    state.user = action.payload;
+    setUser: (state, action) => {
+      state.user = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -87,19 +95,20 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(registerUser.fulfilled, (state) => {
-        state.loading = false;
+      .addCase(registerUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
       })
-      .addCase(updateUser.fulfilled, (state, action) => {
+      .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = { ...state.user, ...action.payload };
+        state.user = action.payload;
       })
-      .addCase(deleteUser.fulfilled, (state) => {
+      .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
-        state.user = null;
+        state.error = action.payload;
       });
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, setUser } = authSlice.actions;
 export default authSlice.reducer;

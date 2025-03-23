@@ -11,10 +11,6 @@ const Profile = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth.user);
 
-  // const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState(null);
-  // const [message, setMessage] = useState(null);
-
   const [profile, setProfile] = useState({
     first_name: "",
     last_name: "",

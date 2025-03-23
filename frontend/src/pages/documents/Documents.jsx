@@ -1,46 +1,25 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDocumentsByType } from "../../store/slices/documentsSlice";
-// import { useSearchParams } from "react-router-dom";
-// import { setDocuments, setLoading, setError } from "../../store/documentsSlice";
-// import api from "../../services/data/Api";
 
 const Documents = ({ user }) => {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.user.id);
   const { documents, loading, error } = useSelector((state) => state.documents);
-  const [type, setType] = useState("trimestral");
-  // const query = new URLSearchParams(window.location.search);
-
-  // useEffect(() => {
-  //   const fetchDocuments = async () => {
-  //     dispatch(setLoading(true));
-  //     try {
-  //       const response = await api.get(`/documents?type=${documentType}`);
-  //       // const response = await api.get(`/documents?user_id=${user.id}`);
-  //       dispatch(setDocuments(response.data));
-  //     } catch (err) {
-  //       dispatch(setError(err.message));
-  //     } finally {
-  //       dispatch(setLoading(false));
-  //     }
-  //   };
-
-  //   fetchDocuments();
-  // }, [documentType, dispatch]);
+  const [documentType, setDocumentType] = useState("quarterly");
 
   useEffect(() => {
-    dispatch(fetchDocumentsByType({ type, userId }));
-  }, [dispatch, type, userId]);
+    dispatch(fetchDocumentsByType({ userId, type: documentType }));
+  }, [dispatch, , userId, documentType]);
 
   return (
     <section className="container mx-auto p-10 md:py-12 md:px-20 space-y-6">
-      {/* Buttons: Trimestral and Anual */}
+      {/* Buttons: Quarterly and Annual */}
       <div className="flex space-x-4">
         <button
-          onClick={() => setType("trimestral")}
+          onClick={() => setDocumentType("quarterly")}
           className={`px-6 py-2 rounded-lg cursor-pointer tracking-tighter text-center ${
-            documentType === "trimestral"
+            documentType === "quarterly"
               ? "bg-emerald-200 w-40 h-14 text-2xl font-semibold hover:bg-emerald-300 text-emerald-600 transition duration-200"
               : "bg-emerald-50 text-emerald-600 w-40 h-14 text-lg font-normal hover:bg-emerald-200 transition duration-200"
           }`}
@@ -49,9 +28,9 @@ const Documents = ({ user }) => {
         </button>
 
         <button
-          onClick={() => setType("anual")}
+          onClick={() => setDocumentType("annual")}
           className={`px-6 py-2 rounded-lg cursor-pointer tracking-tighter text-center ${
-            documentType === "anual"
+            documentType === "annual"
               ? "bg-emerald-200 w-40 h-14 text-2xl font-semibold hover:bg-emerald-300 text-emerald-600 transition duration-200"
               : "bg-emerald-50 text-emerald-600 w-40 h-14 text-lg font-normal hover:bg-emerald-200 transition duration-200"
           }`}

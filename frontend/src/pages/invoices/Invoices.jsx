@@ -11,12 +11,11 @@ const Invoices = () => {
   const [invoiceType, setInvoiceType] = useState("income");
   const [dateFilter, setDateFilter] = useState("");
 
-  // Chama API quando o tipo de fatura muda
   useEffect(() => {
     dispatch(fetchInvoicesByType({ userId, type: invoiceType }));
   }, [dispatch, userId, invoiceType]);
 
-  // Filtragem por data
+  // Filter by date
   const filteredInvoices = invoices.filter((invoice) => {
     if (!dateFilter) return true;
     return invoice.date >= dateFilter;
@@ -24,7 +23,7 @@ const Invoices = () => {
 
   const handleInvoiceClick = (invoice) => {
     console.log("Invoice clicked:", invoice);
-    // implementar modal ou navegação...
+    // implement the logic to handle the invoice click
   };
 
   return (

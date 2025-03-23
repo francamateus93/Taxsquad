@@ -26,44 +26,6 @@ const Profile = () => {
     city: "",
   });
 
-  // useEffect(() => {
-  //   const fetchUserProfile = async () => {
-  //     if (!user?.uid) return;
-
-  //     setLoading(true);
-  //     try {
-  //       const { data } = await api.get(`/users/${user.uid}`);
-  //       setProfile({
-  //         first_name: data.first_name || "",
-  //         last_name: data.last_name || "",
-  //         email: data.email || user.email || "",
-  //         date_of_birth: data.date_of_birth
-  //           ? data.date_of_birth.split("T")[0]
-  //           : "",
-  //         identification_number: data.identification_number || "",
-  //         phone: data.phone || "",
-  //         address: data.address || "",
-  //         city: data.city || "",
-  //       });
-  //     } catch (err) {
-  //       console.error(err);
-  //       setError(err.message);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchUserProfile();
-  // }, [user.uid, user.email]);
-
-  // const handlePasswordReset = () => {
-  //   try {
-  //     alert("An email was sent with instructions to reset your password.");
-  //   } catch (err) {
-  //     alert(`Error: ${err.message}`);
-  //   }
-  // };
-
   useEffect(() => {
     setProfile(user);
   }, [user]);

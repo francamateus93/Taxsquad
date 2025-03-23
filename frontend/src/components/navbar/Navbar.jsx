@@ -8,7 +8,7 @@ import {
 } from "../../services/auth/firebaseAuthService.js";
 import Logo from "../../assets/logo/Logo_TaxSquad.png";
 import Button from "../buttons/ButtonPrimary.jsx";
-import Icon from "../../assets/icon-perfil.png";
+import Icon from "../../assets/icon-perfil.jpg";
 import ButtonSecondary from "../buttons/ButtonSecondary.jsx";
 import { FaSignOutAlt } from "react-icons/fa";
 
@@ -113,7 +113,7 @@ const Navbar = () => {
                 <img
                   src={Icon}
                   alt="icon profile"
-                  className="w-9 hover:scale-120 transition duration-200"
+                  className="w-10 hover:scale-120 transition duration-200"
                 />
               </Link>
               <div className="flex gap-2 items-center justify-center">

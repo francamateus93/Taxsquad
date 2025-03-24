@@ -28,22 +28,6 @@ const Invoices = () => {
 
   return (
     <section className="container mx-auto p-10 lg:py-12 lg:px-20 space-y-6">
-      {/* Filter */}
-      <div className="flex items-center space-x-1 text-gray-500">
-        <label htmlFor="dateFilter" className="font-semibold text-sm">
-          Filter:
-        </label>
-        <input
-          id="dateFilter"
-          type="date"
-          value={dateFilter}
-          onChange={(e) => {
-            setDateFilter(e.target.value);
-          }}
-          className="border-none p-1 text-sm"
-        />
-      </div>
-
       {/* Buttons Income / Expenses */}
       <div className="flex justify-start space-x-2 mb-10">
         <button
@@ -68,6 +52,22 @@ const Invoices = () => {
         </button>
       </div>
 
+      {/* Filter */}
+      <div className="flex items-center space-x-1 text-gray-500">
+        <label htmlFor="dateFilter" className="font-semibold text-sm">
+          Filter:
+        </label>
+        <input
+          id="dateFilter"
+          type="date"
+          value={dateFilter}
+          onChange={(e) => {
+            setDateFilter(e.target.value);
+          }}
+          className="border-none text-sm"
+        />
+      </div>
+
       {/* Buttons New Income / New Expense */}
       <div className="flex space-x-2 justify-end">
         <div>
@@ -88,7 +88,7 @@ const Invoices = () => {
       </div>
 
       {/* Invoices List */}
-      <div className="space-y-2 bg-emerald-50 h-[600px] rounded-2xl">
+      <div className="space-y-2 bg-emerald-50 h-[600px] rounded-2xl p-4">
         {loading && <p>Loading invoices...</p>}
         {error && <p className="py-4 font-medium">{error}</p>}
 
@@ -102,13 +102,15 @@ const Invoices = () => {
             <div
               key={invoice.id}
               onClick={() => handleInvoiceClick(invoice)}
-              className="bg-white p-4 rounded cursor-pointer hover:bg-gray-100 transition"
+              className="flex justify-between gap-4 max-w-2xl text-xs md:text-sm text-start bg-white p-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition"
             >
-              <h4 className="font-semibold">Invoice #{invoice.number}</h4>
-              <p>Client: {invoice.client_name}</p>
-              <p>Date: {new Date(invoice.date).toLocaleDateString()}</p>
-              <p>
-                Total: {invoice.total_amount} {invoice.currency}
+              <h4 className="font-semibold w-30">{invoice.number}</h4>
+              <p className="w-66">{invoice.client_name}</p>
+              <p className="w-26">
+                {new Date(invoice.date).toLocaleDateString()}
+              </p>
+              <p className="w-46 text-end">
+                {invoice.total_amount} {invoice.currency}
               </p>
             </div>
           ))}

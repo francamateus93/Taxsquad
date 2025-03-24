@@ -74,7 +74,7 @@ const Profile = () => {
 
   return (
     <section className="container mx-auto p-10 md:py-12 md:px-20">
-      <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
+      <div className="max-w-3xl mx-auto bg-white p-6">
         <h2 className="text-2xl font-bold mb-8 text-center tracking-tighter">
           Personal Information
         </h2>

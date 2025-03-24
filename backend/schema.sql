@@ -56,8 +56,13 @@ VALUES ('Aryane', 'Sanches', 'aryanesanches0@gmail.com', 'aryane', '+34111222333
 
 INSERT INTO invoices (user_id, invoice_type, number, date, client_name, client_id, client_address, city, country, concept, quantity, price, vat, irpf, currency, payment_method, total_amount)
 VALUES 
-(1, 'income', 'INV001', '2025-04-10', 'Client A', 'ID001', 'Avinguda Diagonal, 63', 'Barcelona', 'Spain', 'Massage Service', 2, 100, 21, 0, 'EUR', 'transfer', 242),
-(1, 'expense', 'INV002', '2025-03-10', 'Client B', 'ID002', 'Calle Verdi, 88', 'Barcelona', 'Spain', 'Product supplier', 1, 400, 21, 0, 'EUR', 'transfer', 484);
+(1, 'income', '#001', '2025-04-10', 'Jordi Albanil', 'ID001', 'Avinguda Diagonal, 63', 'Barcelona', 'Spain', 'Massage Service', 2, 100, 21, 0, 'EUR', 'cash', 242),
+(1, 'income', '#002', '2025-04-11', 'Vanessa Rodríguez', 'ID002', 'Calle Balmes, 47', 'Barcelona', 'Spain', ' Massage Service', 1, 100, 21, 0, 'EUR', 'transfer', 121),
+(1, 'income', '#003', '2025-04-12', 'John Smith', 'ID003', 'Calle Lepant, 330', 'Barcelona', 'Spain', ' Massage Service', 1, 100, 21, 0, 'EUR', 'transfer', 121),
+
+(1, 'expense', '#001', '2025-04-10', 'Products Supplier', 'ID101', 'Calle Verdi, 88', 'Barcelona', 'Spain', 'Product supplier', 1, 400, 21, 0, 'EUR', 'transfer', 484),
+(1, 'expense', '#002', '2025-04-12', 'Seradin SL', 'ID102', 'Calle Varsóvia, 91', 'Barcelona', 'Spain', 'Rent', 1, 550, 21, 0, 'EUR', 'debit in advance', 665),
+(1, 'expense', '#003', '2025-04-13', 'SoftwareXL', 'ID103', 'Calle Madrid, 101', 'Madrid', 'Spain', 'Software account', 1, 50, 21, 0, 'EUR', 'transfer', 61);
 
 INSERT INTO documents (user_id, document_name, document_type, year, period, document_data)
 VALUES 

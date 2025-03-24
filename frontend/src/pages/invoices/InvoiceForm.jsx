@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import Button from "../ui/ButtonPrimary";
-import ButtonSecondary from "../ui/ButtonSecondary";
 import { Link } from "react-router-dom";
+import Button from "../../components/ui/ButtonPrimary";
+import ButtonSecondary from "../../components/ui/ButtonSecondary";
 
-const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
-  const [form, setForm] = useState({
+const InvoiceForm = ({ type, onSubmit, defaultValues }) => {
+  const initialFormState = {
     number: "",
     date: "",
     clientName: "",
@@ -19,16 +19,28 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
     irpf: 0,
     currency: "EUR",
     paymentMethod: "",
-    ...defaultValues,
-  });
+  };
+
+  const [form, setForm] = useState(defaultValues || initialFormState);
 
   useEffect(() => {
-    if (defaultValues) setForm((prev) => ({ ...prev, ...defaultValues }));
+    if (defaultValues) {
+      setForm(defaultValues);
+    }
   }, [defaultValues]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setForm((prev) => ({
+      ...prev,
+      [name]:
+        name === "price" ||
+        name === "quantity" ||
+        name === "vat" ||
+        name === "irpf"
+          ? Number(value)
+          : value,
+    }));
   };
 
   const base = form.quantity * form.price;
@@ -40,23 +52,23 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
     e.preventDefault();
     onSubmit({
       ...form,
-      totalAmount: total,
       type,
+      totalAmount: total,
     });
   };
 
-  const inputFields = [
-    { label: "Invoice Number", name: "number" },
-    { label: "Date", name: "date", type: "date" },
-    { label: "Client Name", name: "clientName" },
-    { label: "Client ID", name: "clientId" },
-    { label: "Address", name: "clientAddress" },
-    { label: "City", name: "city" },
-    { label: "Country", name: "country" },
-    { label: "Concept", name: "concept", type: "textarea" },
-    { label: "Quantity", name: "quantity", type: "number" },
-    { label: "Price", name: "price", type: "number" },
-    { label: "Payment Method", name: "paymentMethod" },
+  const fields = [
+    { name: "number", label: "Invoice Number" },
+    { name: "date", label: "Date", type: "date" },
+    { name: "clientName", label: "Client Name" },
+    { name: "clientId", label: "Client ID (CIF/NIF/NIE)" },
+    { name: "clientAddress", label: "Address" },
+    { name: "city", label: "City" },
+    { name: "country", label: "Country" },
+    { name: "concept", label: "Concept", type: "textarea" },
+    { name: "quantity", label: "Quantity", type: "number" },
+    { name: "price", label: "Price", type: "number" },
+    { name: "paymentMethod", label: "Payment Method" },
   ];
 
   return (
@@ -64,7 +76,7 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
       onSubmit={handleSubmit}
       className="grid md:grid-cols-2 gap-x-8 gap-y-4 text-sm"
     >
-      {inputFields.map(({ label, name, type = "text" }) => (
+      {fields.map(({ name, label, type = "text" }) => (
         <div key={name} className="space-y-1">
           <label className="font-semibold">{label}</label>
           {type === "textarea" ? (
@@ -86,7 +98,8 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
         </div>
       ))}
 
-      <div className="space-y-4">
+      {/* VAT, IRPF, Currency */}
+      <div className="space-y-4 col-span-2">
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="font-semibold">VAT (%)</label>
@@ -96,10 +109,11 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
               onChange={handleChange}
               className="p-2 border border-gray-300 rounded-lg w-full"
             >
-              <option value={21}>21%</option>
-              <option value={10}>10%</option>
-              <option value={5}>5%</option>
-              <option value={0}>0%</option>
+              {[21, 10, 5, 0].map((v) => (
+                <option key={v} value={v}>
+                  {v}%
+                </option>
+              ))}
             </select>
           </div>
           <div>
@@ -110,9 +124,11 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
               onChange={handleChange}
               className="p-2 border border-gray-300 rounded-lg w-full"
             >
-              <option value={0}>0%</option>
-              <option value={-7}>-7%</option>
-              <option value={-15}>-15%</option>
+              {[0, -7, -15].map((v) => (
+                <option key={v} value={v}>
+                  {v}%
+                </option>
+              ))}
             </select>
           </div>
         </div>
@@ -125,16 +141,20 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
             onChange={handleChange}
             className="p-2 border border-gray-300 rounded-lg w-full"
           >
-            <option value="EUR">EUR</option>
-            <option value="USD">USD</option>
-            <option value="GBP">GBP</option>
+            {["EUR", "USD", "GBP"].map((cur) => (
+              <option key={cur} value={cur}>
+                {cur}
+              </option>
+            ))}
           </select>
         </div>
 
+        {/* Total */}
         <p className="font-semibold text-lg">
           Total: <span className="text-green-600">{total.toFixed(2)}</span>
         </p>
 
+        {/* Buttons */}
         <div className="flex justify-end gap-4 mt-4">
           <Link to="/invoices">
             <ButtonSecondary type="button">Cancel</ButtonSecondary>

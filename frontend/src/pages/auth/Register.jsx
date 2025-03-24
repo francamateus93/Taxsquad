@@ -8,6 +8,7 @@ const Register = () => {
   const navigate = useNavigate();
   const { loading, error } = useSelector((state) => state.auth);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+
   const [form, setForm] = useState({
     first_name: "",
     last_name: "",
@@ -18,10 +19,12 @@ const Register = () => {
     phone: "",
     address: "",
     city: "",
+    country: "",
   });
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm((prevForm) => ({ ...prevForm, [name]: value }));
   };
 
   const handleSubmit = (e) => {
@@ -34,140 +37,38 @@ const Register = () => {
 
   return (
     <section className="flex flex-col items-center justify-center min-h-screen mx-auto p-4">
-      <div className=" max-w-2xl bg-white rounded-lg p-2 md:py-14  mt-20 md:0">
+      <div className="w-fit bg-white p-4 md:py-14 mt-20 md:mt-0">
         <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center tracking-tight">
           Register
         </h2>
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col md:grid md:grid-cols-2 gap-2 text-start text-xs md:text-sm"
+          className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm"
         >
-          <div>
-            <label className="block mb-1 font-semibold tracking-tight text-xs md:text-sm">
-              First Name*
-            </label>
-            <input
-              name="first_name"
-              type="text"
-              placeholder="Enter First Name"
-              value={form.first_name}
-              onChange={handleChange}
-              className="p-2 md:p-3 mb-2 border border-gray-300 rounded-lg w-full md:w-fit"
-              required
-            />
-          </div>
-          <div>
-            <label className="block mb-1 font-semibold tracking-tight text-xs md:text-sm">
-              Last Name*
-            </label>
-            <input
-              name="last_name"
-              type="text"
-              placeholder="Enter Last Name"
-              value={form.last_name}
-              onChange={handleChange}
-              className="p-2 md:p-3 mb-2 border border-gray-300 rounded-lg w-full md:w-fit"
-              required
-            />
-          </div>
-          <div>
-            <label className="block mb-1 font-semibold tracking-tight text-xs md:text-sm">
-              Email*
-            </label>
-            <input
-              name="email"
-              type="email"
-              placeholder="Enter your Email"
-              value={form.email}
-              onChange={handleChange}
-              className="col-span-2 p-2 md:p-3 mb-2 border border-gray-300 rounded-lg w-full md:w-fit"
-              required
-            />
-          </div>
-          <div>
-            <label className="block mb-1 font-semibold tracking-tight text-xs md:text-sm">
-              Password*
-            </label>
-            <input
-              name="password"
-              type="password"
-              placeholder="Enter your Password"
-              value={form.password}
-              onChange={handleChange}
-              className="col-span-2 p-2 md:p-3 mb-2 border border-gray-300 rounded-lg w-full md:w-fit"
-              required
-            />
-          </div>
-          <div>
-            <label className="block mb-1 font-semibold tracking-tight text-xs md:text-sm">
-              Birth Date*
-            </label>
-            <input
-              name="date_of_birth"
-              type="date"
-              value={form.date_of_birth}
-              onChange={handleChange}
-              className="p-2 md:p-3 mb-2 border border-gray-300 rounded-lg w-full md:w-fit"
-              required
-            />
-          </div>
-          <div>
-            <label className="block mb-1 font-semibold tracking-tight text-xs md:text-sm">
-              Identification number*
-            </label>
-            <input
-              name="identification_number"
-              type="text"
-              placeholder="Enter your ID Number"
-              value={form.identification_number}
-              onChange={handleChange}
-              className="p-2 md:p-3 mb-2 border border-gray-300 rounded-lg w-full md:w-fit"
-              required
-            />
-          </div>
-          <div>
-            <label className="block mb-1 font-semibold tracking-tight text-xs md:text-sm">
-              Phone*
-            </label>
-            <input
-              name="phone"
-              type="tel"
-              placeholder="Enter your Phone"
-              value={form.phone}
-              onChange={handleChange}
-              className="p-2 md:p-3 mb-2 border border-gray-300 rounded-lg w-full md:w-fit"
-              required
-            />
-          </div>
-          <div>
-            <label className="block mb-1 font-semibold tracking-tight text-xs md:text-sm">
-              Address*
-            </label>
-            <input
-              name="address"
-              type="text"
-              placeholder="Enter your Address"
-              value={form.address}
-              onChange={handleChange}
-              className="p-2 md:p-3 mb-2 border border-gray-300 rounded-lg w-full md:w-fit"
-              required
-            />
-          </div>
-          <div>
-            <label className="block mb-1 font-semibold tracking-tight text-xs md:text-sm">
-              City*
-            </label>
-            <input
-              name="city"
-              type="text"
-              placeholder="Enter your City"
-              value={form.city}
-              onChange={handleChange}
-              className="p-2 md:p-3 mb-2 border border-gray-300 rounded-lg w-full md:w-fit"
-              required
-            />
-          </div>
-          <div className="col-span-2 flex gap-2 items-center my-3">
+          {Object.entries(form).map(([key, value]) => (
+            <div key={key}>
+              <label className="block mb-1 font-semibold capitalize">
+                {key.replace("_", " ")}*
+              </label>
+              <input
+                type={
+                  key === "date_of_birth"
+                    ? "date"
+                    : key === "password"
+                    ? "password"
+                    : "text"
+                }
+                name={key}
+                value={value}
+                placeholder={`Enter ${key.replace("_", " ")}`}
+                onChange={handleChange}
+                required
+                className="p-2 md:p-3 border border-gray-300 rounded-lg w-full"
+              />
+            </div>
+          ))}
+
+          <div className="md:col-span-2 flex gap-2 items-center my-3">
             <input
               type="checkbox"
               checked={acceptedTerms}
@@ -175,38 +76,40 @@ const Register = () => {
               required
             />
             <span>
-              I agree to the{" "}
+              I agree to the
               <span className="text-emerald-500 font-semibold cursor-pointer">
+                {" "}
                 Terms and Conditions
               </span>
-              , and our{" "}
+              , and our
               <span className="text-emerald-500 font-semibold cursor-pointer">
+                {" "}
                 Privacy Policy
               </span>
               .
             </span>
           </div>
+
           <button
-            className={`col-span-2 bg-emerald-600 text-white px-6 py-2 rounded text-xs md:text-base font-semibold text-center ${
-              loading ? "opacity-50 cursor-not-allowed" : "hover:bg-emerald-500"
-            }`}
             type="submit"
             disabled={loading || !acceptedTerms}
+            className="md:col-span-2 px-6 py-3 text-white bg-emerald-600 rounded-lg hover:bg-emerald-500 cursor-pointer transition duration-200 text-base font-semibold leading-4"
           >
             {loading ? "Registering..." : "Register"}
           </button>
 
           {error && (
-            <p className="text-red-500">
+            <p className="text-red-500 md:col-span-2">
               {typeof error === "string"
                 ? error
                 : error.error || "Something went wrong."}
             </p>
           )}
         </form>
-        <p className="text-xs md:text-sm text-gray-600 mt-6">
+
+        <p className="text-xs md:text-sm text-gray-600 mt-6 text-center">
           Already have an account?{" "}
-          <Link to={"/login"} className="text-emerald-500 font-semibold">
+          <Link to="/login" className="text-emerald-500 font-semibold">
             Sign In
           </Link>
         </p>

@@ -23,7 +23,12 @@ export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (userData, thunkAPI) => {
     try {
-      const response = await api.post("/users/register", userData);
+      await api.post("/users/register", userData);
+
+      const response = await api.post("/users/login", {
+        email: userData.email,
+        password: userData.password,
+      });
       const { token, user } = response.data;
 
       localStorage.setItem("token", token);

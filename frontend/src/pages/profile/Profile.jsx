@@ -8,7 +8,7 @@ import ButtonSecondary from "../../components/buttons/ButtonSecondary";
 const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.auth.user);
 
   const [modalMessage, setModalMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -44,13 +44,14 @@ const Profile = () => {
         setTimeout(() => setShowModal(false), 3000);
       })
       .catch((error) => {
-        setModalMessage(error.message);
+        setModalMessage(error.message || "Failed to update profile.");
         setShowModal(true);
         setTimeout(() => setShowModal(false), 3000);
       });
   };
 
   const handlePasswordReset = () => {
+    // Here implement the password reset logic
     setModalMessage(
       "We have sent an email with instructions to reset your password."
     );
@@ -74,14 +75,14 @@ const Profile = () => {
 
   return (
     <section className="container mx-auto p-10 md:py-12 md:px-20">
-      <div className="max-w-3xl mx-auto bg-white p-6">
+      <div className="max-w-4xl mx-auto bg-white p-6">
         <h2 className="text-2xl font-bold mb-8 text-center tracking-tighter">
           Personal Information
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-start">
           {Object.entries(profile).map(([key, value]) => (
-            <div key={key}>
+            <form key={key}>
               <label className="block font-semibold capitalize">
                 {key.replace("_", " ")}:
               </label>
@@ -89,14 +90,16 @@ const Profile = () => {
                 type={key === "date_of_birth" ? "date" : "text"}
                 name={key}
                 value={value || ""}
-                placeholder={key.replace("_", " ")}
+                placeholder={
+                  user && user[key] ? user[key] : key.replace("_", " ")
+                }
                 onChange={handleChange}
-                className={`p-2 md:p-3 border border-gray-300 rounded-lg w-full ${
+                className={`p-2 md:p-3 border border-gray-300 rounded-lg w-full text-gray-500 ${
                   key === "email" && "bg-gray-100"
                 }`}
                 readOnly={key === "email"}
               />
-            </div>
+            </form>
           ))}
         </div>
 
@@ -114,7 +117,7 @@ const Profile = () => {
         </div>
 
         {showModal && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="fixed inset-0 flex items-center justify-center bg-black/50 bg-opacity-50 z-50">
             <div className="bg-white rounded-lg p-6 shadow-lg text-center">
               <p>{modalMessage}</p>
             </div>

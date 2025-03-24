@@ -7,15 +7,22 @@ const Documents = ({ user }) => {
   const userId = useSelector((state) => state.auth.user.id);
   const { documents, loading, error } = useSelector((state) => state.documents);
   const [documentType, setDocumentType] = useState("quarterly");
+  const [dateFilter, setDateFilter] = useState("");
 
   useEffect(() => {
     dispatch(fetchDocumentsByType({ userId, type: documentType }));
   }, [dispatch, , userId, documentType]);
 
+  // Filter by date
+  const filteredDocuments = documents.filter((invoice) => {
+    if (!dateFilter) return true;
+    return documents.date >= dateFilter;
+  });
+
   return (
     <section className="container mx-auto p-10 md:py-12 md:px-20 space-y-6">
       {/* Buttons: Quarterly and Annual */}
-      <div className="flex space-x-4">
+      <div className="flex space-x-4 mb-12">
         <button
           onClick={() => setDocumentType("quarterly")}
           className={`px-6 py-2 rounded-lg cursor-pointer tracking-tighter text-center ${
@@ -39,6 +46,22 @@ const Documents = ({ user }) => {
         </button>
       </div>
 
+      {/* Filter */}
+      <div className="flex items-center space-x-1 text-gray-500">
+        <label htmlFor="dateFilter" className="font-semibold text-sm">
+          Filter:
+        </label>
+        <input
+          id="dateFilter"
+          type="date"
+          value={dateFilter}
+          onChange={(e) => {
+            setDateFilter(e.target.value);
+          }}
+          className="border-none text-sm"
+        />
+      </div>
+
       {/* Display Loading or Error */}
       {loading && <p className="text-gray-500">Loading documents...</p>}
       {error && <p className="text-red-500">{error}</p>}
@@ -50,10 +73,10 @@ const Documents = ({ user }) => {
             {documents.map((doc) => (
               <li
                 key={doc.id}
-                className="flex justify-between gap-4 max-w-2xl text-xs md:text-base text-start bg-white p-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition"
+                className="flex justify-between gap-4 max-w-7xl text-xs md:text-base text-start bg-white p-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition"
               >
-                <p className="font-semibold w-56">{doc.document_name}</p>
-                <p className="w-56">
+                <p className="font-semibold w-66">{doc.document_name}</p>
+                <p className="w-46">
                   {new Date(doc.created_at).toLocaleDateString()}
                 </p>
                 <a

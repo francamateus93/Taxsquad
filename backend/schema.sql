@@ -66,5 +66,8 @@ VALUES
 
 INSERT INTO documents (user_id, document_name, document_type, year, period, document_data)
 VALUES 
-(1, 'First quarter', 'quarterly', 2025, 1, '{"field":"value"}'),
-(1, 'Annual tax', 'annual', 2024, 1, '{"field":"value"}');
+(1, 'First quarter 2024', 'quarterly', 2024, 1, '{"field":"value"}'),
+(1, 'Second quarter 2024', 'quarterly', 2024, 2, '{"field":"value"}'),
+(1, 'Third quarter 2024', 'quarterly', 2024, 3, '{"field":"value"}'),
+(1, 'Fourth quarter 2024', 'quarterly', 2024, 4, '{"field":"value"}'),
+(1, 'Annual tax 2024', 'annual', 2024, 1, '{"field":"value"}');

@@ -102,7 +102,7 @@ const Invoices = () => {
             <div
               key={invoice.id}
               onClick={() => handleInvoiceClick(invoice)}
-              className="flex justify-between gap-4 max-w-2xl text-xs md:text-base text-start bg-white p-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition"
+              className="flex justify-between gap-4 max-w-7xl text-xs md:text-base text-start bg-white p-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition"
             >
               <h4 className="font-semibold w-30">{invoice.number}</h4>
               <p className="w-66">{invoice.client_name}</p>

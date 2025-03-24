@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createInvoice } from "../../store/slices/invoicesSlice";
 import { useNavigate } from "react-router-dom";
 import InvoiceForm from "./InvoiceForm";
@@ -6,7 +6,7 @@ import InvoiceForm from "./InvoiceForm";
 const NewInvoiceIncome = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userId = useSelector((state) => state.auth.user.id);
+  const userId = JSON.parse(localStorage.getItem("user")).id;
 
   const handleCreate = (invoiceData) => {
     dispatch(createInvoice({ userId, invoiceData }))

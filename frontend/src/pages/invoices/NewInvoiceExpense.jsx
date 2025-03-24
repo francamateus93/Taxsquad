@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createInvoice } from "../../store/slices/invoicesSlice";
 import InvoiceForm from "./InvoiceForm";
@@ -6,12 +6,10 @@ import InvoiceForm from "./InvoiceForm";
 const NewExpenseInvoice = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const userId = useSelector((state) => state.auth.user.id);
 
   const handleCreate = (invoiceData) => {
-    const userId = JSON.parse(localStorage.getItem("user"))?.id;
-    const newInvoice = { ...invoiceData, user_id: userId };
-
-    dispatch(createInvoice(newInvoice))
+    dispatch(createInvoice({ userId, invoiceData }))
       .unwrap()
       .then(() => navigate("/invoices"))
       .catch((err) => console.error("Failed to create invoice:", err));

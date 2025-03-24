@@ -2,9 +2,28 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Button from "../../components/ui/ButtonPrimary";
 import ButtonSecondary from "../../components/ui/ButtonSecondary";
+import SelectField from "../../components/utils/SelectedField";
 
-const InvoiceForm = ({ type, onSubmit, defaultValues }) => {
-  const initialFormState = {
+const fields = [
+  { name: "number", label: "Invoice Number" },
+  { name: "date", label: "Date", type: "date" },
+  { name: "clientName", label: "Client Name" },
+  { name: "clientId", label: "Client ID (CIF/NIF/NIE)" },
+  { name: "clientAddress", label: "Address" },
+  { name: "city", label: "City" },
+  { name: "country", label: "Country" },
+  { name: "concept", label: "Concept", type: "textarea" },
+  { name: "quantity", label: "Quantity", type: "number" },
+  { name: "price", label: "Price", type: "number" },
+  { name: "paymentMethod", label: "Payment Method" },
+];
+
+const VAT_OPTIONS = [21, 10, 5, 0];
+const IRPF_OPTIONS = [0, -7, -15];
+const CURRENCY_OPTIONS = ["EUR", "USD", "GBP"];
+
+const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
+  const [form, setForm] = useState({
     number: "",
     date: "",
     clientName: "",
@@ -19,65 +38,39 @@ const InvoiceForm = ({ type, onSubmit, defaultValues }) => {
     irpf: 0,
     currency: "EUR",
     paymentMethod: "",
-  };
-
-  const [form, setForm] = useState(defaultValues || initialFormState);
+    ...defaultValues,
+  });
 
   useEffect(() => {
-    if (defaultValues) {
-      setForm(defaultValues);
+    const hasChanged = Object.entries(defaultValues).some(
+      ([key, value]) => value !== form[key]
+    );
+    if (hasChanged) {
+      setForm((prev) => ({ ...prev, ...defaultValues }));
     }
-  }, [defaultValues]);
+  }, [JSON.stringify(defaultValues)]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]:
-        name === "price" ||
-        name === "quantity" ||
-        name === "vat" ||
-        name === "irpf"
-          ? Number(value)
-          : value,
-    }));
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const base = form.quantity * form.price;
-  const vatAmount = (base * form.vat) / 100;
-  const irpfAmount = (base * form.irpf) / 100;
-  const total = base + vatAmount + irpfAmount;
+  const calculateTotal = () => {
+    const base = form.quantity * form.price;
+    const vat = (base * form.vat) / 100;
+    const irpf = (base * form.irpf) / 100;
+    return base + vat + irpf;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({
-      ...form,
-      type,
-      totalAmount: total,
-    });
+    onSubmit({ ...form, totalAmount: calculateTotal(), type });
   };
 
-  const fields = [
-    { name: "number", label: "Invoice Number" },
-    { name: "date", label: "Date", type: "date" },
-    { name: "clientName", label: "Client Name" },
-    { name: "clientId", label: "Client ID (CIF/NIF/NIE)" },
-    { name: "clientAddress", label: "Address" },
-    { name: "city", label: "City" },
-    { name: "country", label: "Country" },
-    { name: "concept", label: "Concept", type: "textarea" },
-    { name: "quantity", label: "Quantity", type: "number" },
-    { name: "price", label: "Price", type: "number" },
-    { name: "paymentMethod", label: "Payment Method" },
-  ];
-
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="grid md:grid-cols-2 gap-x-8 gap-y-4 text-sm"
-    >
-      {fields.map(({ name, label, type = "text" }) => (
-        <div key={name} className="space-y-1">
+    <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6 text-sm">
+      {fields.map(({ label, name, type = "text" }) => (
+        <div key={name}>
           <label className="font-semibold">{label}</label>
           {type === "textarea" ? (
             <textarea
@@ -98,63 +91,37 @@ const InvoiceForm = ({ type, onSubmit, defaultValues }) => {
         </div>
       ))}
 
-      {/* VAT, IRPF, Currency */}
-      <div className="space-y-4 col-span-2">
+      <div className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="font-semibold">VAT (%)</label>
-            <select
-              name="vat"
-              value={form.vat}
-              onChange={handleChange}
-              className="p-2 border border-gray-300 rounded-lg w-full"
-            >
-              {[21, 10, 5, 0].map((v) => (
-                <option key={v} value={v}>
-                  {v}%
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="font-semibold">IRPF (%)</label>
-            <select
-              name="irpf"
-              value={form.irpf}
-              onChange={handleChange}
-              className="p-2 border border-gray-300 rounded-lg w-full"
-            >
-              {[0, -7, -15].map((v) => (
-                <option key={v} value={v}>
-                  {v}%
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        <div>
-          <label className="font-semibold">Currency</label>
-          <select
-            name="currency"
-            value={form.currency}
+          <SelectField
+            label="VAT (%)"
+            name="vat"
+            value={form.vat}
+            options={VAT_OPTIONS}
             onChange={handleChange}
-            className="p-2 border border-gray-300 rounded-lg w-full"
-          >
-            {["EUR", "USD", "GBP"].map((cur) => (
-              <option key={cur} value={cur}>
-                {cur}
-              </option>
-            ))}
-          </select>
+          />
+          <SelectField
+            label="IRPF (%)"
+            name="irpf"
+            value={form.irpf}
+            options={IRPF_OPTIONS}
+            onChange={handleChange}
+          />
         </div>
 
-        {/* Total */}
+        <SelectField
+          label="Currency"
+          name="currency"
+          value={form.currency}
+          options={CURRENCY_OPTIONS}
+          onChange={handleChange}
+        />
+
         <p className="font-semibold text-lg">
-          Total: <span className="text-green-600">{total.toFixed(2)}</span>
+          Total:{" "}
+          <span className="text-green-600">{calculateTotal().toFixed(2)}</span>
         </p>
 
-        {/* Buttons */}
         <div className="flex justify-end gap-4 mt-4">
           <Link to="/invoices">
             <ButtonSecondary type="button">Cancel</ButtonSecondary>

@@ -44,19 +44,31 @@ const Documents = ({ user }) => {
       {error && <p className="text-red-500">{error}</p>}
 
       {/* List of Documents */}
-      {!loading && !error && (
-        <ul className="space-y-2">
-          {documents.map((doc) => (
-            <li key={doc.id} className="bg-white shadow rounded p-4">
-              <p className="font-semibold">{doc.document_name}</p>
-              <p>{new Date(doc.created_at).toLocaleDateString()}</p>
-              {/* <a href={doc.file_path} target="_blank" rel="noreferrer">
-                View Document
-              </a> */}
-            </li>
-          ))}
-        </ul>
-      )}
+      <div className="space-y-2 bg-emerald-50 h-[600px] rounded-2xl p-4">
+        {!loading && !error && (
+          <ul className="space-y-2">
+            {documents.map((doc) => (
+              <li
+                key={doc.id}
+                className="flex justify-between gap-4 max-w-2xl text-xs md:text-base text-start bg-white p-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition"
+              >
+                <p className="font-semibold w-56">{doc.document_name}</p>
+                <p className="w-56">
+                  {new Date(doc.created_at).toLocaleDateString()}
+                </p>
+                <a
+                  href={doc.file_path}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-56 text-end font-medium"
+                >
+                  View Document
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </section>
   );
 };

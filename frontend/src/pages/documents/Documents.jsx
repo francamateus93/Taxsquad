@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDocumentsByType } from "../../store/slices/documentsSlice";
+import LoadingSpinner from "../../components/utils/LoadingSpinner";
+import Error from "../../components/utils/Error";
 
 const Documents = ({ user }) => {
   const dispatch = useDispatch();
@@ -63,8 +65,8 @@ const Documents = ({ user }) => {
       </div>
 
       {/* Display Loading or Error */}
-      {loading && <p className="text-gray-500">Loading documents...</p>}
-      {error && <p className="text-red-500">{error}</p>}
+      {loading && <LoadingSpinner />}
+      {error && <Error message={error} />}
 
       {/* List of Documents */}
       <div className="space-y-2 bg-emerald-50 h-[600px] rounded-2xl p-4">

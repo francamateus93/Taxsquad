@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser, googleLogin } from "../../store/slices/authSlice.js";
-import Button from "../../components/buttons/ButtonPrimary.jsx";
+import Button from "../../components/ui/ButtonPrimary.jsx";
+import Error from "../../components/utils/Error.jsx";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -65,7 +66,7 @@ const Login = () => {
           >
             Login with Google
           </button>
-          {error && <p>{error}</p>}
+          {error && <Error message={error} />}
         </form>
         <p className="text-xs md:text-sm text-gray-600 mt-6">
           Don't have an account?{" "}

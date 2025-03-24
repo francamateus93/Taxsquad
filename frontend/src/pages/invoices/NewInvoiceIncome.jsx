@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { createInvoice } from "../../store/slices/invoicesSlice";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/data/Api";
-import Button from "../../components/buttons/ButtonPrimary";
-import ButtonSecondary from "../../components/buttons/ButtonSecondary";
+import Button from "../../components/ui/ButtonPrimary";
+import ButtonSecondary from "../../components/ui/ButtonSecondary";
 
 const NewInvoiceIncome = () => {
   const dispatch = useDispatch();

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Button from "../components/buttons/ButtonPrimary";
+import Button from "../components/ui/ButtonPrimary";
 
 const LandingPage = () => {
   return (

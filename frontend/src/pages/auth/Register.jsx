@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../../store/slices/authSlice.js";
+import LoadingSpinner from "../../components/utils/LoadingSpinner.jsx";
+import Error from "../../components/utils/Error.jsx";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -95,16 +97,10 @@ const Register = () => {
             disabled={loading || !acceptedTerms}
             className="md:col-span-2 px-6 py-3 text-white bg-emerald-600 rounded-lg hover:bg-emerald-500 cursor-pointer transition duration-200 text-base font-semibold leading-4"
           >
-            {loading ? "Registering..." : "Register"}
+            {loading ? <LoadingSpinner /> : "Register"}
           </button>
 
-          {error && (
-            <p className="text-red-500 md:col-span-2">
-              {typeof error === "string"
-                ? error
-                : error.error || "Something went wrong."}
-            </p>
-          )}
+          {error && <Error message={error} />}
         </form>
 
         <p className="text-xs md:text-sm text-gray-600 mt-6 text-center">

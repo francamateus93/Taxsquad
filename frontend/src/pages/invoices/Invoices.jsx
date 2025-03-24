@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchInvoicesByType } from "../../store/slices/invoicesSlice";
 import { Link } from "react-router-dom";
+import LoadingSpinner from "../../components/utils/LoadingSpinner";
+import Error from "../../components/utils/Error";
 
 const Invoices = () => {
   const dispatch = useDispatch();
@@ -89,8 +91,8 @@ const Invoices = () => {
 
       {/* Invoices List */}
       <div className="space-y-2 bg-emerald-50 h-[600px] rounded-2xl p-4">
-        {loading && <p>Loading invoices...</p>}
-        {error && <p className="py-4 font-medium">{error}</p>}
+        {loading && <LoadingSpinner />}
+        {error && <Error message={error} />}
 
         {!loading && !error && filteredInvoices.length === 0 && (
           <p className="text-gray-600">No invoices found.</p>

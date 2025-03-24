@@ -1,56 +1,80 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { createInvoice } from "../../store/slices/invoicesSlice";
-import { useNavigate } from "react-router-dom";
-import Button from "../../components/buttons/ButtonPrimary";
-import ButtonSecondary from "../../components/buttons/ButtonSecondary";
+import { Link, useNavigate } from "react-router-dom";
+import Button from "../../components/ui/ButtonPrimary";
+import ButtonSecondary from "../../components/ui/ButtonSecondary";
+
+const initialForm = {
+  number: "",
+  invoice_type: "expense",
+  date: "",
+  client_name: "",
+  client_id: "",
+  client_address: "",
+  city: "",
+  country: "",
+  concept: "",
+  quantity: "",
+  price: 0,
+  vat: 21,
+  irpf: 0,
+  currency: "EUR",
+  payment_method: "",
+};
 
 const NewInvoiceExpense = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const userId = useSelector((state) => state.auth.user.id);
 
-  const [form, setForm] = useState({
-    number: "",
-    date: "",
-    clientName: "",
-    clientId: "",
-    clientAddress: "",
-    city: "",
-    country: "",
-    concept: "",
-    quantity: "",
-    price: 0,
-    vat: 21,
-    irpf: 0,
-    currency: "EUR",
-    paymentMethod: "",
-  });
+  const [form, setForm] = useState({ initialForm });
+  const [showModal, setShowModal] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const base = form.quantity * form.price;
-  const vatAmount = (base * form.vat) / 100;
-  const irpfAmount = (base * form.irpf) / 100;
-  const total = base + vatAmount + irpfAmount;
-
-  const handleSave = (e) => {
-    e.preventDefault();
-    const newInvoice = {
-      id: Date.now(),
-      type: "expense",
-      ...form,
-      totalAmount: total,
-    };
-    dispatch(createInvoice(newInvoice));
-    navigate("/invoices");
-  };
-
   const handleCancel = () => {
+    setForm(initialForm);
     navigate("/invoices");
   };
+
+  const hangleBack = () => {
+    navigate("/invoices");
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const invoiceData = {
+      ...form,
+      userId,
+      invoice_type: "expense",
+      total_amount: calculateTotal(),
+    };
+
+    try {
+      await dispatch(createInvoice(invoiceData)).unwrap();
+      setShowModal(true);
+      setTimeout(() => {
+        setShowModal(false);
+        navigate("/invoices");
+      }, 2000);
+    } catch (error) {
+      console.error("Failed to create invoice:", error);
+    }
+  };
+
+  const calculateTotal = () => {
+    const base = form.quantity * form.price;
+    const vatAmount = (base * form.vat) / 100;
+    const irpfAmount = (base * form.irpf) / 100;
+    return base + vatAmount + irpfAmount;
+  };
+
+  const total = calculateTotal();
 
   return (
     <section className="container mx-auto p-12">
@@ -59,7 +83,7 @@ const NewInvoiceExpense = () => {
           New Expense Invoice
         </h2>
         <form
-          onSubmit={handleSave}
+          onSubmit={handleSubmit}
           className="grid md:grid-cols-2 gap-x-8 gap-y-4 text-sm"
         >
           {/* Left column */}
@@ -234,9 +258,9 @@ const NewInvoiceExpense = () => {
               />
             </div>
             <div className="flex justify-end gap-4 mt-4">
-              <ButtonSecondary type="button" onClick={handleCancel}>
-                Cancel
-              </ButtonSecondary>
+              <Link to="/invoices">
+                <ButtonSecondary type="button">Cancel</ButtonSecondary>
+              </Link>
               <Button type="submit">Save Invoice</Button>
             </div>
           </div>

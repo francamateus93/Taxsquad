@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../services/data/Api";
-import ButtonPrimary from "../../components/buttons/ButtonPrimary";
-import ButtonSecondary from "../../components/buttons/ButtonSecondary";
+import ButtonPrimary from "../../components/ui/ButtonPrimary";
+import ButtonSecondary from "../../components/ui/ButtonSecondary";
 
 const NewQuarterly = () => {
   const navigate = useNavigate();

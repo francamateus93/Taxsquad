@@ -7,9 +7,9 @@ import {
   getCurrentUser,
 } from "../../services/auth/firebaseAuthService.js";
 import Logo from "../../assets/logo/Logo_TaxSquad.png";
-import Button from "../buttons/ButtonPrimary.jsx";
+import Button from "../ui/ButtonPrimary.jsx";
 import Icon from "../../assets/icon-perfil.png";
-import ButtonSecondary from "../buttons/ButtonSecondary.jsx";
+import ButtonSecondary from "../ui/ButtonSecondary.jsx";
 import { FaSignOutAlt } from "react-icons/fa";
 
 const Navbar = () => {

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ButtonPrimary from "../../components/buttons/ButtonPrimary";
+import ButtonPrimary from "../../components/ui/ButtonPrimary";
 
 const TaxesCard = ({ title, date, deadline, documentType }) => {
   const routesMap = {
@@ -9,10 +9,6 @@ const TaxesCard = ({ title, date, deadline, documentType }) => {
   };
 
   const route = routesMap[documentType];
-
-  const handleViewDocuments = () => {
-    navigate("/documents");
-  };
 
   return (
     <div className="bg-emerald-50 hover:bg-emerald-100 transition duration-200 rounded-lg p-10 space-y-4 mb-8 max-w-4xl">

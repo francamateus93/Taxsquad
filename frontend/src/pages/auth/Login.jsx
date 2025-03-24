@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../../store/slices/authSlice.js";
+import { loginUser, googleLogin } from "../../store/slices/authSlice.js";
 import Button from "../../components/buttons/ButtonPrimary.jsx";
 
 const Login = () => {
@@ -14,6 +14,13 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(loginUser({ email, password }))
+      .unwrap()
+      .then(() => navigate("/dashboard"))
+      .catch((err) => console.error("Login error:", err));
+  };
+
+  const handleGoogleLogin = () => {
+    dispatch(googleLogin())
       .unwrap()
       .then(() => navigate("/dashboard"))
       .catch((err) => console.error("Login error:", err));
@@ -53,6 +60,7 @@ const Login = () => {
           </Button>
           <button
             type="button"
+            onClick={handleGoogleLogin}
             className="px-6 py-2 mt-3 bg-gray-200 p-2 text-gray-800 rounded-lg w-full text-xs md:text-sm hover:bg-gray-300"
           >
             Login with Google

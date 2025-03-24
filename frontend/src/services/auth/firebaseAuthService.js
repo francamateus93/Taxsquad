@@ -120,4 +120,4 @@ export const deleteCurrentUser = async () => {
   }
 };
 
-export { auth };
+export { auth, googleProvider };

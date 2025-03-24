@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../services/data/Api";
+import { signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "../../services/auth/firebaseAuthService";
 
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
@@ -13,6 +15,26 @@ export const loginUser = createAsyncThunk(
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       return user;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+export const googleLogin = createAsyncThunk(
+  "auth/googleLogin",
+  async (_, thunkAPI) => {
+    try {
+      const response = await signInWithPopup(auth, googleProvider);
+      const user = response.user;
+
+      const userData = {
+        uid: user.uid,
+        email: user.email,
+        name: user.displayName,
+      };
+      localStorage.setItem("user", JSON.stringify(userData));
+      return userData;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }
@@ -112,6 +134,17 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload;
         localStorage.setItem("user", JSON.stringify(action.payload));
+      })
+      .addCase(googleLogin.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.loading = false;
+      })
+      .addCase(googleLogin.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(googleLogin.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });

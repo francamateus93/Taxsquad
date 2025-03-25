@@ -142,7 +142,7 @@ const Navbar = () => {
         {/* Menu Mobile */}
         {isOpen && (
           <nav className="absolute top-17 right-4 bg-white shadow-lg border border-gray-200 flex flex-col items-start justify-between md:hidden p-5 my-1 rounded-lg w-48">
-            <ul className="flex flex-col gap-2 font-medium text-sm text-start border-b border-b-gray-200 pb-4 w-full">
+            <ul className="flex flex-col gap-2 font-medium text-sm text-start border-b border-b-gray-200 pb-4 w-full cursor-pointer">
               <li className="p-2 rounded-lg hover:bg-emerald-200 transition duration-200">
                 <Link
                   to="/dashboard"
@@ -224,7 +224,7 @@ const Navbar = () => {
                 </li>
                 <li className="w-full">
                   <button
-                    className="w-full font-medium rounded-lg hover:bg-red-100 transition duration-200 flex items-center space-x-2 p-2"
+                    className="w-full font-medium rounded-lg hover:bg-red-100 transition duration-200 flex items-center space-x-2 p-2 cursor-pointer"
                     onClick={handleLogout}
                   >
                     <FaSignOutAlt className="text-lg mr-2" />

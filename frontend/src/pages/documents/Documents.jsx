@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { fetchDocumentsByType } from "../../store/slices/documentsSlice";
 import LoadingSpinner from "../../components/utils/LoadingSpinner";
 import Error from "../../components/utils/Error";
@@ -62,6 +63,21 @@ const Documents = ({ user }) => {
           }}
           className="border-none text-sm"
         />
+      </div>
+
+      {/* Buttons New Income / New Expense */}
+      <div className="flex space-x-2 justify-end">
+        <div>
+          <button className="px-4 py-2 text-white font-semibold bg-emerald-600 rounded-lg hover:bg-emerald-500 transition duration-200 text-sm">
+            <Link to="/taxes/new-quarterly">+ New Quarterly</Link>
+          </button>
+        </div>
+
+        <div>
+          <button className="px-4 py-2 text-emerald-600 font-semibold bg-emerald-50 rounded-lg hover:bg-emerald-600 hover:text-white transition duration-200 text-sm">
+            <Link to="/taxes/new-annual">+ New Annual</Link>
+          </button>
+        </div>
       </div>
 
       {/* Display Loading or Error */}

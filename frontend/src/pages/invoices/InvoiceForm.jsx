@@ -151,7 +151,7 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
         <div className="flex justify-end gap-4 mt-4">
           <button
             type="button"
-            className="px-6 py-2 text-emerald-700 bg-gray-100 rounded-lg hover:bg-gray-300 transition duration-200 text-base cursor-pointer"
+            className="px-6 py-2 text-red-500 bg-red-100 rounded-lg hover:bg-gray-300 transition duration-200 text-base cursor-pointer"
           >
             <Link to="/invoices">Back</Link>
           </button>

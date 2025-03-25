@@ -73,19 +73,15 @@ const Invoices = () => {
       {/* Buttons New Income / New Expense */}
       <div className="flex space-x-2 justify-end">
         <div>
-          <Link to="/invoices/new-income">
-            <button className="px-4 py-2 text-white font-semibold bg-emerald-600 rounded-lg hover:bg-emerald-500 transition duration-200 text-sm">
-              + New Income
-            </button>
-          </Link>
+          <button className="px-4 py-2 text-white font-semibold bg-emerald-600 rounded-lg hover:bg-emerald-500 transition duration-200 text-sm">
+            <Link to="/invoices/new-income">+ New Income</Link>
+          </button>
         </div>
 
         <div>
-          <Link to="/invoices/new-expense">
-            <button className="px-4 py-2 text-emerald-600 font-semibold bg-emerald-50 rounded-lg hover:bg-emerald-600 hover:text-white transition duration-200 text-sm">
-              + New Expense
-            </button>
-          </Link>
+          <button className="px-4 py-2 text-emerald-600 font-semibold bg-emerald-50 rounded-lg hover:bg-emerald-600 hover:text-white transition duration-200 text-sm">
+            <Link to="/invoices/new-expense">+ New Expense</Link>
+          </button>
         </div>
       </div>
 

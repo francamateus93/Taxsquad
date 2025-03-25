@@ -87,9 +87,10 @@ const NewQuarterly = () => {
         />
         <div className="flex gap-2">
           <ButtonPrimary type="submit">Save Tax</ButtonPrimary>
-          <Link to="/taxes">
-            <ButtonSecondary onClick={handleCancel}>Cancel</ButtonSecondary>
-          </Link>
+
+          <ButtonSecondary onClick={handleCancel}>
+            <Link to="/taxes">Cancel</Link>
+          </ButtonSecondary>
         </div>
       </form>
     </section>

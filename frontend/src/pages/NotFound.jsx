@@ -6,7 +6,7 @@ const NotFound = () => {
   return (
     <section className="h-screen container mx-auto p-10 md:py-12 md:px-20 mt-32">
       <div className="flex flex-col">
-        <h2 className="text-7xl md:text-9xl font-black text-emerald-600 tracking-tighter">
+        <h2 className="text-7xl md:text-9xl font-black text-emerald-600 tracking-tighter hover:text-emerald-400 transition duration-200">
           404
         </h2>
         <p className="text-2xl md:text-4xl font-bold text-emerald-600 tracking-tighter mb-4 md:mb-8">

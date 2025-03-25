@@ -117,9 +117,10 @@ const NewAnnual = () => {
         />
         <div className="flex gap-2">
           <ButtonPrimary type="submit">Save Tax</ButtonPrimary>
-          <Link to="/taxes">
-            <ButtonSecondary>Cancel</ButtonSecondary>
-          </Link>
+
+          <ButtonSecondary>
+            <Link to="/taxes">Cancel</Link>
+          </ButtonSecondary>
         </div>
       </form>
     </section>

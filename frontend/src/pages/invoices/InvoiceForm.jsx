@@ -3,27 +3,10 @@ import { Link } from "react-router-dom";
 import Button from "../../components/ui/ButtonPrimary";
 import ButtonSecondary from "../../components/ui/ButtonSecondary";
 import SelectField from "../../components/utils/SelectedField";
-
-const fields = [
-  { name: "number", label: "Invoice Number" },
-  { name: "date", label: "Date", type: "date" },
-  { name: "clientName", label: "Client Name" },
-  { name: "clientId", label: "Client ID (CIF/NIF/NIE)" },
-  { name: "clientAddress", label: "Address" },
-  { name: "city", label: "City" },
-  { name: "country", label: "Country" },
-  { name: "concept", label: "Concept", type: "textarea" },
-  { name: "quantity", label: "Quantity", type: "number" },
-  { name: "price", label: "Price", type: "number" },
-  { name: "paymentMethod", label: "Payment Method" },
-];
-
-const VAT_OPTIONS = [21, 10, 5, 0];
-const IRPF_OPTIONS = [0, -7, -15];
-const CURRENCY_OPTIONS = ["EUR", "USD", "GBP"];
+import Error from "../../components/utils/Error";
 
 const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
-  const [form, setForm] = useState({
+  const initialForm = {
     number: "",
     date: "",
     clientName: "",
@@ -39,7 +22,11 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
     currency: "EUR",
     paymentMethod: "",
     ...defaultValues,
-  });
+  };
+
+  const [form, setForm] = useState(initialForm);
+  const [errors, setErrors] = useState({});
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     const hasChanged = Object.entries(defaultValues).some(
@@ -62,14 +49,51 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
     return base + vat + irpf;
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!form.number.trim()) newErrors.number = "Invoice number is required.";
+    if (!form.date) newErrors.date = "Date is required.";
+    if (!form.clientName.trim())
+      newErrors.clientName = "Client name is required.";
+    if (!form.quantity || isNaN(form.quantity))
+      newErrors.quantity = "Quantity must be a number.";
+    if (!form.price || isNaN(form.price))
+      newErrors.price = "Price must be a number.";
+    if (!form.paymentMethod.trim())
+      newErrors.paymentMethod = "Payment method is required.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!validateForm) return;
     onSubmit({ ...form, totalAmount: calculateTotal(), type });
+    setForm(initialForm);
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 3000);
   };
+
+  const inputFields = [
+    { label: "Invoice Number", name: "number" },
+    { label: "Date", name: "date", type: "date" },
+    { label: "Client Name", name: "clientName" },
+    { label: "Client ID", name: "clientId" },
+    { label: "Address", name: "clientAddress" },
+    { label: "City", name: "city" },
+    { label: "Country", name: "country" },
+    { label: "Concept", name: "concept", type: "textarea" },
+    { label: "Quantity", name: "quantity", type: "number" },
+    { label: "Price", name: "price", type: "number" },
+    { label: "Payment Method", name: "paymentMethod" },
+  ];
 
   return (
     <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6 text-sm">
-      {fields.map(({ label, name, type = "text" }) => (
+      {inputFields.map(({ label, name, type = "text" }) => (
         <div key={name}>
           <label className="font-semibold">{label}</label>
           {type === "textarea" ? (
@@ -77,7 +101,7 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
               name={name}
               value={form[name]}
               onChange={handleChange}
-              className="p-2 border border-gray-300 rounded-lg w-full h-28"
+              className={`p-2 border rounded-lg w-full h-28${errors[name]} ? "border-red-500 : border-gray-300`}
             />
           ) : (
             <input
@@ -85,11 +109,13 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
               name={name}
               value={form[name]}
               onChange={handleChange}
-              className="p-2 border border-gray-300 rounded-lg w-full"
+              className={`p-2 border rounded-lg w-full h-28${errors[name]} ? "border-red-500 : border-gray-300`}
             />
           )}
         </div>
       ))}
+
+      {errors[name] && <Error message={errors[name]} />}
 
       <div className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
@@ -97,14 +123,14 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
             label="VAT (%)"
             name="vat"
             value={form.vat}
-            options={VAT_OPTIONS}
+            options={[21, 10, 5, 0]}
             onChange={handleChange}
           />
           <SelectField
             label="IRPF (%)"
             name="irpf"
             value={form.irpf}
-            options={IRPF_OPTIONS}
+            options={[0, -7, -15]}
             onChange={handleChange}
           />
         </div>
@@ -113,7 +139,7 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
           label="Currency"
           name="currency"
           value={form.currency}
-          options={CURRENCY_OPTIONS}
+          options={["EUR", "USD", "GBP"]}
           onChange={handleChange}
         />
 
@@ -136,6 +162,12 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
           </Link>
           <Button type="submit">Save Invoice</Button>
         </div>
+
+        {submitted && (
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-4 text-sm">
+            Invoice saved successfully!
+          </div>
+        )}
       </div>
     </form>
   );

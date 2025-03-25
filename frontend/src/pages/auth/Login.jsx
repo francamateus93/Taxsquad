@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser, googleLogin } from "../../store/slices/authSlice.js";
-import Button from "../../components/ui/ButtonPrimary.jsx";
+import Button from "../../components/ui/button/ButtonPrimary.jsx";
 import Error from "../../components/utils/Error.jsx";
 
 const Login = () => {

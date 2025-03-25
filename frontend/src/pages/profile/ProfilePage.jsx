@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout, updateUser, deleteUser } from "../../store/slices/authSlice";
 // import api from "../../services/data/Api";
-import Button from "../../components/ui/ButtonPrimary";
-import ButtonSecondary from "../../components/ui/ButtonSecondary";
+import Button from "../../components/ui/button/ButtonPrimary";
+import ButtonSecondary from "../../components/ui/button/ButtonSecondary";
 
 const Profile = () => {
   const navigate = useNavigate();

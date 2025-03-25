@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ButtonSecondary from "../components/ui/ButtonSecondary";
+import ButtonSecondary from "../components/ui/button/ButtonSecondary";
 
 const NotFound = () => {
   return (

@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { createAnnualTax } from "../../../store/slices/annualTaxSlice";
-import Button from "../../../components/ui/ButtonPrimary";
-import ButtonSecondary from "../../../components/ui/ButtonSecondary";
+import Button from "../../../components/ui/button/ButtonPrimary";
+import ButtonSecondary from "../../../components/ui/button/ButtonSecondary";
 
 const NewAnnualTax = () => {
   const dispatch = useDispatch();

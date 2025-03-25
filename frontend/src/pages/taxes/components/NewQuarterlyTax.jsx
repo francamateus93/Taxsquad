@@ -2,8 +2,9 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { createQuarterlyTax } from "../../../store/slices/quarterlyTaxSlice";
-import Button from "../../../components/ui/ButtonPrimary";
-import ButtonSecondary from "../../../components/ui/ButtonSecondary";
+import Button from "../../../components/ui/button/ButtonPrimary";
+import ButtonSecondary from "../../../components/ui/button/ButtonSecondary";
+import Modal from "../../../components/ui/modal/Modal";
 
 const NewQuarterlyTax = () => {
   const dispatch = useDispatch();
@@ -99,9 +100,13 @@ const NewQuarterlyTax = () => {
         </form>
 
         {showModal && (
-          <div className="mt-4 bg-green-100 border border-green-400 text-green-700 p-3 rounded">
-            Quarterly Tax saved successfully!
-          </div>
+          <Modal
+            message="Quarterly tax saved successfully!"
+            onClose={() => {
+              setShowModal(false);
+              navigate("/documents");
+            }}
+          />
         )}
       </div>
     </section>

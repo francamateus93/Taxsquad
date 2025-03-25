@@ -152,13 +152,13 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
           <Link to="/invoices">
             <button
               type="button"
-              className="px-6 py-2 text-red-500 bg-red-100 rounded-lg hover:bg-gray-300 transition duration-200 text-base cursor-pointer"
+              className="px-6 py-2 text-red-500 bg-red-100 rounded-lg hover:bg-red-200 transition duration-200 text-base cursor-pointer"
             >
-              Back
+              Cancel
             </button>
           </Link>
           <Link to="/invoices">
-            <ButtonSecondary type="button">Cancel</ButtonSecondary>
+            <ButtonSecondary type="button">Back</ButtonSecondary>
           </Link>
           <Button type="submit">Save Invoice</Button>
         </div>

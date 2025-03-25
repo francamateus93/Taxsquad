@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ButtonPrimary from "../../components/ui/ButtonPrimary";
+import ButtonPrimary from "../../../components/ui/ButtonPrimary";
 
 const TaxesCard = ({ title, date, deadline, documentType }) => {
   const routesMap = {

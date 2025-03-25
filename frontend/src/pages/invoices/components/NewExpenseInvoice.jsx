@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { createInvoice } from "../../store/slices/invoicesSlice";
+import { createInvoice } from "../../../store/slices/invoicesSlice";
 import InvoiceForm from "./InvoiceForm";
 
 const NewExpenseInvoice = () => {

@@ -1,5 +1,5 @@
 import React from "react";
-import TaxesCard from "./TaxesCard";
+import TaxesCard from "./components/TaxesCard";
 
 const Taxes = () => {
   return (

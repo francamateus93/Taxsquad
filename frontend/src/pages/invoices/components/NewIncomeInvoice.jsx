@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { createInvoice } from "../../store/slices/invoicesSlice";
+import { createInvoice } from "../../../store/slices/invoicesSlice";
 import { useNavigate } from "react-router-dom";
 import InvoiceForm from "./InvoiceForm";
 

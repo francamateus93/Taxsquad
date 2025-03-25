@@ -12,16 +12,16 @@ import LandingPage from "../pages/LandingPage";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import DashboardPage from "../pages/dashboard/DashboardPage";
 import InvoicesPage from "../pages/invoices/InvoicesPage";
-import NewExpenseInvoice from "../pages/invoices/NewExpenseInvoice.jsx";
-import NewIncomeInvoice from "../pages/invoices/NewIncomeInvoice.jsx";
+import NewExpenseInvoice from "../pages/invoices/components/NewExpenseInvoice.jsx";
+import NewIncomeInvoice from "../pages/invoices/components/NewIncomeInvoice.jsx";
 import TaxesPages from "../pages/taxes/TaxesPage.jsx";
 import DocumentsPages from "../pages/documents/DocumentsPage.jsx";
 import ProfilePage from "../pages/profile/ProfilePage.jsx";
 import PrivateRoute from "./PrivateRoute";
 import NotFound from "../pages/NotFound";
 import AuthListener from "../components/auth/AuthListener.jsx";
-import NewAnnual from "../pages/taxes/NewAnnualTax.jsx";
-import NewQuarterly from "../pages/taxes/NewQuarterlyTax.jsx";
+import NewAnnual from "../pages/taxes/components/NewAnnualTax.jsx";
+import NewQuarterly from "../pages/taxes/components/NewQuarterlyTax.jsx";
 import AuthenticatedRoute from "./AuthenticatedRoute.jsx";
 
 const AppRouter = () => {

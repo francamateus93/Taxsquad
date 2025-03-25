@@ -9,11 +9,11 @@ const backdrop = {
 
 const modal = {
   hidden: { y: -30, opacity: 0 },
-  visible: { y: 0, opacity: 1, transition: { duration: 0.3 } },
-  exit: { y: 30, opacity: 0, transition: { duration: 0.2 } },
+  visible: { y: 0, opacity: 1, transition: { duration: 0.9 } },
+  exit: { y: 30, opacity: 0, transition: { duration: 0.8 } },
 };
 
-const Modal = ({ message, duration = 60000, onClose }) => {
+const Modal = ({ message, duration = 50000, onClose }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose?.();
@@ -31,14 +31,14 @@ const Modal = ({ message, duration = 60000, onClose }) => {
         exit="hidden"
       >
         <motion.div
-          className="bg-white text-gray-600 p-6 rounded-lg relative shadow-xl max-w-md mx-auto"
+          className="bg-white text-gray-600 p-6 rounded-xl relative shadow-xl max-w-md mx-auto"
           variants={modal}
           initial="hidden"
           animate="visible"
           exit="exit"
         >
           <button
-            className="absolute top-2 right-2 text-gray-600 hover:text-emerald-800"
+            className="absolute top-2 right-2 p-4 text-gray-600 hover:text-emerald-400 hover:font-semibold transition duration-200"
             onClick={onClose}
           >
             X

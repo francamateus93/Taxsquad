@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../components/ui/button/ButtonPrimary";
 import ButtonSecondary from "../../../components/ui/button/ButtonSecondary";
 import SelectField from "../../../components/utils/SelectField";
 import Error from "../../../components/utils/Error";
+import Modal from "../../../components/ui/modal/Modal";
 
 const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
+  const navigate = useNavigate();
+
   const initialForm = {
     number: "",
     date: "",
@@ -27,7 +30,7 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
 
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState({});
-  const [submitted, setSubmitted] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const hasChanged = Object.entries(defaultValues).some(
@@ -73,8 +76,8 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
     if (!validateForm()) return;
     onSubmit({ ...form, totalAmount: calculateTotal(), type });
     setForm(initialForm);
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
+    setShowModal(true);
+    setTimeout(() => setShowModal(false), 3000);
   };
 
   const inputFields = [
@@ -163,10 +166,14 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
           <Button type="submit">Save Invoice</Button>
         </div>
 
-        {submitted && (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-4 text-sm">
-            Invoice saved successfully!
-          </div>
+        {showModal && (
+          <Modal
+            message="New Invoice created successfully!"
+            onClose={() => {
+              setShowModal(false);
+              navigate("/invoices");
+            }}
+          />
         )}
       </div>
     </form>

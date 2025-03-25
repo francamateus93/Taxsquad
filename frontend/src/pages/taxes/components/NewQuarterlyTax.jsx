@@ -39,7 +39,7 @@ const NewQuarterlyTax = () => {
         setTimeout(() => {
           setShowModal(false);
           navigate("/documents");
-        }, 3000);
+        }, 5000);
       })
       .catch((err) => {
         console.error("Failed to save:", err);

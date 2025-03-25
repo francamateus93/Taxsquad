@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { createAnnualTax } from "../../../store/slices/annualTaxSlice";
 import Button from "../../../components/ui/button/ButtonPrimary";
 import ButtonSecondary from "../../../components/ui/button/ButtonSecondary";
+import Modal from "../../../components/ui/modal/Modal";
 
 const NewAnnualTax = () => {
   const dispatch = useDispatch();
@@ -42,7 +43,7 @@ const NewAnnualTax = () => {
         setTimeout(() => {
           setShowModal(false);
           navigate("/documents");
-        }, 3000);
+        }, 5000);
       })
       .catch((err) => {
         console.error("Failed to save:", err);
@@ -101,9 +102,13 @@ const NewAnnualTax = () => {
         </form>
 
         {showModal && (
-          <div className="mt-4 bg-green-100 border border-green-400 text-green-700 p-3 rounded">
-            Annual Tax Form saved successfully!
-          </div>
+          <Modal
+            message="Annual tax saved successfully!"
+            onClose={() => {
+              setShowModal(false);
+              navigate("/documents");
+            }}
+          />
         )}
       </div>
     </section>

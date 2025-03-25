@@ -22,9 +22,10 @@ const LandingPage = () => {
             </div>
 
             <div className="text-center flex gap-4 justify-center md:justify-start text-xl md:text-left">
-              <Button>
-                <Link to="/register">Get Started</Link>
-              </Button>
+              <Link to="/register">
+                <Button>Get Started</Button>
+              </Link>
+
               <button className="px-6 py-2 text-emerald-600 bg-emerald-50 rounded hover:bg-emerald-200 transition duration-200 text-base">
                 More Info
               </button>
@@ -141,7 +142,7 @@ const LandingPage = () => {
                   </li>
                 </ul>
                 <a
-                  href="/order"
+                  href="/register"
                   aria-describedby="product1"
                   className="bg-white/10 text-white hover:bg-white/20 focus-visible:outline-white mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-offset-2"
                 >
@@ -236,7 +237,7 @@ const LandingPage = () => {
                   </li>
                 </ul>
                 <a
-                  href="/order"
+                  href="/register"
                   aria-describedby="product1"
                   className="bg-white/10 text-white hover:bg-white/20 focus-visible:outline-white mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline-2 focus-visible:outline-offset-2"
                 >
@@ -332,7 +333,7 @@ const LandingPage = () => {
                   </li>
                 </ul>
                 <a
-                  href="/order"
+                  href="/register"
                   aria-describedby="product1"
                   className="bg-white/10 text-white hover:bg-white/20 focus-visible:outline-white mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6  focus-visible:outline-2 focus-visible:outline-offset-2"
                 >

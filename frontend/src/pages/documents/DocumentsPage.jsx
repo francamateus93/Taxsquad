@@ -23,9 +23,9 @@ const Documents = ({ user }) => {
   });
 
   return (
-    <section className="container mx-auto p-10 md:py-12 md:px-20 space-y-6">
+    <section className="container mx-auto p-10 lg:py-12 lg:px-20 space-y-6">
       {/* Buttons: Quarterly and Annual */}
-      <div className="flex space-x-4 mb-12">
+      <div className="flex space-x-2 mb-12">
         <button
           onClick={() => setDocumentType("quarterly")}
           className={`px-6 py-2 rounded-lg cursor-pointer tracking-tighter text-center ${
@@ -65,30 +65,21 @@ const Documents = ({ user }) => {
         />
       </div>
 
-      {/* Buttons New Income / New Expense */}
-      <div className="flex space-x-2 justify-end">
-        <div>
-          <button className="px-4 py-2 text-white font-semibold bg-emerald-600 rounded-lg hover:bg-emerald-500 transition duration-200 text-sm">
-            <Link to="/taxes/new-quarterly">+ New Quarterly</Link>
-          </button>
-        </div>
-
-        <div>
-          <button className="px-4 py-2 text-emerald-600 font-semibold bg-emerald-50 rounded-lg hover:bg-emerald-600 hover:text-white transition duration-200 text-sm">
-            <Link to="/taxes/new-annual">+ New Annual</Link>
-          </button>
-        </div>
-      </div>
-
-      {/* Display Loading or Error */}
-      {loading && <LoadingSpinner />}
-      {error && <Error message={error} />}
+      {!loading && !error && filteredDocuments.length === 0 && (
+        <p className="flex flex-wrap md:flex-nowrap justify-between gap-4 max-w-7xl text-xs md:text-base text-start bg-white p-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition">
+          No documents found.
+        </p>
+      )}
 
       {/* List of Documents */}
       <div className="space-y-2 bg-emerald-50 h-[600px] rounded-2xl p-4">
+        {/* Display Loading or Error */}
+        {loading && <LoadingSpinner />}
+        {error && <Error message={error} />}
+
         {!loading && !error && (
           <ul className="space-y-2">
-            {documents.map((doc) => (
+            {filteredDocuments.map((doc) => (
               <li
                 key={doc.id}
                 className="flex justify-between gap-4 max-w-7xl text-xs md:text-base text-start bg-white p-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition"

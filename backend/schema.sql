@@ -51,6 +51,44 @@ CREATE TABLE documents (
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+CREATE TABLE quarterly_tax (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  year INT,
+  quarter ENUM('Q1','Q2','Q3','Q4'),
+  total_income DECIMAL(10,2),
+  deductible_expenses DECIMAL(10,2),
+  net_income DECIMAL(10,2),
+  previous_payments DECIMAL(10,2),
+  withholding_taxes DECIMAL(10,2),
+  deductions DECIMAL(10,2),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE annual_tax (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  year INT,
+  taxpayer_name VARCHAR(255),
+  taxpayer_nif VARCHAR(20),
+  spouse_name VARCHAR(255),
+  spouse_nif VARCHAR(20),
+  marital_status VARCHAR(50),
+  address TEXT,
+  autonomous_community VARCHAR(100),
+  income_from_work DECIMAL(10,2),
+  business_income DECIMAL(10,2),
+  capital_gains DECIMAL(10,2),
+  deductions DECIMAL(10,2),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+
+-- Example data
+
+
 INSERT INTO users (first_name, last_name, email, password, phone, address, city, country, date_of_birth, identification_number) 
 VALUES ('Aryane', 'Sanches', 'aryanesanches0@gmail.com', 'aryane', '+34111222333', 'Avinguda Mare de Deu de Montserrat, 172', 'Barcelona', 'Spain', '1989-08-07', 'Y7298287X');
 

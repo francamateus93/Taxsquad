@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import documentsRoutes from "./routes/documentsRoutes.js";
 import invoicesRoutes from "./routes/invoicesRoutes.js";
 import usersRoutes from "./routes/usersRoutes.js";
+import taxesRoutes from "./routes/taxesRoutes.js";
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.use(cors({ origin: "http://localhost:5173" }));
 app.use("/users", usersRoutes);
 app.use("/invoices", invoicesRoutes);
 app.use("/documents", documentsRoutes);
+app.use("/taxes", taxesRoutes);
 
 app.get("/", async (_req, res) => {
   res.json({ message: "Service is running" });

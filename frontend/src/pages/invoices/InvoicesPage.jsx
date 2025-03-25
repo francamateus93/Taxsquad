@@ -74,15 +74,19 @@ const Invoices = () => {
       {/* Buttons New Income / New Expense */}
       <div className="flex space-x-2 justify-end">
         <div>
-          <button className="px-4 py-2 text-white font-semibold bg-emerald-600 rounded-lg hover:bg-emerald-500 transition duration-200 text-sm">
-            <Link to="/invoices/new-income">+ New Income</Link>
-          </button>
+          <Link to="/invoices/new-income">
+            <button className="px-4 py-2 text-white font-semibold bg-emerald-600 rounded-lg hover:bg-emerald-500 transition duration-200 text-sm cursor-pointer">
+              + New Income
+            </button>
+          </Link>
         </div>
 
         <div>
-          <button className="px-4 py-2 text-emerald-600 font-semibold bg-emerald-50 rounded-lg hover:bg-emerald-600 hover:text-white transition duration-200 text-sm">
-            <Link to="/invoices/new-expense">+ New Expense</Link>
-          </button>
+          <Link to="/invoices/new-expense">
+            <button className="px-4 py-2 text-emerald-600 font-semibold bg-emerald-50 rounded-lg hover:bg-emerald-600 hover:text-white transition duration-200 text-sm cursor-pointer">
+              + New Expense
+            </button>
+          </Link>
         </div>
       </div>
 
@@ -92,7 +96,9 @@ const Invoices = () => {
         {error && <Error message={error} />}
 
         {!loading && !error && filteredInvoices.length === 0 && (
-          <p className="text-gray-600">No invoices found.</p>
+          <p className="flex flex-wrap md:flex-nowrap justify-between gap-4 max-w-7xl text-xs md:text-base text-start bg-white p-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition">
+            No invoices found.
+          </p>
         )}
 
         {!loading &&

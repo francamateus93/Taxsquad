@@ -22,13 +22,14 @@ const TaxesCard = ({ title, date, deadline, documentType }) => {
         </p>
       </div>
       <div className="flex justify-center space-x-4">
-        <ButtonPrimary>
-          <Link to={route}>Create New Tax</Link>
-        </ButtonPrimary>
-
-        <button className="px-6 py-2 bg-white rounded-lg text-emerald-600 font-semibold transition duration-200 cursor-pointer leading-5">
-          <Link to="/documents">View Submitted Taxes</Link>
-        </button>
+        <Link to={route}>
+          <ButtonPrimary>Create New Tax</ButtonPrimary>
+        </Link>
+        <Link to="/documents">
+          <button className="px-6 py-2 bg-white rounded-lg text-emerald-600 font-semibold transition duration-200 cursor-pointer leading-5">
+            View Submitted Taxes
+          </button>
+        </Link>
       </div>
     </div>
   );

@@ -11,17 +11,17 @@ import Register from "../pages/auth/Register";
 import LandingPage from "../pages/LandingPage";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import DashboardPage from "../pages/dashboard/DashboardPage";
-import Invoices from "../pages/invoices/Invoices";
+import InvoicesPage from "../pages/invoices/InvoicesPage";
 import NewExpenseInvoice from "../pages/invoices/NewExpenseInvoice.jsx";
 import NewIncomeInvoice from "../pages/invoices/NewIncomeInvoice.jsx";
-import Taxes from "../pages/taxes/Taxes.jsx";
-import Documents from "../pages/documents/Documents.jsx";
-import Profile from "../pages/profile/Profile.jsx";
+import TaxesPages from "../pages/taxes/TaxesPage.jsx";
+import DocumentsPages from "../pages/documents/DocumentsPage.jsx";
+import ProfilePage from "../pages/profile/ProfilePage.jsx";
 import PrivateRoute from "./PrivateRoute";
 import NotFound from "../pages/NotFound";
 import AuthListener from "../components/auth/AuthListener.jsx";
-import NewAnnual from "../pages/documents/NewAnnual.jsx";
-import NewQuarterly from "../pages/documents/NewQuarterly.jsx";
+import NewAnnual from "../pages/taxes/NewAnnualTax.jsx";
+import NewQuarterly from "../pages/taxes/NewQuarterlyTax.jsx";
 import AuthenticatedRoute from "./AuthenticatedRoute.jsx";
 
 const AppRouter = () => {
@@ -57,7 +57,7 @@ const AppRouter = () => {
               <AuthenticatedRoute>
                 <PrivateRoute>
                   <DashboardLayout>
-                    <Invoices />
+                    <InvoicesPage />
                   </DashboardLayout>
                 </PrivateRoute>
               </AuthenticatedRoute>
@@ -93,7 +93,7 @@ const AppRouter = () => {
               <AuthenticatedRoute>
                 <PrivateRoute>
                   <DashboardLayout>
-                    <Taxes />
+                    <TaxesPages />
                   </DashboardLayout>
                 </PrivateRoute>
               </AuthenticatedRoute>
@@ -129,7 +129,7 @@ const AppRouter = () => {
               <AuthenticatedRoute>
                 <PrivateRoute>
                   <DashboardLayout>
-                    <Documents />
+                    <DocumentsPages />
                   </DashboardLayout>
                 </PrivateRoute>
               </AuthenticatedRoute>
@@ -141,7 +141,7 @@ const AppRouter = () => {
               <AuthenticatedRoute>
                 <PrivateRoute>
                   <DashboardLayout>
-                    <Profile />
+                    <ProfilePage />
                   </DashboardLayout>
                 </PrivateRoute>
               </AuthenticatedRoute>

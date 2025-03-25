@@ -1,6 +1,5 @@
 import db from "../models/db.js";
 
-// Get All Documents
 export const getDocuments = async (req, res) => {
   const { userId } = req.params;
   const { type } = req.query;
@@ -49,12 +48,10 @@ export const createDocument = async (req, res) => {
         document_type,
       ]
     );
-    res
-      .status(201)
-      .json({
-        message: "Document created successfully",
-        documentId: result.insertId,
-      });
+    res.status(201).json({
+      message: "Document created successfully",
+      documentId: result.insertId,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

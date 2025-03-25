@@ -13,9 +13,9 @@ const NotFound = () => {
           Page Not Found
         </p>
       </div>
-      <ButtonSecondary>
-        <Link to="/dashboard">Back to Home</Link>
-      </ButtonSecondary>
+      <Link to="/dashboard">
+        <ButtonSecondary>Back to Home</ButtonSecondary>
+      </Link>
     </section>
   );
 };

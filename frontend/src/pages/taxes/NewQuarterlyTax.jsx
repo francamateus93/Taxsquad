@@ -4,22 +4,18 @@ import api from "../../services/data/Api";
 import ButtonPrimary from "../../components/ui/ButtonPrimary";
 import ButtonSecondary from "../../components/ui/ButtonSecondary";
 
-const NewAnnual = () => {
+const NewQuarterly = () => {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
     year: "",
-    taxpayerName: "",
-    taxpayerNIF: "",
-    spouseName: "",
-    spouseNIF: "",
-    maritalStatus: "",
-    address: "",
-    autonomousCommunity: "",
-    incomeWork: "",
-    incomeBusiness: "",
-    capitalGains: "",
-    deductions: "",
+    quarter: "",
+    income: "",
+    deductibleExpenses: "",
+    netIncome: "",
+    previousPayments: "",
+    withholdingTaxes: "",
+    housingDeduction: "",
   });
 
   const handleChange = (e) => {
@@ -29,19 +25,17 @@ const NewAnnual = () => {
 
   const handleSave = async (e) => {
     e.preventDefault();
-    await api.post("/taxes/annual", form);
+    await api.post("/taxes/quarterly", form);
     navigate("/taxes");
   };
 
   const handleCancel = () => {
-    navigate("/invoices");
+    navigate("/taxes");
   };
 
   return (
     <section className="container mx-auto p-8">
-      <h2 className="text-2xl font-bold">
-        New Annual Income Tax (Modelo D-100)
-      </h2>
+      <h2 className="text-2xl font-bold">New Quarterly Tax (Modelo 130)</h2>
       <form className="space-y-4" onSubmit={handleSave}>
         <input
           name="year"
@@ -50,81 +44,57 @@ const NewAnnual = () => {
           className="border p-2 rounded w-full"
         />
         <input
-          name="taxpayerName"
-          placeholder="Taxpayer Name"
+          name="quarter"
+          placeholder="Quarter (e.g., Q1)"
           onChange={handleChange}
           className="border p-2 rounded w-full"
         />
         <input
-          name="taxpayerNIF"
-          placeholder="Taxpayer NIF"
+          name="income"
+          placeholder="Total Income"
           onChange={handleChange}
           className="border p-2 rounded w-full"
         />
         <input
-          name="spouseName"
-          placeholder="Spouse Name"
+          name="deductibleExpenses"
+          placeholder="Deductible Expenses"
           onChange={handleChange}
           className="border p-2 rounded w-full"
         />
         <input
-          name="spouseNIF"
-          placeholder="Spouse NIF"
+          name="netIncome"
+          placeholder="Net Income"
           onChange={handleChange}
           className="border p-2 rounded w-full"
         />
         <input
-          name="maritalStatus"
-          placeholder="Marital Status"
+          name="previousPayments"
+          placeholder="Previous Payments"
           onChange={handleChange}
           className="border p-2 rounded w-full"
         />
         <input
-          name="address"
-          placeholder="Address"
+          name="withholdingTaxes"
+          placeholder="Withholding Taxes"
           onChange={handleChange}
           className="border p-2 rounded w-full"
         />
         <input
-          name="autonomousCommunity"
-          placeholder="Autonomous Community"
-          onChange={handleChange}
-          className="border p-2 rounded w-full"
-        />
-        <input
-          name="incomeWork"
-          placeholder="Income from Work"
-          onChange={handleChange}
-          className="border p-2 rounded w-full"
-        />
-        <input
-          name="incomeBusiness"
-          placeholder="Business Income"
-          onChange={handleChange}
-          className="border p-2 rounded w-full"
-        />
-        <input
-          name="capitalGains"
-          placeholder="Capital Gains"
-          onChange={handleChange}
-          className="border p-2 rounded w-full"
-        />
-        <input
-          name="deductions"
-          placeholder="Deductions"
+          name="housingDeduction"
+          placeholder="Housing Deduction"
           onChange={handleChange}
           className="border p-2 rounded w-full"
         />
         <div className="flex gap-2">
           <ButtonPrimary type="submit">Save Tax</ButtonPrimary>
-
-          <ButtonSecondary>
-            <Link to="/taxes">Cancel</Link>
-          </ButtonSecondary>
+<Link to="/documents">
+          <ButtonSecondary onClick={handleCancel}>
+            Cancel
+          </ButtonSecondary></Link>
         </div>
       </form>
     </section>
   );
 };
 
-export default NewAnnual;
+export default NewQuarterly;

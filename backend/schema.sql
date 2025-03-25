@@ -55,7 +55,7 @@ CREATE TABLE quarterly_tax (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
   year INT,
-  quarter ENUM('Q1','Q2','Q3','Q4'),
+  quarter VARCHAR(50),
   total_income DECIMAL(10,2),
   deductible_expenses DECIMAL(10,2),
   net_income DECIMAL(10,2),
@@ -94,18 +94,20 @@ VALUES ('Aryane', 'Sanches', 'aryanesanches0@gmail.com', 'aryane', '+34111222333
 
 INSERT INTO invoices (user_id, invoice_type, number, date, client_name, client_id, client_address, city, country, concept, quantity, price, vat, irpf, currency, payment_method, total_amount)
 VALUES 
-(1, 'income', '#001', '2025-04-10', 'Jordi Albanil', 'ID001', 'Avinguda Diagonal, 63', 'Barcelona', 'Spain', 'Massage Service', 2, 100, 21, 0, 'EUR', 'cash', 242),
-(1, 'income', '#002', '2025-04-11', 'Vanessa Rodríguez', 'ID002', 'Calle Balmes, 47', 'Barcelona', 'Spain', ' Massage Service', 1, 100, 21, 0, 'EUR', 'transfer', 121),
-(1, 'income', '#003', '2025-04-12', 'John Smith', 'ID003', 'Calle Lepant, 330', 'Barcelona', 'Spain', ' Massage Service', 1, 100, 21, 0, 'EUR', 'transfer', 121),
+(1, 'income', '#1', '2025-04-10', 'Jordi Albanil', 'ID001', 'Avinguda Diagonal, 63', 'Barcelona', 'Spain', 'Massage Service', 2, 100, 21, 0, 'EUR', 'cash', 242),
+(1, 'income', '#2', '2025-04-11', 'Vanessa Rodríguez', 'ID002', 'Calle Balmes, 47', 'Barcelona', 'Spain', ' Massage Service', 1, 100, 21, 0, 'EUR', 'transfer', 121),
+(1, 'income', '#3', '2025-04-12', 'John Smith', 'ID003', 'Calle Lepant, 330', 'Barcelona', 'Spain', ' Massage Service', 1, 100, 21, 0, 'EUR', 'transfer', 121),
 
-(1, 'expense', '#001', '2025-04-10', 'Products Supplier', 'ID101', 'Calle Verdi, 88', 'Barcelona', 'Spain', 'Product supplier', 1, 400, 21, 0, 'EUR', 'transfer', 484),
-(1, 'expense', '#002', '2025-04-12', 'Seradin SL', 'ID102', 'Calle Varsóvia, 91', 'Barcelona', 'Spain', 'Rent', 1, 550, 21, 0, 'EUR', 'debit in advance', 665),
-(1, 'expense', '#003', '2025-04-13', 'SoftwareXL', 'ID103', 'Calle Madrid, 101', 'Madrid', 'Spain', 'Software account', 1, 50, 21, 0, 'EUR', 'transfer', 61);
+(1, 'expense', '#1', '2025-04-10', 'Products Supplier', 'ID101', 'Calle Verdi, 88', 'Barcelona', 'Spain', 'Product supplier', 1, 400, 21, 0, 'EUR', 'transfer', 484),
+(1, 'expense', '#2', '2025-04-12', 'Seradin SL', 'ID102', 'Calle Varsóvia, 91', 'Barcelona', 'Spain', 'Rent', 1, 550, 21, 0, 'EUR', 'debit in advance', 665),
+(1, 'expense', '#3', '2025-04-13', 'SoftwareXL', 'ID103', 'Calle Madrid, 101', 'Madrid', 'Spain', 'Software account', 1, 50, 21, 0, 'EUR', 'transfer', 61);
 
-INSERT INTO documents (user_id, document_name, document_type, year, period, document_data)
+INSERT INTO quarterly_tax (user_id, year, quarter, total_income, deductible_expenses, net_income, previous_payments, withholding_taxes, deductions)
 VALUES 
-(1, 'First quarter 2024', 'quarterly', 2024, 1, '{"field":"value"}'),
-(1, 'Second quarter 2024', 'quarterly', 2024, 2, '{"field":"value"}'),
-(1, 'Third quarter 2024', 'quarterly', 2024, 3, '{"field":"value"}'),
-(1, 'Fourth quarter 2024', 'quarterly', 2024, 4, '{"field":"value"}'),
-(1, 'Annual tax 2024', 'annual', 2024, 1, '{"field":"value"}');
+(1, 2024, '1T', 1500, 200, 1300, 0, 0, 20),
+(1, 2024, '2T', 1000, 200, 800, 0, 0, 0);
+
+INSERT INTO annual_tax (user_id, year, taxpayer_name, taxpayer_nif, spouse_name, spouse_nif, marital_status, address, autonomous_community, income_from_work, business_income, capital_gains, deductions)
+VALUES
+(1, 2024, 'Aryane Sanches', 'Y7298287X', 'Mateus Franca', 'Y7027045X', 'married', 'Avinguda Mare de Deu de Montserrat, 172', 'Barcelona', 25000, 1000, 100, 200);
+(1, 2023, 'Aryane Sanches', 'Y7298287X', 'Mateus Franca', 'Y7027045X', 'married', 'Avinguda Mare de Deu de Montserrat, 172', 'Barcelona', 22500, 800, 50, 0);

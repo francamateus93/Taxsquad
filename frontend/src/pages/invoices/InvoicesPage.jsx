@@ -15,7 +15,7 @@ const Invoices = () => {
 
   useEffect(() => {
     if (userId) {
-      console.log(userId);
+      // console.log(userId);
       dispatch(fetchInvoicesByType({ userId, type: invoiceType }));
     }
   }, [dispatch, userId, invoiceType]);

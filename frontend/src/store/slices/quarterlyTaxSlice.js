@@ -4,10 +4,9 @@ import api from "../../services/data/Api";
 export const fetchQuarterlyTax = createAsyncThunk(
   "quarterlyTax/fetchAll",
   async ({ userId }, thunkAPI) => {
+    console.log(userId);
     try {
-      const response = await api.get(
-        `/quarterly_tax/users/${userId}/new-quarterly`
-      );
+      const response = await api.get(`/taxes/users/${userId}/new-quarterly`);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -22,7 +21,7 @@ export const createQuarterlyTax = createAsyncThunk(
   async ({ userId, quarterlyData }, thunkAPI) => {
     try {
       const response = await api.post(
-        `/quarterly_tax/users/${userId}/new-quarterly`,
+        `/taxes/users/${userId}/new-quarterly`,
         quarterlyData
       );
       return response.data;
@@ -39,7 +38,7 @@ export const updateQuarterlyTax = createAsyncThunk(
   async ({ userId, quarterlyId, quarterlyData }, thunkAPI) => {
     try {
       const response = await api.put(
-        `/quarterly_tax/users/${userId}/new-quarterly/${quarterlyId}`,
+        `/taxes/users/${userId}/new-quarterly/${quarterlyId}`,
         quarterlyData
       );
       return response.data;
@@ -55,9 +54,7 @@ export const deleteQuarterlyTax = createAsyncThunk(
   "quarterlyTax/delete",
   async ({ userId, quarterlyId }, thunkAPI) => {
     try {
-      await api.delete(
-        `/quarterly_tax/users/${userId}/new-quarterly/${quarterlyId}`
-      );
+      await api.delete(`/taxes/users/${userId}/new-quarterly/${quarterlyId}`);
       return quarterlyId;
     } catch (error) {
       return thunkAPI.rejectWithValue(

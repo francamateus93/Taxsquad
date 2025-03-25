@@ -15,11 +15,7 @@ const router = express.Router();
 
 // Quarterly
 router.post("/users/:userId/new-quarterly", verifyToken, createQuarterlyForm);
-router.get(
-  "/users/:userId/new-quarterly/:formId",
-  verifyToken,
-  getQuarterlyForms
-);
+router.get("/users/:userId/new-quarterly/", verifyToken, getQuarterlyForms);
 router.put(
   "/users/:userId/new-quarterly/:formId",
   verifyToken,
@@ -32,9 +28,13 @@ router.delete(
 );
 
 // Annual
-router.post("/users/:userId/new-annual", createAnnualForm);
-router.get("/users/:userId/new-annual", getAnnualForms);
-router.put("/users/:userId/new-annual/:formId", updateAnnualForm);
-router.delete("/users/:userId/new-annual/:formId", deleteAnnualForm);
+router.post("/users/:userId/new-annual", verifyToken, createAnnualForm);
+router.get("/users/:userId/new-annual", verifyToken, getAnnualForms);
+router.put("/users/:userId/new-annual/:formId", verifyToken, updateAnnualForm);
+router.delete(
+  "/users/:userId/new-annual/:formId",
+  verifyToken,
+  deleteAnnualForm
+);
 
 export default router;

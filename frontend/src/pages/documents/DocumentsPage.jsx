@@ -1,51 +1,64 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDocumentsByType } from "../../store/slices/documentsSlice";
+import { fetchQuarterlyTax } from "../../store/slices/quarterlyTaxSlice.js";
+import { fetchAnnualTax } from "../../store/slices/annualTaxSlice.js";
 import LoadingSpinner from "../../components/utils/LoadingSpinner";
 import Error from "../../components/utils/Error";
 
-const Documents = ({ user }) => {
+const Documents = () => {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.user.id);
-  const { documents, loading, error } = useSelector((state) => state.documents);
+  const {
+    quarterlyTax,
+    loading: loadingQuarterly,
+    error: errorQuarterly,
+  } = useSelector((state) => state.quarterlyTax);
+  const {
+    annualTax,
+    loading: loadingAnnual,
+    error: errorAnnual,
+  } = useSelector((state) => state.annualTax);
+
   const [documentType, setDocumentType] = useState("quarterly");
   const [dateFilter, setDateFilter] = useState("");
 
   useEffect(() => {
-    dispatch(fetchDocumentsByType({ userId, type: documentType }));
-  }, [dispatch, , userId, documentType]);
+    if (!userId) return;
+    if (documentType === "quarterly") {
+      dispatch(fetchQuarterlyTax({ userId }));
+    } else {
+      dispatch(fetchAnnualTax({ userId }));
+    }
+  }, [dispatch, userId, documentType]);
+
+  const data = documentType === "quarterly" ? quarterlyTax : annualTax;
+  const loading =
+    documentType === "quarterly" ? loadingQuarterly : loadingAnnual;
+  const error = documentType === "quarterly" ? errorQuarterly : errorAnnual;
 
   // Filter by date
-  const filteredDocuments = documents.filter((invoice) => {
+  const filteredDocuments = data.filter((doc) => {
     if (!dateFilter) return true;
-    return documents.date >= dateFilter;
+    return doc.date >= dateFilter;
   });
 
   return (
     <section className="container mx-auto p-10 lg:py-12 lg:px-20 space-y-6">
-      {/* Buttons: Quarterly and Annual */}
+      {/* Buttons */}
       <div className="flex space-x-2 mb-12">
-        <button
-          onClick={() => setDocumentType("quarterly")}
-          className={`px-6 py-2 rounded-lg cursor-pointer tracking-tighter text-center ${
-            documentType === "quarterly"
-              ? "bg-emerald-200 w-40 h-14 text-2xl font-semibold hover:bg-emerald-300 text-emerald-600 transition duration-200"
-              : "bg-emerald-50 text-emerald-600 w-40 h-14 text-lg font-normal hover:bg-emerald-200 transition duration-200"
-          }`}
-        >
-          Quarterly
-        </button>
-
-        <button
-          onClick={() => setDocumentType("annual")}
-          className={`px-6 py-2 rounded-lg cursor-pointer tracking-tighter text-center ${
-            documentType === "annual"
-              ? "bg-emerald-200 w-40 h-14 text-2xl font-semibold hover:bg-emerald-300 text-emerald-600 transition duration-200"
-              : "bg-emerald-50 text-emerald-600 w-40 h-14 text-lg font-normal hover:bg-emerald-200 transition duration-200"
-          }`}
-        >
-          Annual
-        </button>
+        {["quarterly", "annual"].map((type) => (
+          <button
+            key={type}
+            onClick={() => setDocumentType(type)}
+            className={`px-6 py-2 rounded-lg cursor-pointer tracking-tighter text-center ${
+              documentType === type
+                ? "bg-emerald-200 w-40 h-14 text-2xl font-semibold hover:bg-emerald-300 text-emerald-600 transition duration-200"
+                : "bg-emerald-50 text-emerald-600 w-40 h-14 text-lg font-normal hover:bg-emerald-200 transition duration-200"
+            }`}
+          >
+            {type.charAt(0).toUpperCase() + type.slice(1)}
+          </button>
+        ))}
       </div>
 
       {/* Filter */}
@@ -57,48 +70,41 @@ const Documents = ({ user }) => {
           id="dateFilter"
           type="date"
           value={dateFilter}
-          onChange={(e) => {
-            setDateFilter(e.target.value);
-          }}
+          onChange={(e) => setDateFilter(e.target.value)}
           className="border-none text-sm"
         />
       </div>
 
-      {!loading && !error && filteredDocuments.length === 0 && (
-        <p className="flex flex-wrap md:flex-nowrap justify-between gap-4 max-w-7xl text-xs md:text-base text-start bg-white p-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition">
-          No documents found.
-        </p>
-      )}
-
-      {/* List of Documents */}
-      <div className="space-y-2 bg-emerald-50 h-[600px] rounded-2xl p-4">
-        {/* Display Loading or Error */}
+      {/* Data */}
+      <div className="space-y-2 bg-emerald-50 h-[600px] rounded-2xl p-4 overflow-y-auto">
         {loading && <LoadingSpinner />}
         {error && <Error message={error} />}
 
-        {!loading && !error && (
-          <ul className="space-y-2">
-            {filteredDocuments.map((doc) => (
-              <li
-                key={doc.id}
-                className="flex justify-between gap-4 max-w-7xl text-xs md:text-base text-start bg-white p-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition"
-              >
-                <p className="font-semibold w-66">{doc.document_name}</p>
-                <p className="w-46">
-                  {new Date(doc.created_at).toLocaleDateString()}
-                </p>
-                <a
-                  href={doc.file_path}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-56 text-end font-medium"
-                >
-                  View Document
-                </a>
-              </li>
-            ))}
-          </ul>
+        {!loading && !error && filteredDocuments.length === 0 && (
+          <p className="bg-white text-center p-4 rounded-lg text-gray-500">
+            No documents found.
+          </p>
         )}
+
+        {!loading &&
+          !error &&
+          filteredDocuments.map((doc) => (
+            <div
+              key={doc.id}
+              className="flex justify-between gap-4 text-xs md:text-base text-start bg-white p-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition"
+            >
+              <p className="font-semibold w-66">
+                {documentType === "quarterly"
+                  ? `Quarter ${doc.quarter} - ${doc.year}`
+                  : `Annual Income Tax - ${doc.year}`}
+              </p>
+              <p className="text-right w-44">
+                {doc.created_at
+                  ? new Date(doc.created_at).toLocaleDateString()
+                  : ""}
+              </p>
+            </div>
+          ))}
       </div>
     </section>
   );

@@ -5,7 +5,7 @@ export const fetchAnnualTax = createAsyncThunk(
   "annualTax/fetchAll",
   async ({ userId }, thunkAPI) => {
     try {
-      const response = await api.get(`/annual_tax/users/${userId}/new-annual`);
+      const response = await api.get(`/taxes/users/${userId}/new-annual`);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -20,7 +20,7 @@ export const createAnnualTax = createAsyncThunk(
   async ({ userId, annualData }, thunkAPI) => {
     try {
       const response = await api.post(
-        `/annual_tax/users/${userId}/new-annual`,
+        `/taxes/users/${userId}/new-annual`,
         annualData
       );
       return response.data;
@@ -37,7 +37,7 @@ export const updateAnnualTax = createAsyncThunk(
   async ({ userId, annualId, annualData }, thunkAPI) => {
     try {
       const response = await api.put(
-        `/annual_tax/users/${userId}/new-annual/${annualId}`,
+        `/taxes/users/${userId}/new-annual/${annualId}`,
         annualData
       );
       return response.data;
@@ -53,7 +53,7 @@ export const deleteAnnualTax = createAsyncThunk(
   "annualTax/delete",
   async ({ userId, annualId }, thunkAPI) => {
     try {
-      await api.delete(`/annual_tax/users/${userId}/new-annual/${annualId}`);
+      await api.delete(`/taxes/users/${userId}/new-annual/${annualId}`);
       return annualId;
     } catch (error) {
       return thunkAPI.rejectWithValue(

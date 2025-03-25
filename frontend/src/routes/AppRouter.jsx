@@ -12,8 +12,8 @@ import LandingPage from "../pages/LandingPage";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import DashboardPage from "../pages/dashboard/DashboardPage";
 import Invoices from "../pages/invoices/Invoices";
-import NewInvoiceExpense from "../pages/invoices/NewInvoiceExpense";
-import NewInvoiceIncome from "../pages/invoices/NewInvoiceIncome";
+import NewExpenseInvoice from "../pages/invoices/NewExpenseInvoice.jsx";
+import NewIncomeInvoice from "../pages/invoices/NewIncomeInvoice.jsx";
 import Taxes from "../pages/taxes/Taxes.jsx";
 import Documents from "../pages/documents/Documents.jsx";
 import Profile from "../pages/profile/Profile.jsx";
@@ -69,7 +69,7 @@ const AppRouter = () => {
               <AuthenticatedRoute>
                 <PrivateRoute>
                   <DashboardLayout>
-                    <NewInvoiceIncome />
+                    <NewIncomeInvoice />
                   </DashboardLayout>
                 </PrivateRoute>
               </AuthenticatedRoute>
@@ -81,7 +81,7 @@ const AppRouter = () => {
               <AuthenticatedRoute>
                 <PrivateRoute>
                   <DashboardLayout>
-                    <NewInvoiceExpense />
+                    <NewExpenseInvoice />
                   </DashboardLayout>
                 </PrivateRoute>
               </AuthenticatedRoute>

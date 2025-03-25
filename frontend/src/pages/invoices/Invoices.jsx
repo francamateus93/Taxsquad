@@ -17,7 +17,8 @@ const Invoices = () => {
     dispatch(fetchInvoicesByType({ userId, type: invoiceType }));
   }, [dispatch, userId, invoiceType]);
 
-  // Filter by date
+  if (loading) return <LoadingSpinner />;
+  if (error) return <Error />;
   const filteredInvoices = invoices.filter((invoice) => {
     if (!dateFilter) return true;
     return invoice.date >= dateFilter;

@@ -2,16 +2,16 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Button from "../../components/ui/ButtonPrimary";
 import ButtonSecondary from "../../components/ui/ButtonSecondary";
-import SelectField from "../../components/utils/SelectedField";
+import SelectField from "../../components/utils/SelectField";
 import Error from "../../components/utils/Error";
 
 const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
   const initialForm = {
     number: "",
     date: "",
-    clientName: "",
-    clientId: "",
-    clientAddress: "",
+    client_name: "",
+    client_id: "",
+    client_address: "",
     city: "",
     country: "",
     concept: "",
@@ -20,7 +20,8 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
     vat: 21,
     irpf: 0,
     currency: "EUR",
-    paymentMethod: "",
+    payment_method: "",
+    invoice_type: type,
     ...defaultValues,
   };
 
@@ -54,14 +55,14 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
 
     if (!form.number.trim()) newErrors.number = "Invoice number is required.";
     if (!form.date) newErrors.date = "Date is required.";
-    if (!form.clientName.trim())
-      newErrors.clientName = "Client name is required.";
+    if (!form.client_name.trim())
+      newErrors.client_name = "Client name is required.";
     if (!form.quantity || isNaN(form.quantity))
       newErrors.quantity = "Quantity must be a number.";
     if (!form.price || isNaN(form.price))
       newErrors.price = "Price must be a number.";
-    if (!form.paymentMethod.trim())
-      newErrors.paymentMethod = "Payment method is required.";
+    if (!form.payment_method.trim())
+      newErrors.payment_method = "Payment method is required.";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -69,8 +70,7 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (!validateForm) return;
+    if (!validateForm()) return;
     onSubmit({ ...form, totalAmount: calculateTotal(), type });
     setForm(initialForm);
     setSubmitted(true);
@@ -80,15 +80,15 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
   const inputFields = [
     { label: "Invoice Number", name: "number" },
     { label: "Date", name: "date", type: "date" },
-    { label: "Client Name", name: "clientName" },
-    { label: "Client ID", name: "clientId" },
-    { label: "Address", name: "clientAddress" },
+    { label: "Client Name", name: "client_name" },
+    { label: "Client ID", name: "client_id" },
+    { label: "Address", name: "client_address" },
     { label: "City", name: "city" },
     { label: "Country", name: "country" },
     { label: "Concept", name: "concept", type: "textarea" },
     { label: "Quantity", name: "quantity", type: "number" },
     { label: "Price", name: "price", type: "number" },
-    { label: "Payment Method", name: "paymentMethod" },
+    { label: "Payment Method", name: "payment_method" },
   ];
 
   return (

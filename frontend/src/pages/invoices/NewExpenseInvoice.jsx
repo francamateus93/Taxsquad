@@ -1,14 +1,15 @@
-import { useDispatch } from "react-redux";
-import { createInvoice } from "../../store/slices/invoicesSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { createInvoice } from "../../store/slices/invoicesSlice";
 import InvoiceForm from "./InvoiceForm";
 
-const NewInvoiceIncome = () => {
+const NewExpenseInvoice = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userId = JSON.parse(localStorage.getItem("user")).id;
+  const userId = useSelector((state) => state.auth.user.id);
 
   const handleCreate = (invoiceData) => {
+    if (!userId) return console.error("User ID not found");
     dispatch(createInvoice({ userId, invoiceData }))
       .unwrap()
       .then(() => navigate("/invoices"))
@@ -21,10 +22,10 @@ const NewInvoiceIncome = () => {
         <h2 className="text-2xl font-bold mb-6 text-center tracking-tight">
           New Expense Invoice
         </h2>
-        <InvoiceForm type="income" onSubmit={handleCreate} />
+        <InvoiceForm type="expense" onSubmit={handleCreate} />
       </div>
     </section>
   );
 };
 
-export default NewInvoiceIncome;
+export default NewExpenseInvoice;

@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { createQuarterlyTax } from "../../../store/slices/quarterlyTaxSlice";
 import Button from "../../../components/ui/ButtonPrimary";
 import ButtonSecondary from "../../../components/ui/ButtonSecondary";
 
 const NewQuarterlyTax = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userId = useSelector((state) => state.auth.user.id);
 
   const [form, setForm] = useState({
@@ -34,7 +35,10 @@ const NewQuarterlyTax = () => {
       .unwrap()
       .then(() => {
         setShowModal(true);
-        setTimeout(() => setShowModal(false), 3000);
+        setTimeout(() => {
+          setShowModal(false);
+          navigate("/documents");
+        }, 3000);
       })
       .catch((err) => {
         console.error("Failed to save:", err);
@@ -59,6 +63,7 @@ const NewQuarterlyTax = () => {
               <input
                 type={
                   [
+                    "quarter",
                     "total_income",
                     "deductible_expenses",
                     "net_income",

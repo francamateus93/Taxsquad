@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { createAnnualTax } from "../../../store/slices/annualTaxSlice";
 import Button from "../../../components/ui/ButtonPrimary";
 import ButtonSecondary from "../../../components/ui/ButtonSecondary";
 
 const NewAnnualTax = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userId = useSelector((state) => state.auth.user.id);
 
   const [form, setForm] = useState({
@@ -38,7 +39,10 @@ const NewAnnualTax = () => {
       .unwrap()
       .then(() => {
         setShowModal(true);
-        setTimeout(() => setShowModal(false), 3000);
+        setTimeout(() => {
+          setShowModal(false);
+          navigate("/documents");
+        }, 3000);
       })
       .catch((err) => {
         console.error("Failed to save:", err);

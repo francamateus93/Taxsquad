@@ -4,7 +4,6 @@ import api from "../../services/data/Api";
 export const fetchQuarterlyTax = createAsyncThunk(
   "quarterlyTax/fetchAll",
   async ({ userId }, thunkAPI) => {
-    console.log(userId);
     try {
       const response = await api.get(`/taxes/users/${userId}/new-quarterly`);
       return response.data;

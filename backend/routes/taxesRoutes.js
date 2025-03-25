@@ -8,7 +8,7 @@ import {
   getAnnualForms,
   updateAnnualForm,
   deleteAnnualForm,
-} from "../controllers/formsController.js";
+} from "../controllers/taxesController.js";
 import { verifyToken } from "../utils/jwtUtils.js";
 
 const router = express.Router();

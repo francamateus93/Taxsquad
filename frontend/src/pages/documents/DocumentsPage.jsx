@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { fetchDocumentsByType } from "../../store/slices/documentsSlice";
 import LoadingSpinner from "../../components/utils/LoadingSpinner";
 import Error from "../../components/utils/Error";

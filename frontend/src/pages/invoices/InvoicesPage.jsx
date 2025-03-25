@@ -14,7 +14,10 @@ const Invoices = () => {
   const [dateFilter, setDateFilter] = useState("");
 
   useEffect(() => {
-    dispatch(fetchInvoicesByType({ userId, type: invoiceType }));
+    if (userId) {
+      console.log(userId);
+      dispatch(fetchInvoicesByType({ userId, type: invoiceType }));
+    }
   }, [dispatch, userId, invoiceType]);
 
   if (loading) return <LoadingSpinner />;
@@ -97,7 +100,7 @@ const Invoices = () => {
 
         {!loading && !error && filteredInvoices.length === 0 && (
           <p className="flex flex-wrap md:flex-nowrap justify-between gap-4 max-w-7xl text-xs md:text-base text-start bg-white p-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition">
-            No invoices found.
+            No invoices found
           </p>
         )}
 

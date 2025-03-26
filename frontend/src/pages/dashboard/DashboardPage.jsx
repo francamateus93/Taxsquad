@@ -33,7 +33,7 @@ const DashboardPage = () => {
     <section className="container mx-auto p-12 space-y-6">
       {/* Cards */}
 
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className="grid lg:grid-cols-3 gap-6">
         <div className="bg-emerald-50 p-6 rounded-xl hover:scale-105 transition duration-300 text-start">
           <h4 className="text-lg font-semibold tracking-tighter text-gray-500 mb-2">
             Total Income
@@ -57,7 +57,7 @@ const DashboardPage = () => {
           <h4 className="text-lg font-semibold tracking-tighter text-gray-500 mb-2">
             Balance
           </h4>
-          <p className="text-4xl font-bold tracking-tighter text-blue-600">
+          <p className="text-4xl font-bold tracking-tighter text-sky-600">
             {balance.toFixed(2)} €
           </p>
         </div>
@@ -102,10 +102,10 @@ const DashboardPage = () => {
         </Link>
       </div>
 
-      <div className="mt-4">
+      <div className="bg-emerald-50 h-fit rounded-2xl p-4 overflow-y-auto mt-4">
         <Link
           to={"/documents"}
-          className="text-blue-600 font-medium hover:underline"
+          className="text-sky-600 font-medium hover:underline"
         >
           Ver documentos fiscais →
         </Link>

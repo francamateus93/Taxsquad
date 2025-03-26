@@ -95,6 +95,13 @@ const Invoices = () => {
 
       {/* Invoices List */}
       <div className="space-y-2 bg-emerald-50 h-fit rounded-2xl p-4">
+        <div className="flex justify-between px-4 tracking-tight font-semibold">
+          <p>Id Client</p>
+          <span></span>
+          <p>Date</p>
+          <p>Total</p>
+        </div>
+
         {loading && <LoadingSpinner />}
         {error && <Error message={error} />}
 
@@ -110,7 +117,7 @@ const Invoices = () => {
             <div
               key={invoice.number}
               onClick={() => handleInvoiceClick(invoice)}
-              className="flex flex-wrap md:flex-nowrap justify-between gap-4 max-w-7xl text-xs md:text-base text-start bg-white p-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition"
+              className="flex flex-wrap md:flex-nowrap justify-between gap-4 max-w-7xl text-xs md:text-sm text-start bg-white p-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition"
             >
               <h4 className="font-semibold w-30">{invoice.number}</h4>
               <p className="w-66">{invoice.client_name}</p>

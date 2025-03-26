@@ -35,7 +35,7 @@ const ExpenseChart = ({ data }) => {
       bar: {
         borderRadius: 6,
         borderRadiusApplication: "end",
-        columnWidth: "60%",
+        columnWidth: "40%",
       },
     },
     xaxis: {

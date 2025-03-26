@@ -6,7 +6,7 @@ import Modal from "../../components/ui/modal/Modal";
 import Button from "../../components/ui/button/ButtonPrimary";
 import ButtonSecondary from "../../components/ui/button/ButtonSecondary";
 
-const Profile = () => {
+const ProfilePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
@@ -189,4 +189,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfilePage;

@@ -83,12 +83,13 @@ const DashboardPage = () => {
               key={invoice.id}
               className="flex flex-wrap md:flex-nowrap justify-between gap-4 max-w-7xl text-xs md:text-base text-start bg-white p-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition"
             >
-              <div>
+              <div className="flex flex-col">
                 <p className="font-semibold">
                   {invoice.invoice_type.charAt(0).toUpperCase() +
                     invoice.invoice_type.slice(1)}{" "}
-                  : <p className="font-normal">{invoice.client_name}</p>
+                  :
                 </p>
+                <p className="font-normal">{invoice.client_name}</p>
               </div>
               <p>{invoice.total_amount} €</p>
             </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import TaxesCard from "./components/TaxesCard";
 
-const Taxes = () => {
+const TaxesPages = () => {
   return (
     <section className="container mx-auto p-10 md:py-12 md:px-20 space-y-6">
       <div className="grid grid-cols-1 gap-8 mx-auto lg:flex">
@@ -22,4 +22,4 @@ const Taxes = () => {
   );
 };
 
-export default Taxes;
+export default TaxesPages;

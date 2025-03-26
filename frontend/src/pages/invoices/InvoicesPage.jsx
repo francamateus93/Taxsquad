@@ -94,7 +94,7 @@ const Invoices = () => {
       </div>
 
       {/* Invoices List */}
-      <div className="space-y-2 bg-emerald-50 h-[600px] rounded-2xl p-4">
+      <div className="space-y-2 bg-emerald-50 h-fit rounded-2xl p-4">
         {loading && <LoadingSpinner />}
         {error && <Error message={error} />}
 

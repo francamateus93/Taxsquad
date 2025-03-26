@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout, updateUser, deleteUser } from "../../store/slices/authSlice";
-// import api from "../../services/data/Api";
+import Modal from "../../components/ui/modal/Modal";
 import Button from "../../components/ui/button/ButtonPrimary";
 import ButtonSecondary from "../../components/ui/button/ButtonSecondary";
 
@@ -14,7 +14,6 @@ const Profile = () => {
   const [showModalSave, setShowModalSave] = useState(false);
   const [showModalPassword, setShowModalPassword] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
 
   const [profile, setProfile] = useState({
     first_name: "",
@@ -25,6 +24,7 @@ const Profile = () => {
     phone: "",
     address: "",
     city: "",
+    country: "",
   });
 
   const fieldsToShow = [
@@ -41,11 +41,14 @@ const Profile = () => {
 
   useEffect(() => {
     if (user) {
+      const formattedDate = new Date(user.date_of_birth).toLocaleDateString(
+        "en-CA"
+      );
       setProfile({
         first_name: user.first_name || "",
         last_name: user.last_name || "",
         email: user.email || "",
-        date_of_birth: user.date_of_birth || "",
+        date_of_birth: formattedDate || "",
         identification_number: user.identification_number || "",
         phone: user.phone || "",
         address: user.address || "",
@@ -60,36 +63,33 @@ const Profile = () => {
   };
 
   const handleUpdate = () => {
+    const userData = { ...profile };
+    if (userData.date_of_birth) {
+      const dateParts = userData.date_of_birth.split("-");
+      userData.date_of_birth = new Date(
+        dateParts[0],
+        dateParts[1] - 1,
+        dateParts[2]
+      ).toISOString();
+    }
     dispatch(updateUser({ userId: user.id, userData: profile }))
       .unwrap()
-      .then((updatedData) => {
-        setModalMessage("Profile updated successfully!");
+      .then((res) => {
+        console.log("answer update", res);
         setShowModalSave(true);
-        setTimeout(() => setShowModalSave(false), 3000);
+        setTimeout(() => {
+          setShowModalSave(false);
+        }, 5000);
       })
-      .catch((error) => {
-        setModalMessage(error.message || "Failed to update profile.");
-        setShowModalSave(true);
-        setTimeout(() => setShowModalSave(false), 3000);
-      });
+      .catch((err) => console.error("Update failed", err));
   };
 
-  // const handlePasswordReset = async () => {
-  //   try {
-  //     await api.post("/users/reset-password", { email: user.email });
-  //     setModalMessage(
-  //       "We have sent an email with instructions to reset your password."
-  //     );
-  //     setShowModalPassword(true);
-  //     setTimeout(() => setShowModalPassword(false), 3000);
-  //   } catch (error) {
-  //     setModalMessage(
-  //       error.response?.data?.error || "Error sending reset password email."
-  //     );
-  //     setShowModalPassword(true);
-  //     setTimeout(() => setShowModalPassword(false), 3000);
-  //   }
-  // };
+  const handlePasswordReset = () => {
+    setShowModalPassword(true);
+    setTimeout(() => {
+      setShowModalPassword(false);
+    }, 5000);
+  };
 
   const handleDelete = () => {
     dispatch(deleteUser(user.id))
@@ -99,10 +99,8 @@ const Profile = () => {
         navigate("/");
       })
       .catch((error) => {
-        setModalMessage(error.message);
-        setShowDeleteModal(false);
         setShowModalSave(true);
-        setTimeout(() => setShowModalSave(false), 3000);
+        console.error("Failed to delete user:", error);
       });
   };
 
@@ -136,7 +134,7 @@ const Profile = () => {
 
         <div className="flex flex-col md:flex-row justify-between gap-4 mt-8">
           <Button onClick={handleUpdate}>Save Changes</Button>
-          <ButtonSecondary onClick={() => handlePasswordReset()}>
+          <ButtonSecondary onClick={handlePasswordReset}>
             Change Password
           </ButtonSecondary>
           <button
@@ -148,40 +146,23 @@ const Profile = () => {
         </div>
 
         {showModalSave && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-            <div className="bg-white rounded-lg p-6 shadow-lg text-center">
-              <p>{modalMessage}</p>
-              <button
-                onClick={() => setShowModalSave(false)}
-                className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
+          <Modal
+            message="User updated successfully!"
+            onClose={() => setShowModalSave(false)}
+          />
         )}
 
         {showModalPassword && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-            <div className="bg-white rounded-lg p-6 shadow-lg text-center">
-              <p>{modalMessage}</p>
-              <button
-                onClick={() => setShowModalPassword(false)}
-                className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
+          <Modal
+            message="Password reset link sent to your email."
+            onClose={() => setShowModalPassword(false)}
+          />
         )}
 
         {showDeleteModal && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-            <div className="bg-white rounded-lg p-8 shadow-lg space-y-6">
-              <h2 className="text-xl font-semibold text-red-600">
-                Delete your account
-              </h2>
-              <p>
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div className="bg-white text-gray-600 p-10 rounded-xl relative shadow-xl max-w-md mx-auto flex flex-col gap-8">
+              <p className="text-lg md:text-2xl font-medium text-center tracking-tighter text-red-600">
                 Are you sure you want to delete your account? All data
                 associated with this account will be deleted and cannot be
                 recovered.
@@ -189,7 +170,7 @@ const Profile = () => {
               <div className="flex justify-between gap-4">
                 <button
                   onClick={handleDelete}
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+                  className="px-4 py-2 bg-red-600 font-bold text-white rounded-lg hover:bg-red-700 transition"
                 >
                   Delete Account
                 </button>

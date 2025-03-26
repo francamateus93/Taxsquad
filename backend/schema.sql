@@ -38,19 +38,6 @@ CREATE TABLE invoices (
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE TABLE documents (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT,
-  document_name VARCHAR(100),
-  year INT,
-  period INT NULL,
-  document_data JSON,
-  document_type ENUM('quarterly', 'annual'),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES users(id)
-);
-
 CREATE TABLE quarterly_tax (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
@@ -106,8 +93,9 @@ INSERT INTO quarterly_tax (user_id, year, quarter, total_income, deductible_expe
 VALUES 
 (1, 2024, '1T', 1500, 200, 1300, 0, 0, 20),
 (1, 2024, '2T', 1000, 200, 800, 0, 0, 0);
+(1, 2024, '3T', 2000, 100, 1900, 0, 0, 0);
 
 INSERT INTO annual_tax (user_id, year, taxpayer_name, taxpayer_nif, spouse_name, spouse_nif, marital_status, address, autonomous_community, income_from_work, business_income, capital_gains, deductions)
 VALUES
-(1, 2024, 'Aryane Sanches', 'Y7298287X', 'Mateus Franca', 'Y7027045X', 'married', 'Avinguda Mare de Deu de Montserrat, 172', 'Barcelona', 25000, 1000, 100, 200);
+(1, 2024, 'Aryane Sanches', 'Y7298287X', 'Mateus Franca', 'Y7027045X', 'married', 'Avinguda Mare de Deu de Montserrat, 172', 'Barcelona', 25000, 1000, 100, 200),
 (1, 2023, 'Aryane Sanches', 'Y7298287X', 'Mateus Franca', 'Y7027045X', 'married', 'Avinguda Mare de Deu de Montserrat, 172', 'Barcelona', 22500, 800, 50, 0);

@@ -8,14 +8,29 @@ const backdrop = {
 };
 
 const modal = {
-  hidden: { y: -30, opacity: 0 },
-  visible: { y: 0, opacity: 1, transition: { duration: 0.9 } },
-  exit: { y: 30, opacity: 0, transition: { duration: 0.8 } },
+  hidden: { y: -50, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 1,
+      ease: "easeOut",
+    },
+  },
+  exit: {
+    y: 50,
+    opacity: 0.5,
+    transition: {
+      duration: 1,
+      ease: "easeIn",
+    },
+  },
 };
 
 const Modal = ({ message, duration = 50000, onClose }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
+      console.log("Modal Opened");
       onClose?.();
     }, duration);
     return () => clearTimeout(timer);

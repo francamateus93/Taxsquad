@@ -135,6 +135,13 @@ const authSlice = createSlice({
         state.user = action.payload;
         localStorage.setItem("user", JSON.stringify(action.payload));
       })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.user = action.payload;
+        localStorage.setItem("user", JSON.stringify(action.payload));
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.error = action.payload;
+      })
       .addCase(googleLogin.fulfilled, (state, action) => {
         state.user = action.payload;
         state.loading = false;

@@ -76,7 +76,7 @@ const Documents = () => {
       </div>
 
       {/* Data */}
-      <div className="space-y-2 bg-emerald-50 h-[600px] rounded-2xl p-4 overflow-y-auto">
+      <div className="space-y-2 bg-emerald-50 h-fit rounded-2xl p-4 overflow-y-auto">
         {loading && <LoadingSpinner />}
         {error && <Error message={error} />}
 

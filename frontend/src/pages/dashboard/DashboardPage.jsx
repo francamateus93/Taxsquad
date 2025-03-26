@@ -30,7 +30,7 @@ const DashboardPage = () => {
   const latestInvoices = invoices.slice(0, 6);
 
   return (
-    <section className="container mx-auto p-12 space-y-6">
+    <section className="container mx-auto p-10 lg:py-12 lg:px-20 space-y-6">
       {/* Cards */}
 
       <div className="grid lg:grid-cols-3 gap-6">
@@ -64,7 +64,7 @@ const DashboardPage = () => {
       </div>
 
       {/* Charts */}
-      <div className="flex flex-col gap-8 bg-gray-100 rounded-2xl p-8 my-8">
+      <div className="flex flex-col gap-8 bg-gray-100 rounded-2xl p-5 md:p-8 my-8">
         <IncomeChart data={invoices} />
         <ExpenseChart data={invoices} />
       </div>
@@ -114,7 +114,7 @@ const DashboardPage = () => {
         </Link>
       </div>
 
-      <div className="bg-emerald-50 h-fit rounded-2xl p-4 overflow-y-auto mt-4">
+      <div className="bg-gray-100 h-fit rounded-2xl p-4 overflow-y-auto mt-4">
         <Link
           to={"/documents"}
           className="text-sky-600 font-medium hover:underline"

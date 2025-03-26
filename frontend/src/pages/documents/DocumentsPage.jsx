@@ -43,7 +43,6 @@ const DocumentsPages = () => {
     documentType === "quarterly" ? loadingQuarterly : loadingAnnual;
   const error = documentType === "quarterly" ? errorQuarterly : errorAnnual;
 
-  // Filter by date
   const filteredDocuments = data.filter((doc) => {
     if (!dateFilter) return true;
     return doc.date >= dateFilter;
@@ -126,7 +125,7 @@ const DocumentsPages = () => {
           ))}
       </div>
 
-      {/* Paginação */}
+      {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex justify-center mt-6 space-x-1">
           <button

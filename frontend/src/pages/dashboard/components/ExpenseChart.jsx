@@ -1,4 +1,3 @@
-// src/pages/Dashboard/ExpenseChart.jsx
 import {
   BarChart,
   Bar,

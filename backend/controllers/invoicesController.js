@@ -15,6 +15,20 @@ export const getInvoices = async (req, res) => {
   }
 };
 
+export const getAllInvoices = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const [invoices] = await db.execute(
+      `SELECT * FROM invoices WHERE user_id = ? ORDER BY date DESC`,
+      [userId]
+    );
+    res.status(200).json(invoices);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 export const getIncomeInvoices = async (req, res) => {
   const { userId } = req.params;
 

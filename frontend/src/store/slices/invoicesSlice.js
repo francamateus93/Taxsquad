@@ -17,6 +17,20 @@ export const fetchInvoicesByType = createAsyncThunk(
   }
 );
 
+export const fetchAllInvoices = createAsyncThunk(
+  "invoices/fetchAllInvoices",
+  async ({ userId }, thunkAPI) => {
+    try {
+      const response = await api.get(`/invoices/users/${userId}/all`);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.error || error.message
+      );
+    }
+  }
+);
+
 export const createInvoice = createAsyncThunk(
   "invoices/createInvoice",
   async ({ userId, invoiceData }, thunkAPI) => {

@@ -1,32 +1,84 @@
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+import Chart from "react-apexcharts";
+import { generateChartData } from "../../../components/utils/chartData.js";
 
 const ExpenseChart = ({ data }) => {
-  const monthlyExpenses = Array.from({ length: 12 }, (_, i) => ({
-    month: new Date(0, i).toLocaleString("default", { month: "short" }),
-    total: data
-      .filter((inv) => inv.invoice_type === "expense")
-      .filter((inv) => new Date(inv.date).getMonth() === i)
-      .reduce((sum, inv) => sum + inv.total_amount, 0),
-  }));
+  const chartData = generateChartData(data, "expense");
+  const categories = chartData.map((item) => item.month);
+
+  const monthlyExpenses = Array(12).fill(0);
+  data
+    .filter((inv) => inv.invoice_type === "expense")
+    .forEach((inv) => {
+      const month = new Date(inv.date).getMonth();
+      monthlyExpenses[month] += Number(inv.total_amount) || 0;
+    });
+
+  const options = {
+    chart: {
+      type: "bar",
+      height: 250,
+      toolbar: {
+        tools: {
+          show: true,
+          download: true,
+          offsetX: 20,
+          selection: false,
+          zoom: false,
+          zoomin: false,
+          zoomout: false,
+          pan: false,
+          reset: false,
+        },
+      },
+    },
+    plotOptions: {
+      bar: {
+        borderRadius: 6,
+        borderRadiusApplication: "end",
+        columnWidth: "60%",
+      },
+    },
+    xaxis: {
+      categories,
+      labels: {
+        style: {
+          colors: "#6B7280",
+          fontSize: "12px",
+        },
+      },
+    },
+    yaxis: {
+      labels: {
+        formatter: (val) => `${Math.round(val)} €`,
+        style: {
+          colors: "#6B7280",
+          fontSize: "12px",
+        },
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    fill: {
+      colors: ["#f87171"],
+    },
+  };
+
+  const series = [
+    {
+      name: "Expenses",
+      data: monthlyExpenses.map((amount) =>
+        parseFloat((Number(amount) || 0).toFixed(2))
+      ),
+    },
+  ];
 
   return (
-    <div className="bg-white p-4 rounded-xl shadow">
-      <h4 className="text-lg font-semibold mb-4">Despesas por mês</h4>
-      <ResponsiveContainer width="100%" height={250}>
-        <BarChart data={monthlyExpenses}>
-          <XAxis dataKey="month" />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey="total" />
-        </BarChart>
-      </ResponsiveContainer>
+    <div className="bg-white p-4 rounded-xl w-full">
+      <h4 className="text-start text-2xl font-bold tracking-tight p-4">
+        Monthly Expenses
+      </h4>
+      <Chart options={options} series={series} type="bar" height={250} />
     </div>
   );
 };

@@ -15,7 +15,6 @@ const DashboardPage = () => {
 
   useEffect(() => {
     if (!userId) return navigate("/login");
-    // console.log("invoices:", invoices);
     dispatch(fetchAllInvoices({ userId }));
   }, [dispatch, userId]);
 
@@ -28,41 +27,53 @@ const DashboardPage = () => {
     .reduce((total, invoice) => total + Number(invoice.total_amount), 0);
 
   const balance = incomeTotal - expenseTotal;
-  const latestInvoices = invoices.slice(0, 5).reverse();
+  const latestInvoices = invoices.slice(0, 6);
 
   return (
     <section className="container mx-auto p-12 space-y-6">
       {/* Cards */}
+
       <div className="grid md:grid-cols-3 gap-6">
-        <div className="bg-emerald-100 p-6 rounded-xl shadow">
-          <h4 className="text-lg font-semibold">Total Income</h4>
-          <p className="text-2xl font-bold text-emerald-600">
-            {incomeTotal.toFixed(2)} €
-          </p>
+        <div className="bg-emerald-50 p-6 rounded-xl hover:scale-105 transition duration-300 text-start">
+          <h4 className="text-lg font-semibold tracking-tighter text-gray-500 mb-2">
+            Total Income
+          </h4>
+          <div>
+            <p className="text-4xl font-bold text-emerald-600 tracking-tighter">
+              {incomeTotal.toFixed(2)}€
+            </p>
+            <p></p>
+          </div>
         </div>
-        <div className="bg-red-100 p-6 rounded-xl shadow">
-          <h4 className="text-lg font-semibold">Total Expenses</h4>
-          <p className="text-2xl font-bold text-red-600">
+        <div className="bg-emerald-50 p-6 rounded-xl hover:scale-105 transition duration-300 text-start">
+          <h4 className="text-lg font-semibold tracking-tighter text-gray-500 mb-2">
+            Total Expenses
+          </h4>
+          <p className="text-4xl font-bold tracking-tighter text-red-400">
             {expenseTotal.toFixed(2)} €
           </p>
         </div>
-        <div className="bg-blue-100 p-6 rounded-xl shadow">
-          <h4 className="text-lg font-semibold">Balance</h4>
-          <p className="text-2xl font-bold text-blue-600">
+        <div className="bg-emerald-50 p-6 rounded-xl hover:scale-105 transition duration-300 text-start">
+          <h4 className="text-lg font-semibold tracking-tighter text-gray-500 mb-2">
+            Balance
+          </h4>
+          <p className="text-4xl font-bold tracking-tighter text-blue-600">
             {balance.toFixed(2)} €
           </p>
         </div>
       </div>
 
       {/* Charts */}
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="flex flex-col gap-8 bg-emerald-50 rounded-2xl p-8">
         <IncomeChart data={invoices} />
         <ExpenseChart data={invoices} />
       </div>
 
       {/* Invoices List */}
       <div className="bg-emerald-50 h-fit rounded-2xl p-4 overflow-y-auto">
-        <h3 className="text-2xl font-bold mt-4">Últimas Faturas</h3>
+        <h3 className="text-2xl font-bold mt-4 tracking-tight">
+          Lasts Invoices
+        </h3>
         <div className="my-8 space-y-3">
           {loading && <LoadingSpinner />}
           {error && <Error message={error} />}
@@ -79,21 +90,19 @@ const DashboardPage = () => {
                   : <p className="font-normal">{invoice.client_name}</p>
                 </p>
               </div>
-              {/* <p>{new Date(invoice.date).toLocaleDateString()}</p> */}
-              {/* <p>{invoice.invoice_type}</p> */}
               <p>{invoice.total_amount} €</p>
             </div>
           ))}
         </div>
         <Link
           to={"/invoices"}
-          className="text-emerald-600 font-medium hover:underline hover:text-emerald-400 transition duration-200"
+          className="text-emerald-600 font-medium hover:underline hover:text-emerald-400 transition duration-200 mb-2"
         >
           Ver todas as faturas →
         </Link>
       </div>
 
-      <div className="mt-6">
+      <div className="mt-4">
         <Link
           to={"/documents"}
           className="text-blue-600 font-medium hover:underline"

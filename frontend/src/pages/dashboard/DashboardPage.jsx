@@ -34,8 +34,8 @@ const DashboardPage = () => {
       {/* Cards */}
 
       <div className="grid lg:grid-cols-3 gap-6">
-        <div className="bg-emerald-50 p-6 rounded-xl hover:scale-105 transition duration-300 text-start">
-          <h4 className="text-lg font-semibold tracking-tighter text-gray-500 mb-2">
+        <div className="bg-gray-100 p-6 rounded-xl hover:scale-105 transition duration-300 text-start">
+          <h4 className="text-lg font-semibold tracking-tighter mb-2">
             Total Income
           </h4>
           <div>
@@ -45,16 +45,16 @@ const DashboardPage = () => {
             <p></p>
           </div>
         </div>
-        <div className="bg-emerald-50 p-6 rounded-xl hover:scale-105 transition duration-300 text-start">
-          <h4 className="text-lg font-semibold tracking-tighter text-gray-500 mb-2">
+        <div className="bg-gray-100 p-6 rounded-xl hover:scale-105 transition duration-300 text-start">
+          <h4 className="text-lg font-semibold tracking-tighter mb-2">
             Total Expenses
           </h4>
           <p className="text-4xl font-bold tracking-tighter text-red-400">
             {expenseTotal.toFixed(2)} €
           </p>
         </div>
-        <div className="bg-emerald-50 p-6 rounded-xl hover:scale-105 transition duration-300 text-start">
-          <h4 className="text-lg font-semibold tracking-tighter text-gray-500 mb-2">
+        <div className="bg-gray-100 p-6 rounded-xl hover:scale-105 transition duration-300 text-start">
+          <h4 className="text-lg font-semibold tracking-tighter mb-2">
             Balance
           </h4>
           <p className="text-4xl font-bold tracking-tighter text-sky-600">
@@ -64,32 +64,43 @@ const DashboardPage = () => {
       </div>
 
       {/* Charts */}
-      <div className="flex flex-col gap-8 bg-emerald-50 rounded-2xl p-8">
+      <div className="flex flex-col gap-8 bg-gray-100 rounded-2xl p-8 my-8">
         <IncomeChart data={invoices} />
         <ExpenseChart data={invoices} />
       </div>
 
       {/* Invoices List */}
-      <div className="bg-emerald-50 h-fit rounded-2xl p-4 overflow-y-auto">
+      <div className="bg-gray-100 h-fit rounded-2xl p-4 overflow-y-auto">
         <h3 className="text-2xl font-bold mt-4 tracking-tight">
           Lasts Invoices
         </h3>
-        <div className="my-8 space-y-3">
+        <div className="my-8 space-y-4">
           {loading && <LoadingSpinner />}
           {error && <Error message={error} />}
 
           {latestInvoices.map((invoice) => (
             <div
               key={invoice.id}
-              className="flex flex-wrap md:flex-nowrap justify-between gap-4 max-w-7xl text-xs md:text-base text-start bg-white p-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition"
+              className={`flex flex-wrap md:flex-nowrap justify-between gap-6 max-w-7xl text-xs md:text-base text-start bg-white p-4 rounded-lg cursor-pointer ${
+                invoice.invoice_type === "income"
+                  ? "hover:bg-emerald-100"
+                  : "hover:bg-red-100"
+              } transition duration-300"`}
             >
               <div className="flex flex-col">
-                <p className="font-semibold">
+                <p
+                  className={`font-bold text-xl tracking-tighter ${
+                    invoice.invoice_type === "income"
+                      ? "text-emerald-600"
+                      : "text-red-600"
+                  }`}
+                >
                   {invoice.invoice_type.charAt(0).toUpperCase() +
                     invoice.invoice_type.slice(1)}{" "}
-                  :
                 </p>
-                <p className="font-normal">{invoice.client_name}</p>
+                <p className="text-gray-400 tracking-tight">
+                  {invoice.client_name}
+                </p>
               </div>
               <p>{invoice.total_amount} €</p>
             </div>

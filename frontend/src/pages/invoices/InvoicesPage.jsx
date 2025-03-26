@@ -90,7 +90,7 @@ const InvoicesPage = () => {
       </div>
 
       {/* Lista de faturas */}
-      <div className="space-y-2 bg-emerald-50 rounded-2xl p-4">
+      <div className="space-y-2 bg-gray-100 rounded-2xl p-4">
         {loading && <LoadingSpinner />}
         {error && <Error message={error} />}
 
@@ -104,14 +104,14 @@ const InvoicesPage = () => {
             <div
               key={invoice.number}
               onClick={() => handleInvoiceClick(invoice)}
-              className="flex flex-wrap md:flex-nowrap justify-between gap-4 text-xs md:text-sm bg-white p-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition"
+              className="grid grid-cols-1 text-start md:flex justify-between md:gap-4 text-xs md:text-sm bg-white p-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition"
             >
-              <h4 className="font-semibold w-30">{invoice.number}</h4>
-              <p className="w-66">{invoice.client_name}</p>
-              <p className="w-26">
+              <h4 className="font-semibold md:w-30">{invoice.number}</h4>
+              <p className="md:w-66">{invoice.client_name}</p>
+              <p className="md:w-26">
                 {new Date(invoice.date).toLocaleDateString()}
               </p>
-              <p className="w-46 text-end">
+              <p className="md:w-46 text-end">
                 {invoice.total_amount} {invoice.currency}
               </p>
             </div>

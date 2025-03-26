@@ -90,7 +90,7 @@ const DocumentsPages = () => {
       </div>
 
       {/* Documents List */}
-      <div className="space-y-2 bg-emerald-50 h-fit rounded-2xl p-4 overflow-y-auto">
+      <div className="space-y-2 bg-gray-100 h-fit rounded-2xl p-4 overflow-y-auto">
         <div className="flex justify-between px-4 tracking-tight font-semibold">
           <p>Document</p>
           <span></span>

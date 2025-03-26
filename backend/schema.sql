@@ -123,12 +123,11 @@ VALUES
 (1, 'expense', '#124', '2025-12-31', 'Tax Agency', 'ID102', 'Calle Madrid, 101', 'Madrid', 'Spain', 'Contributions and taxes', 1, 700, 0, 0, 'EUR', 'debit', 700);
 
 
-
 INSERT INTO quarterly_tax (user_id, year, quarter, total_income, deductible_expenses, net_income, previous_payments, withholding_taxes, deductions)
 VALUES 
-(1, 2024, '1T', 1500, 200, 1300, 0, 0, 20),
-(1, 2024, '2T', 1000, 200, 800, 0, 0, 0);
-(1, 2024, '3T', 2000, 100, 1900, 0, 0, 0);
+(1, 2024, '1', 1500, 200, 1300, 0, 0, 20),
+(1, 2024, '2', 1000, 200, 800, 0, 0, 0),
+(1, 2024, '3', 2000, 100, 1900, 0, 0, 0);
 
 INSERT INTO annual_tax (user_id, year, taxpayer_name, taxpayer_nif, spouse_name, spouse_nif, marital_status, address, autonomous_community, income_from_work, business_income, capital_gains, deductions)
 VALUES

@@ -11,7 +11,7 @@ const TaxesCard = ({ title, date, deadline, documentType }) => {
   const route = routesMap[documentType];
 
   return (
-    <div className="bg-emerald-50 hover:bg-emerald-100 hover:scale-101 transition duration-300 rounded-xl p-10 space-y-4 mb-8 max-w-4xl">
+    <div className="bg-emerald-50 hover:bg-emerald-100 hover:scale-104 transition duration-300 rounded-xl p-10 space-y-4 mb-8 max-w-4xl">
       <div className="flex flex-col gap-4 items-center">
         <h2 className="text-3xl font-semibold tracking-tighter">{title}</h2>
         <p className="text-lg tracking-tighter">{date}</p>

@@ -1,15 +1,17 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { fetchAllInvoices } from "../../store/slices/invoicesSlice";
 import IncomeChart from "./components/IncomeChart";
 import ExpenseChart from "./components/ExpenseChart";
+import LoadingSpinner from "../../components/utils/LoadingSpinner";
+import Error from "../../components/utils/Error";
 
 const DashboardPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userId = useSelector((state) => state.auth.user.id);
-  const invoices = useSelector((state) => state.invoices.invoices);
+  const { invoices, loading, error } = useSelector((state) => state.invoices);
 
   useEffect(() => {
     if (!userId) return navigate("/login");
@@ -59,35 +61,45 @@ const DashboardPage = () => {
       </div>
 
       {/* Invoices List */}
-      <div className="mt-10 space-y-4">
-        <h3 className="text-xl font-bold">Últimas Faturas</h3>
-        {latestInvoices.map((invoice) => (
-          <div
-            key={invoice.id}
-            className="p-4 bg-white rounded shadow flex justify-between"
-          >
-            <p>{invoice.client_name}</p>
-            <p>{new Date(invoice.date).toLocaleDateString()}</p>
-            <p>
-              € {invoice.total_amount} ({invoice.invoice_type})
-            </p>
-          </div>
-        ))}
-        <a
-          href="/invoices"
-          className="text-emerald-600 font-medium hover:underline"
+      <div className="bg-emerald-50 h-fit rounded-2xl p-4 overflow-y-auto">
+        <h3 className="text-2xl font-bold mt-4">Últimas Faturas</h3>
+        <div className="my-8 space-y-3">
+          {loading && <LoadingSpinner />}
+          {error && <Error message={error} />}
+
+          {latestInvoices.map((invoice) => (
+            <div
+              key={invoice.id}
+              className="flex flex-wrap md:flex-nowrap justify-between gap-4 max-w-7xl text-xs md:text-base text-start bg-white p-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition"
+            >
+              <div>
+                <p className="font-semibold">
+                  {invoice.invoice_type.charAt(0).toUpperCase() +
+                    invoice.invoice_type.slice(1)}{" "}
+                  : <p className="font-normal">{invoice.client_name}</p>
+                </p>
+              </div>
+              {/* <p>{new Date(invoice.date).toLocaleDateString()}</p> */}
+              {/* <p>{invoice.invoice_type}</p> */}
+              <p>{invoice.total_amount} €</p>
+            </div>
+          ))}
+        </div>
+        <Link
+          to={"/invoices"}
+          className="text-emerald-600 font-medium hover:underline hover:text-emerald-400 transition duration-200"
         >
           Ver todas as faturas →
-        </a>
+        </Link>
       </div>
 
       <div className="mt-6">
-        <a
-          href="/documents"
+        <Link
+          to={"/documents"}
           className="text-blue-600 font-medium hover:underline"
         >
           Ver documentos fiscais →
-        </a>
+        </Link>
       </div>
     </section>
   );

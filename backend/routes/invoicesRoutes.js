@@ -11,7 +11,7 @@ import { verifyToken } from "../utils/jwtUtils.js";
 const router = Router();
 
 router.get("/users/:userId/invoices", verifyToken, getInvoices);
-router.get("users/:userId/all", verifyToken, getAllInvoices);
+router.get("/users/:userId/all", verifyToken, getAllInvoices);
 router.post("/users/:userId/invoices", verifyToken, createInvoice);
 router.put("/users/:userId/invoices/:invoiceId", verifyToken, updateInvoice);
 router.delete("/users/:userId/invoices/:invoiceId", verifyToken, deleteInvoice);

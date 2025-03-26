@@ -18,7 +18,7 @@ export const fetchInvoicesByType = createAsyncThunk(
 );
 
 export const fetchAllInvoices = createAsyncThunk(
-  "invoices/fetchAllInvoices",
+  "invoices/fetchAll",
   async ({ userId }, thunkAPI) => {
     try {
       const response = await api.get(`/invoices/users/${userId}/all`);
@@ -98,6 +98,19 @@ const invoicesSlice = createSlice({
         state.invoices = action.payload;
       })
       .addCase(fetchInvoicesByType.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchAllInvoices.fulfilled, (state, action) => {
+        state.invoices = action.payload;
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(fetchAllInvoices.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAllInvoices.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

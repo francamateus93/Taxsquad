@@ -13,16 +13,17 @@ const DashboardPage = () => {
 
   useEffect(() => {
     if (!userId) return navigate("/login");
+    // console.log("invoices:", invoices);
     dispatch(fetchAllInvoices({ userId }));
   }, [dispatch, userId]);
 
   const incomeTotal = invoices
-    .filter((invoice) => invoice.type === "income")
-    .reduce((total, invoice) => total + invoice.total_amount, 0);
+    .filter((invoice) => invoice.invoice_type === "income")
+    .reduce((total, invoice) => total + Number(invoice.total_amount), 0);
 
   const expenseTotal = invoices
-    .filter((invoice) => invoice.type === "expense")
-    .reduce((total, invoice) => total + invoice.total_amount, 0);
+    .filter((invoice) => invoice.invoice_type === "expense")
+    .reduce((total, invoice) => total + Number(invoice.total_amount), 0);
 
   const balance = incomeTotal - expenseTotal;
   const latestInvoices = invoices.slice(0, 5).reverse();

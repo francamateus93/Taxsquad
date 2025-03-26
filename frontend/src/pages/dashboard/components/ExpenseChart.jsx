@@ -20,7 +20,7 @@ const ExpenseChart = ({ data }) => {
       toolbar: {
         tools: {
           show: true,
-          download: true,
+          download: false, // true to show download button
           offsetX: 20,
           selection: false,
           zoom: false,

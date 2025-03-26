@@ -77,6 +77,11 @@ const Documents = () => {
 
       {/* Data */}
       <div className="space-y-2 bg-emerald-50 h-fit rounded-2xl p-4 overflow-y-auto">
+        <div className="flex justify-between px-4 tracking-tight font-semibold">
+          <p>Document</p>
+          <span></span>
+          <p>Date</p>
+        </div>
         {loading && <LoadingSpinner />}
         {error && <Error message={error} />}
 

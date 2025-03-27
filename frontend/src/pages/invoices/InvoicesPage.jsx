@@ -148,7 +148,7 @@ const InvoicesPage = () => {
                       e.stopPropagation();
                       toggleMenu(invoice.id);
                     }}
-                    className="relative bg-gray-50 w-8 h-8 rounded-full transition duration-200 text-lg cursor-pointer z-0"
+                    className="relative bg-gray-50 w-8 h-8 rounded-full text-lg cursor-pointer z-0"
                   >
                     ⋮
                   </button>

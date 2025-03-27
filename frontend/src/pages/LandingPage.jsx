@@ -160,7 +160,7 @@ const LandingPage = () => {
                 </div>
                 <p className="mt-6 flex items-baseline gap-x-1">
                   <span className="text-5xl font-bold tracking-tight text-white">
-                    39,90 €
+                    39,90 € <span className="text-lg">/ month</span>
                   </span>
                 </p>
                 <p className="text-sm md:text-base leading-6 mt-4 text-white text-start">
@@ -256,7 +256,7 @@ const LandingPage = () => {
                 </div>
                 <p className="mt-6 flex items-baseline gap-x-1">
                   <span className="text-5xl font-bold tracking-tight text-white">
-                    69,90 €
+                    69,90 € <span className="text-lg">/ month</span>
                   </span>
                 </p>
                 <p className="text-sm md:text-base leading-6 mt-4 text-white text-start">

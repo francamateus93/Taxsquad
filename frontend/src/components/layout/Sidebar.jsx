@@ -9,26 +9,32 @@ import {
   MdMenu,
   MdClose,
 } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import Logo from "../../assets/logo/Logo_TaxSquad.png";
 
 const Sidebar = () => {
   const location = useLocation();
   const isActive = (path) => location.pathname === path;
 
   return (
-    <aside className="hidden md:flex md:flex-col md:fixed md:top-0 md:left-0 md:h-screen md:w-64 bg-emerald-50 text-emerald-800 shadow-md z-20">
-      <div className="flex items-center justify-between p-4 h-22"></div>
-
+    <aside className="hidden md:flex md:flex-col md:fixed md:top-0 md:left-0 md:h-screen md:w-64 bg-white border-r border-r-gray-200 text-gray-00 z-50">
+      <div className="flex justify-start p-5">
+        <img
+          className="w-36 lg:w-48 md:px-0 cursor-pointer"
+          src={Logo}
+          alt="Logo"
+          onClick={() => navigate("/")}
+        />
+      </div>
       <nav className="flex-1 p-4">
         <ul className="space-y-3 font-medium">
-          <span className="text-slate-400 px-3 flex font-normal text-xs mb-4">
-            MENU
-          </span>
+          <span className=" px-3 flex font-normal text-xs mb-4">MENU</span>
           <li>
             <Link
               to="/dashboard"
               className={`flex items-center px-6 py-2 rounded-lg transition duration-200 ${
                 isActive("/dashboard")
-                  ? "font-semibold bg-emerald-200"
+                  ? "font-bold bg-emerald-200"
                   : "hover:bg-emerald-200"
               }`}
             >
@@ -41,7 +47,7 @@ const Sidebar = () => {
               to="/invoices"
               className={`flex items-center px-6 py-2 rounded-lg transition duration-200 ${
                 isActive("/invoices")
-                  ? "font-semibold bg-emerald-200"
+                  ? "font-bold bg-emerald-200"
                   : "hover:bg-emerald-200"
               }`}
             >
@@ -54,7 +60,7 @@ const Sidebar = () => {
               to="/taxes"
               className={`flex items-center px-6 py-2 rounded-lg transition duration-200 ${
                 isActive("/taxes")
-                  ? "font-semibold bg-emerald-200"
+                  ? "font-bold bg-emerald-200"
                   : "hover:bg-emerald-200"
               }`}
             >
@@ -67,7 +73,7 @@ const Sidebar = () => {
               to="/documents"
               className={`flex items-center px-6 py-2 rounded-lg transition duration-200 ${
                 isActive("/documents")
-                  ? "font-semibold bg-emerald-200"
+                  ? "font-bold bg-emerald-200"
                   : "hover:bg-emerald-200"
               }`}
             >
@@ -80,7 +86,7 @@ const Sidebar = () => {
               to="/profile"
               className={`flex items-center px-6 py-2 rounded-lg transition duration-200 ${
                 isActive("/profile")
-                  ? "font-semibold bg-emerald-200"
+                  ? "font-bold bg-emerald-200"
                   : "hover:bg-emerald-200"
               }`}
             >

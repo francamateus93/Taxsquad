@@ -132,26 +132,30 @@ const DocumentsPages = () => {
           currentDocuments.map((doc) => (
             <div
               key={doc.id}
-              className="grid grid-cols-1 text-start md:flex justify-between items-center md:gap-4 text-base bg-white px-4 py-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition"
+              className="grid grid-cols-1 text-start text-base bg-white px-4 py-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition duration-200 relative"
             >
-              <p className="font-semibold md:w-66">
-                {documentType === "quarterly"
-                  ? `Quarter ${doc.quarter} - ${doc.year}`
-                  : `Annual Income Tax - ${doc.year}`}
-              </p>
-              <p className="text-right md:w-44">
-                {doc.created_at
-                  ? new Date(doc.created_at).toLocaleDateString()
-                  : ""}
-              </p>
-              <button
-                onClick={() => toggleMenu(doc.id)}
-                className="bg-gray-50 w-8 h-8 rounded-full transition duration-200 text-lg cursor-pointer"
-              >
-                ⋮
-              </button>
+              <div className="md:flex justify-between items-center md:gap-4">
+                <p className="font-semibold md:w-66">
+                  {documentType === "quarterly"
+                    ? `Quarter ${doc.quarter} - ${doc.year}`
+                    : `Annual Income Tax - ${doc.year}`}
+                </p>
+                <div className="flex items-center justify-end gap-4 md:w-46 relative z-0">
+                  <p className="text-end md:w-44 relative z-0">
+                    {doc.created_at
+                      ? new Date(doc.created_at).toLocaleDateString()
+                      : ""}
+                  </p>
+                  <button
+                    onClick={() => toggleMenu(doc.id)}
+                    className="relative bg-gray-50 w-8 h-8 rounded-full text-lg cursor-pointer"
+                  >
+                    ⋮
+                  </button>
+                </div>
+              </div>
               {openMenuId === doc.id && (
-                <div className="absolute right-4 top-48 z-10 bg-white shadow-lg rounded-lg flex flex-col gap-1 items-start justify-between text-sm w-48 p-3">
+                <div className="absolute bg-white shadow-lg rounded-lg flex flex-col gap-1 items-start justify-between text-sm w-48 p-3 z-10 top-[100%] right-0">
                   <button
                     onClick={() => handleEdit(doc)}
                     className="w-full text-left px-2 py-2 rounded-lg hover:bg-emerald-100 transition duration-200 text-sm cursor-pointer"

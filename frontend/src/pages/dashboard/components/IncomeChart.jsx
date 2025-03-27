@@ -70,15 +70,17 @@ const IncomeChart = ({ data }) => {
       data: monthlyIncomes.map((amount) =>
         parseFloat((Number(amount) || 0).toFixed(2))
       ),
-      // data: seriesData,
     },
   ];
 
   return (
-    <div className="bg-white p-4 rounded-xl w-full">
-      <h4 className="text-start text-2xl font-bold tracking-tight p-4">
-        Monthly Income
-      </h4>
+    <div className="bg-white rounded-xl w-full py-2">
+      <div className="flex items-center justify-between">
+        <h4 className="text-start text-2xl font-bold tracking-tighter px-4 py-1">
+          Money Flow Report
+        </h4>
+        <p className="text-gray-400 px-6 text-end tracking-tighter">Annual</p>
+      </div>
       <Chart options={options} series={series} type="bar" height={250} />
     </div>
   );

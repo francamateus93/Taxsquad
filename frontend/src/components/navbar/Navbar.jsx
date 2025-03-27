@@ -38,7 +38,7 @@ const Navbar = () => {
 
   return (
     <header className="container">
-      <nav className="flex justify-between items-center py-4 bg-white border-b border-gray-200 fixed top-0 left-0 right-0 z-50 md:px-5">
+      <nav className="flex justify-between items-center py-4 bg-white border-b border-gray-200 fixed top-0 left-0 right-0 z-20 md:px-5">
         <div className="flex items-center justify-center px-4">
           <img
             className="w-36 lg:w-48 md:px-0 cursor-pointer"
@@ -55,7 +55,7 @@ const Navbar = () => {
               <Link
                 to="/dashboard"
                 className={`hover:text-emerald-500 hover:font-semibold transition duration-200 ${
-                  isActive("/dashboard") ? "font-semibold text-emerald-500" : ""
+                  isActive("/dashboard") ? "font-bold text-emerald-500" : ""
                 }`}
               >
                 Dashboard
@@ -65,7 +65,7 @@ const Navbar = () => {
               <Link
                 to="/invoices"
                 className={`hover:text-emerald-500 hover:font-semibold transition duration-200 ${
-                  isActive("/invoices") ? "font-semibold text-emerald-500" : ""
+                  isActive("/invoices") ? "font-bold text-emerald-500" : ""
                 }`}
               >
                 Invoices
@@ -75,7 +75,7 @@ const Navbar = () => {
               <Link
                 to="/taxes"
                 className={`hover:text-emerald-500 hover:font-semibold transition duration-200 ${
-                  isActive("/taxes") ? "font-semibold text-emerald-500" : ""
+                  isActive("/taxes") ? "font-bold text-emerald-500" : ""
                 }`}
               >
                 Taxes
@@ -85,7 +85,7 @@ const Navbar = () => {
               <Link
                 to="/documents"
                 className={`hover:text-emerald-500 hover:font-semibold transition duration-200 ${
-                  isActive("/documents") ? "font-semibold text-emerald-500" : ""
+                  isActive("/documents") ? "font-bold text-emerald-500" : ""
                 }`}
               >
                 Documents

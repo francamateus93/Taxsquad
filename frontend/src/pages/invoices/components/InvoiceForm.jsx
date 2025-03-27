@@ -153,15 +153,15 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
 
         <div className="flex justify-end gap-4 mt-4">
           <Link to="/invoices">
+            <ButtonSecondary type="button">Back</ButtonSecondary>
+          </Link>
+          <Link to="/invoices">
             <button
               type="button"
-              className="px-6 py-2 text-red-500 bg-red-100 rounded-lg hover:bg-red-200 transition duration-200 text-base cursor-pointer"
+              className="px-6 py-3 bg-red-50 text-red-600 font-semibold rounded-lg hover:bg-red-200 cursor-pointer transition duration-200 text-base leading-4"
             >
               Cancel
             </button>
-          </Link>
-          <Link to="/invoices">
-            <ButtonSecondary type="button">Back</ButtonSecondary>
           </Link>
           <Button type="submit">Save Invoice</Button>
         </div>

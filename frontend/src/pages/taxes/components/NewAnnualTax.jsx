@@ -90,7 +90,7 @@ const NewAnnualTax = () => {
             <Link to="/documents">
               <button
                 type="button"
-                className="px-6 py-2 text-red-500 bg-red-100 rounded-lg hover:bg-red-200 transition duration-200 text-base cursor-pointer"
+                className="px-6 py-2 bg-red-50 text-red-600 font-semibold rounded-lg hover:bg-red-200 transition"
               >
                 Cancel
               </button>

@@ -170,7 +170,7 @@ const ProfilePage = () => {
               <div className="flex justify-between gap-4">
                 <button
                   onClick={handleDelete}
-                  className="px-4 py-2 bg-red-600 font-bold text-white rounded-lg hover:bg-red-700 transition"
+                  className="px-4 py-2 bg-red-600 font-semibold text-white rounded-lg hover:bg-red-700 transition"
                 >
                   Delete Account
                 </button>

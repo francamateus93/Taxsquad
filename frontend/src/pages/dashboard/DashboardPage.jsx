@@ -98,11 +98,11 @@ const DashboardPage = () => {
                   {invoice.invoice_type.charAt(0).toUpperCase() +
                     invoice.invoice_type.slice(1)}{" "}
                 </p>
-                <p className="text-gray-400 tracking-tight">
-                  {invoice.client_name}
-                </p>
+                <p className=" tracking-tight">{invoice.client_name}</p>
               </div>
-              <p>{invoice.total_amount} €</p>
+              <p className="font-semibold">
+                {parseInt(invoice.total_amount)} €
+              </p>
             </div>
           ))}
         </div>

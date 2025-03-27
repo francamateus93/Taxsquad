@@ -120,7 +120,9 @@ const InvoicesPage = () => {
         {error && <Error message={error} />}
 
         {!loading && !error && paginatedInvoices.length === 0 && (
-          <p className="text-center text-gray-500 p-4">No invoices found</p>
+          <p className="bg-white text-center p-4 rounded-lg text-gray-500">
+            No invoices found
+          </p>
         )}
 
         {!loading &&
@@ -129,53 +131,69 @@ const InvoicesPage = () => {
             <div
               key={invoice.number}
               onClick={() => handleInvoiceClick(invoice)}
-              className="grid grid-cols-1 text-start md:flex justify-between items-center md:gap-4 text-base bg-white px-4 py-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition"
+              className="grid grid-cols-1 text-start text-base bg-white px-4 py-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition duration-200 relative"
             >
-              <h4 className="font-semibold md:w-30">{invoice.number}</h4>
-              <p className="md:w-66">{invoice.client_name}</p>
-              <p className="md:w-26">
-                {new Date(invoice.date).toLocaleDateString()}
-              </p>
-              <div className="flex items-center justify-end gap-4 md:w-46">
-                <p className="text-end font-semibold">
-                  {parseInt(invoice.total_amount)}€
+              <div className="md:flex justify-between items-center md:gap-4">
+                <h4 className="font-semibold md:w-30">{invoice.number}</h4>
+                <p className="md:w-66">{invoice.client_name}</p>
+                <p className="md:w-26">
+                  {new Date(invoice.date).toLocaleDateString()}
                 </p>
-                <button
-                  onClick={() => toggleMenu(invoice.id)}
-                  className="bg-gray-50 w-8 h-8 rounded-full transition duration-200 text-lg cursor-pointer"
-                >
-                  ⋮
-                </button>
-              </div>
-
-              {openMenuId === invoice.id && (
-                <div className="absolute right-4 top-48 z-10  bg-white shadow-lg rounded-lg flex flex-col gap-1 items-start justify-between text-sm w-48 p-3">
+                <div className="flex items-center justify-end gap-4 md:w-46 relative z-0">
+                  <p className="text-end font-semibold relative z-0">
+                    {parseInt(invoice.total_amount)}€
+                  </p>
                   <button
-                    onClick={() => handleEdit(invoice)}
-                    className="w-full text-left px-2 py-2 rounded-lg hover:bg-emerald-100 transition duration-200 text-sm cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleMenu(invoice.id);
+                    }}
+                    className="relative bg-gray-50 w-8 h-8 rounded-full transition duration-200 text-lg cursor-pointer z-0"
                   >
-                    Edit Invoice
-                  </button>
-                  <button
-                    onClick={() => handleDownload(invoice)}
-                    className="w-full text-left px-2 py-2 rounded-lg hover:bg-emerald-100 transition duration-200 text-sm cursor-pointer"
-                  >
-                    Download PDF
-                  </button>
-                  <button
-                    onClick={() => handleEmail(invoice)}
-                    className="w-full text-left px-2 py-2 rounded-lg hover:bg-emerald-100 transition duration-200 text-sm cursor-pointer"
-                  >
-                    Send by Email
-                  </button>
-                  <button
-                    onClick={() => handleDelete(invoice)}
-                    className="w-full text-left px-2 py-2 rounded-lg text-red-500 hover:bg-red-100 transition duration-200 text-sm cursor-pointer"
-                  >
-                    Delete
+                    ⋮
                   </button>
                 </div>
-              )}
+                {openMenuId === invoice.id && (
+                  <div className="absolute bg-white shadow-lg rounded-lg flex flex-col gap-1 items-start justify-between text-sm w-48 p-3 z-10 top-[100%] right-0">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleEdit(invoice);
+                      }}
+                      className="w-full text-left px-2 py-2 rounded-lg hover:bg-emerald-100 transition duration-200 text-sm cursor-pointer"
+                    >
+                      Edit Invoice
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDownload(invoice);
+                      }}
+                      className="w-full text-left px-2 py-2 rounded-lg hover:bg-emerald-100 transition duration-200 text-sm cursor-pointer"
+                    >
+                      Download PDF
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleEmail(invoice);
+                      }}
+                      className="w-full text-left px-2 py-2 rounded-lg hover:bg-emerald-100 transition duration-200 text-sm cursor-pointer"
+                    >
+                      Send by Email
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(invoice);
+                      }}
+                      className="w-full text-left px-2 py-2 rounded-lg text-red-500 hover:bg-red-100 transition duration-200 text-sm cursor-pointer"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           ))}
       </div>

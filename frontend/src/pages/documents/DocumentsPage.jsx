@@ -25,6 +25,8 @@ const DocumentsPages = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
 
+  const [openMenuId, setOpenMenuId] = useState(null);
+
   useEffect(() => {
     if (!userId) return;
     if (documentType === "quarterly") {
@@ -54,6 +56,26 @@ const DocumentsPages = () => {
     startIndex,
     startIndex + itemsPerPage
   );
+
+  const toggleMenu = (id) => {
+    setOpenMenuId((prev) => (prev === id ? null : id));
+  };
+
+  const handleEdit = (doc) => {
+    console.log("Editar", doc);
+  };
+
+  const handleDownload = (doc) => {
+    console.log("Download", doc);
+  };
+
+  const handleEmail = (doc) => {
+    console.log("Enviar por email", doc);
+  };
+
+  const handleDelete = (doc) => {
+    console.log("Deletar", doc);
+  };
 
   return (
     <section className="container mx-auto p-10 lg:py-12 lg:px-20 space-y-6">
@@ -89,11 +111,12 @@ const DocumentsPages = () => {
       </div>
 
       {/* Documents List */}
-      <div className="space-y-2 bg-gray-100 h-fit rounded-2xl p-4 overflow-y-auto">
-        <div className="flex justify-between px-4 tracking-tight font-semibold">
-          <p>Document</p>
-          <span></span>
-          <p>Date</p>
+      <div className="space-y-2 bg-gray-100 rounded-2xl p-4">
+        <div className="flex justify-between items-center px-4 tracking-tight">
+          <p className="font-semibold">Document</p>
+          <p className="text-sm">
+            {currentDocuments.length} of {filteredDocuments.length} documents
+          </p>
         </div>
         {loading && <LoadingSpinner />}
         {error && <Error message={error} />}
@@ -109,18 +132,52 @@ const DocumentsPages = () => {
           currentDocuments.map((doc) => (
             <div
               key={doc.id}
-              className="flex justify-between gap-4 text-xs md:text-base text-start bg-white p-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition"
+              className="grid grid-cols-1 text-start md:flex justify-between items-center md:gap-4 text-base bg-white px-4 py-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition"
             >
-              <p className="font-semibold w-66">
+              <p className="font-semibold md:w-66">
                 {documentType === "quarterly"
                   ? `Quarter ${doc.quarter} - ${doc.year}`
                   : `Annual Income Tax - ${doc.year}`}
               </p>
-              <p className="text-right w-44">
+              <p className="text-right md:w-44">
                 {doc.created_at
                   ? new Date(doc.created_at).toLocaleDateString()
                   : ""}
               </p>
+              <button
+                onClick={() => toggleMenu(doc.id)}
+                className="bg-gray-50 w-8 h-8 rounded-full transition duration-200 text-lg cursor-pointer"
+              >
+                ⋮
+              </button>
+              {openMenuId === doc.id && (
+                <div className="absolute right-4 top-48 z-10 bg-white shadow-lg rounded-lg flex flex-col gap-1 items-start justify-between text-sm w-48 p-3">
+                  <button
+                    onClick={() => handleEdit(doc)}
+                    className="w-full text-left px-2 py-2 rounded-lg hover:bg-emerald-100 transition duration-200 text-sm cursor-pointer"
+                  >
+                    Edit Document
+                  </button>
+                  <button
+                    onClick={() => handleDownload(doc)}
+                    className="w-full text-left px-2 py-2 rounded-lg hover:bg-emerald-100 transition duration-200 text-sm cursor-pointer"
+                  >
+                    Download PDF
+                  </button>
+                  <button
+                    onClick={() => handleEmail(doc)}
+                    className="w-full text-left px-2 py-2 rounded-lg hover:bg-emerald-100 transition duration-200 text-sm cursor-pointer"
+                  >
+                    Send by Email
+                  </button>
+                  <button
+                    onClick={() => handleDelete(doc)}
+                    className="w-full text-left px-2 py-2 rounded-lg text-red-500 hover:bg-red-100 transition duration-200 text-sm cursor-pointer"
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
             </div>
           ))}
       </div>

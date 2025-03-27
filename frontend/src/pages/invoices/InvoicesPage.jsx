@@ -12,8 +12,10 @@ const InvoicesPage = () => {
 
   const [invoiceType, setInvoiceType] = useState("income");
   const [dateFilter, setDateFilter] = useState("");
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+
   const [openMenuId, setOpenMenuId] = useState(null);
 
   useEffect(() => {
@@ -108,7 +110,7 @@ const InvoicesPage = () => {
 
       {/* Invoices List */}
       <div className="space-y-2 bg-gray-100 rounded-2xl p-4">
-        <div className="flex items-center justify-between px-4 py-1">
+        <div className="flex items-center justify-between tracking-tight px-4 py-1">
           <p className="font-semibold">Invoices</p>
           <p className="text-sm">
             {paginatedInvoices.length} of {filteredInvoices.length} Invoices
@@ -147,28 +149,28 @@ const InvoicesPage = () => {
               </div>
 
               {openMenuId === invoice.id && (
-                <div className="absolute right-4 top-48 z-10 bg-white shadow-md rounded-lg text-sm w-48">
+                <div className="absolute right-4 top-48 z-10  bg-white shadow-lg rounded-lg flex flex-col gap-1 items-start justify-between text-sm w-48 p-3">
                   <button
                     onClick={() => handleEdit(invoice)}
-                    className="w-full text-left px-4 py-2 hover:bg-emerald-50"
+                    className="w-full text-left px-2 py-2 rounded-lg hover:bg-emerald-100 transition duration-200 text-sm cursor-pointer"
                   >
                     Edit Invoice
                   </button>
                   <button
                     onClick={() => handleDownload(invoice)}
-                    className="w-full text-left px-4 py-2 hover:bg-emerald-50"
+                    className="w-full text-left px-2 py-2 rounded-lg hover:bg-emerald-100 transition duration-200 text-sm cursor-pointer"
                   >
                     Download PDF
                   </button>
                   <button
                     onClick={() => handleEmail(invoice)}
-                    className="w-full text-left px-4 py-2 hover:bg-emerald-50"
+                    className="w-full text-left px-2 py-2 rounded-lg hover:bg-emerald-100 transition duration-200 text-sm cursor-pointer"
                   >
                     Send by Email
                   </button>
                   <button
                     onClick={() => handleDelete(invoice)}
-                    className="w-full text-left px-4 py-2 text-red-500 hover:bg-red-50"
+                    className="w-full text-left px-2 py-2 rounded-lg text-red-500 hover:bg-red-100 transition duration-200 text-sm cursor-pointer"
                   >
                     Delete
                   </button>

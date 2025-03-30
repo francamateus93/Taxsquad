@@ -27,7 +27,7 @@ const DashboardPage = () => {
     .reduce((total, invoice) => total + Number(invoice.total_amount), 0);
 
   const balance = incomeTotal - expenseTotal;
-  const recentActivities = invoices.slice(0, 6);
+  const recentActivities = invoices.slice(0, 5);
 
   if (loading) return <LoadingSpinner />;
   if (error) return <Error message={error} />;
@@ -54,9 +54,9 @@ const DashboardPage = () => {
       </div>
 
       {/* Recent Activities */}
-      <div className="col-span-2 bg-white shadow-[0_0px_5px_rgba(0,0,0,0.1)] rounded-2xl p-4 py-8 overflow-y-auto">
-        <h3 className="text-2xl font-bold">Recent Activities</h3>
-        <div className="py-4 space-y-1">
+      <div className="col-span-2 flex flex-col justify-between gap-2 bg-white shadow-[0_0px_5px_rgba(0,0,0,0.1)] rounded-2xl p-4 py-8 overflow-y-auto hover:shadow-lg transition duration-300">
+        <h3 className="text-2xl font-bold mb-2">Recent Activities</h3>
+        <div className="py-2 space-y-1 ">
           {recentActivities.map((invoice) => (
             <div
               key={invoice.id}
@@ -68,17 +68,26 @@ const DashboardPage = () => {
             >
               <div className="flex flex-col gap-1 text-start">
                 <p className="font-semibold">{invoice.client_name}</p>
-                <p className="text-sm text-gray-500 capitalize">
+                <p className="text-sm text-gray-400 capitalize">
                   {invoice.invoice_type}
                 </p>
               </div>
-              <p className="font-semibold">{parseInt(invoice.total_amount)}€</p>
+              <p
+                className={`font-semibold text-sm ${
+                  invoice.invoice_type === "income"
+                    ? "hover:text-emerald-500"
+                    : "hover:text-red-500"
+                }`}
+              >
+                {invoice.invoice_type === "income" ? "+" : "-"}
+                {parseInt(invoice.total_amount)}€
+              </p>
             </div>
           ))}
         </div>
         <Link
           to={"/invoices"}
-          className="text-emerald-600 font-medium hover:underline"
+          className=" bg-white shadow-[0_0px_5px_rgba(0,0,0,0.1)] rounded-2xl p-4 text-emerald-600 font-medium hover:shadow-lg transition duration-300"
         >
           See all invoices →
         </Link>

@@ -12,11 +12,12 @@ const InvoicesPage = () => {
 
   const [invoiceType, setInvoiceType] = useState("income");
   const [dateFilter, setDateFilter] = useState("");
-
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-
   const [openMenuId, setOpenMenuId] = useState(null);
+
+  const [sortField, setSortField] = useState("date");
+  const [sortOrder, setSortOrder] = useState("desc");
 
   useEffect(() => {
     if (userId) {
@@ -28,12 +29,31 @@ const InvoicesPage = () => {
     setCurrentPage(1);
   }, [invoiceType, dateFilter]);
 
+  const sortInvoices = (a, b) => {
+    if (sortField === "client_name") {
+      return sortOrder === "asc"
+        ? a.client_name.localeCompare(b.client_name)
+        : b.client_name.localeCompare(a.client_name);
+    }
+    if (sortField === "date") {
+      return sortOrder === "asc"
+        ? new Date(a.date) - new Date(b.date)
+        : new Date(b.date) - new Date(a.date);
+    }
+    if (sortField === "total_amount") {
+      return sortOrder === "asc"
+        ? a.total_amount - b.total_amount
+        : b.total_amount - a.total_amount;
+    }
+    return 0;
+  };
+
   const filteredInvoices = invoices
     .filter((invoice) => {
       if (!dateFilter) return true;
       return invoice.date >= dateFilter;
     })
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
+    .sort(sortInvoices);
 
   const totalPages = Math.ceil(filteredInvoices.length / itemsPerPage);
   const paginatedInvoices = filteredInvoices.slice(
@@ -45,84 +65,119 @@ const InvoicesPage = () => {
     setOpenMenuId((prev) => (prev === id ? null : id));
   };
 
-  const handleEdit = (invoice) => {
-    console.log("Editar", invoice);
+  const handleSort = (field) => {
+    setSortField(field);
+    setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
   };
 
-  const handleDownload = (invoice) => {
-    console.log("Download", invoice);
+  const handleInvoiceClick = (invoice) => {
+    console.log("Abrir fatura", invoice);
   };
 
-  const handleEmail = (invoice) => {
-    console.log("Enviar por email", invoice);
-  };
+  // const handleEdit = (invoice) => {
+  //   console.log("Editar", invoice);
+  // };
 
-  const handleDelete = (invoice) => {
-    console.log("Deletar", invoice);
-  };
+  // const handleDownload = (invoice) => {
+  //   console.log("Download", invoice);
+  // };
+
+  // const handleEmail = (invoice) => {
+  //   console.log("Enviar por email", invoice);
+  // };
+
+  // const handleDelete = (invoice) => {
+  //   console.log("Deletar", invoice);
+  // };
 
   return (
-    <section className="container mx-auto p-10 lg:py-12 lg:px-20 space-y-6">
-      {/* Income / Expense Toggle */}
-      <div className="flex justify-start space-x-2 mb-10">
-        {["income", "expense"].map((type) => (
-          <button
-            key={type}
-            onClick={() => setInvoiceType(type)}
-            className={`px-6 py-2 rounded-lg cursor-pointer tracking-tighter text-center ${
-              invoiceType === type
-                ? "bg-emerald-200 w-40 h-14 text-2xl font-semibold hover:bg-emerald-300 text-emerald-600"
-                : "bg-emerald-50 text-emerald-600 w-40 h-14 text-lg font-normal hover:bg-emerald-200"
-            } transition duration-200`}
-          >
-            {type.charAt(0).toUpperCase() + type.slice(1)}
-          </button>
-        ))}
-      </div>
+    <section className="container mx-auto p-6 space-y-6">
+      <div className="flex justify-between items-end space-x-2">
+        {/* Income / Expense Toggle */}
+        <div className="flex space-x-2">
+          {["income", "expense"].map((type) => (
+            <button
+              key={type}
+              onClick={() => setInvoiceType(type)}
+              className={`px-6 py-2 rounded-lg ${
+                invoiceType === type
+                  ? "bg-emerald-200 font-semibold text-emerald-600"
+                  : "bg-emerald-50 text-emerald-600"
+              } transition duration-200`}
+            >
+              {type.charAt(0).toUpperCase() + type.slice(1)}
+            </button>
+          ))}
+        </div>
 
-      {/* Date Filter */}
-      <div className="flex items-center space-x-1 text-gray-500">
-        <label htmlFor="dateFilter" className="font-semibold text-sm">
-          Filter:
-        </label>
-        <input
-          id="dateFilter"
-          type="date"
-          value={dateFilter}
-          onChange={(e) => setDateFilter(e.target.value)}
-          className="border-none text-sm"
-        />
-      </div>
+        <div className="flex flex-col gap-3 space-x-2 justify-end">
+          {/* Date Filter */}
+          <div className="flex items-center space-x-1 text-gray-500">
+            <label className="font-semibold text-sm">Filter:</label>
+            <input
+              type="date"
+              value={dateFilter}
+              onChange={(e) => setDateFilter(e.target.value)}
+              className="border-none text-sm"
+            />
+          </div>
 
-      {/* Buttons New Invoices */}
-      <div className="flex space-x-2 justify-end">
-        <Link to="/invoices/new-income">
-          <button className="px-4 py-2 text-white font-semibold bg-emerald-600 rounded-lg hover:bg-emerald-500 transition text-sm">
-            + New Income
-          </button>
-        </Link>
-        <Link to="/invoices/new-expense">
-          <button className="px-4 py-2 text-emerald-600 font-semibold bg-emerald-50 rounded-lg hover:bg-emerald-600 hover:text-white transition text-sm">
-            + New Expense
-          </button>
-        </Link>
+          {/* Buttons New Invoices */}
+          <div className="flex items-center space-x-2">
+            <Link to="/invoices/new-income">
+              <button className="px-5 py-2 text-white bg-emerald-600 rounded-lg hover:bg-emerald-500 transition text-sm">
+                + New Income
+              </button>
+            </Link>
+            <Link to="/invoices/new-expense">
+              <button className="px-5 py-2 text-emerald-600 bg-emerald-50 rounded-lg hover:bg-red-200 hover:text-red-600 transition text-sm">
+                + New Expense
+              </button>
+            </Link>
+          </div>
+        </div>
       </div>
 
       {/* Invoices List */}
-      <div className="space-y-2 bg-gray-100 rounded-2xl p-4">
-        <div className="flex items-center justify-between tracking-tight px-4 py-1">
-          <p className="font-semibold">Invoices</p>
-          <p className="text-sm">
-            {paginatedInvoices.length} of {filteredInvoices.length} Invoices
-          </p>
+      <div className="bg-white rounded-2xl overflow-hidden">
+        <div className="grid grid-cols-4 bg-gray-100 px-4 py-2 text-start font-semibold cursor-pointer">
+          <div className="flex items-center space-x-1">
+            <p onClick={() => handleSort("client_name")}>Name</p>
+            <img
+              src="https://img.icons8.com/?size=24&id=85502&format=png"
+              alt="arrow down"
+              className={`w-4 h-4 ${
+                sortField === "client_name" ? "rotate-180" : ""
+              }`}
+            />
+          </div>
+          <div className="flex items-center space-x-1">
+            <p onClick={() => handleSort("date")}>Date</p>
+            <img
+              src="https://img.icons8.com/?size=24&id=85502&format=png"
+              alt="arrow down"
+              className={`w-4 h-4 ${sortField === "date" ? "rotate-180" : ""}`}
+            />
+          </div>
+          <div className="flex items-center space-x-1">
+            <p onClick={() => handleSort("amount")}>Amount</p>
+            <img
+              src="https://img.icons8.com/?size=24&id=85502&format=png"
+              alt="arrow down"
+              className={`w-4 h-4 ${
+                sortField === "amount" ? "rotate-180" : ""
+              }`}
+            />
+          </div>
+          <div className="flex">
+            <p>Actions</p>
+          </div>
         </div>
+
         {loading && <LoadingSpinner />}
         {error && <Error message={error} />}
-
         {!loading && !error && paginatedInvoices.length === 0 && (
-          <p className="bg-white text-center p-4 rounded-lg text-gray-500">
-            No invoices found
-          </p>
+          <p className="text-center text-gray-500 p-4">No invoices found</p>
         )}
 
         {!loading &&
@@ -130,64 +185,45 @@ const InvoicesPage = () => {
           paginatedInvoices.map((invoice) => (
             <div
               key={invoice.number}
+              className="grid grid-cols-4 items-center text-start px-4 py-2 hover:bg-emerald-100 transition"
               onClick={() => handleInvoiceClick(invoice)}
-              className="grid grid-cols-1 text-start text-base bg-white px-4 py-4 rounded-lg cursor-pointer hover:bg-emerald-200 transition duration-200 relative"
             >
-              <div className="md:flex justify-between items-center md:gap-4">
-                <h4 className="font-semibold md:w-30">{invoice.number}</h4>
-                <p className="md:w-66">{invoice.client_name}</p>
-                <p className="md:w-26">
-                  {new Date(invoice.date).toLocaleDateString()}
-                </p>
-                <div className="flex items-center justify-end gap-4 md:w-46 relative z-0">
-                  <p className="text-end font-semibold relative z-0">
-                    {parseInt(invoice.total_amount)}€
-                  </p>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleMenu(invoice.id);
-                    }}
-                    className="relative bg-gray-50 w-8 h-8 rounded-full text-lg cursor-pointer z-0"
-                  >
-                    ⋮
-                  </button>
-                </div>
+              <p>{invoice.client_name}</p>
+              <p>{new Date(invoice.date).toLocaleDateString()}</p>
+              <p>{parseInt(invoice.total_amount)}€</p>
+              <div className="relative">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleMenu(invoice.id);
+                  }}
+                  className="bg-gray-50 w-8 h-8 rounded-full"
+                >
+                  ⋮
+                </button>
                 {openMenuId === invoice.id && (
-                  <div className="absolute bg-white shadow-lg rounded-lg flex flex-col gap-1 items-start justify-between text-sm w-48 p-3 z-10 top-[100%] right-0">
+                  <div className="absolute right-0 bg-white shadow rounded p-2 z-10">
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleEdit(invoice);
-                      }}
-                      className="w-full text-left px-2 py-2 rounded-lg hover:bg-emerald-100 transition duration-200 text-sm cursor-pointer"
+                      onClick={() => handleEdit(invoice)}
+                      className="block w-full text-left px-2 py-1 hover:bg-gray-100"
                     >
-                      Edit Invoice
+                      Edit
                     </button>
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDownload(invoice);
-                      }}
-                      className="w-full text-left px-2 py-2 rounded-lg hover:bg-emerald-100 transition duration-200 text-sm cursor-pointer"
+                      onClick={() => handleDownload(invoice)}
+                      className="block w-full text-left px-2 py-1 hover:bg-gray-100"
                     >
-                      Download PDF
+                      Download
                     </button>
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleEmail(invoice);
-                      }}
-                      className="w-full text-left px-2 py-2 rounded-lg hover:bg-emerald-100 transition duration-200 text-sm cursor-pointer"
+                      onClick={() => handleEmail(invoice)}
+                      className="block w-full text-left px-2 py-1 hover:bg-gray-100"
                     >
-                      Send by Email
+                      Email
                     </button>
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDelete(invoice);
-                      }}
-                      className="w-full text-left px-2 py-2 rounded-lg text-red-500 hover:bg-red-100 transition duration-200 text-sm cursor-pointer"
+                      onClick={() => handleDelete(invoice)}
+                      className="block w-full text-left px-2 py-1 text-red-500 hover:bg-red-100"
                     >
                       Delete
                     </button>
@@ -203,13 +239,13 @@ const InvoicesPage = () => {
         <div className="flex justify-center mt-6 space-x-2">
           {Array.from({ length: totalPages }, (_, i) => (
             <button
-              key={i + 1}
+              key={i}
               onClick={() => setCurrentPage(i + 1)}
               className={`w-8 h-8 rounded-full ${
                 currentPage === i + 1
                   ? "bg-emerald-500 text-white"
                   : "bg-white text-emerald-500"
-              } hover:bg-emerald-200 transition duration-200`}
+              } hover:bg-emerald-200 transition`}
             >
               {i + 1}
             </button>

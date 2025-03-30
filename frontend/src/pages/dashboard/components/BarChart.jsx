@@ -57,7 +57,7 @@ const BarChart = ({ invoices }) => {
     chart: {
       type: "bar",
       height: 350,
-      stacked: false,
+      stacked: true,
       toolbar: { show: false },
     },
     colors: ["#34d399", "#f87171"],
@@ -74,32 +74,63 @@ const BarChart = ({ invoices }) => {
     },
     xaxis: {
       categories,
+      labels: {
+        style: {
+          colors: "#9ca3af",
+        },
+      },
     },
     yaxis: {
       labels: {
         formatter: (val) => `${Math.round(val)}€`,
+        style: {
+          colors: "#9ca3af",
+        },
       },
     },
+
     legend: {
-      position: "bottom",
-      horizontalAlign: "left",
+      position: "top",
+      fontSize: "14px",
+      horizontalAlign: "center",
+      offsetY: -35,
+      markers: {
+        radius: 50,
+      },
+      labels: {
+        colors: "#9ca3af",
+      },
     },
     tooltip: {
       y: {
         formatter: (val) => `${Math.round(val)} €`,
       },
     },
+    responsive: [
+      {
+        breakpoint: 768,
+        options: {
+          plotOptions: {
+            bar: {
+              columnWidth: "70%",
+            },
+          },
+        },
+      },
+    ],
   };
 
   return (
-    <div className="bg-white rounded-xl w-full p-4 shadow-[0_0px_5px_rgba(0,0,0,0.1)]">
+    <div className="bg-white rounded-xl w-full p-4 shadow-[0_0px_5px_rgba(0,0,0,0.1)] hover:shadow-lg transition duration-300">
       <div className="flex items-center justify-between">
         <h4 className="text-start text-2xl font-bold tracking-tighter px-4 py-2">
           Money Flow
         </h4>
-        <p className="text-gray-400 px-6 text-end tracking-tighter">Annual</p>
+        <p className="text-gray-400 px-6 text-end tracking-tighter cursor-pointer">
+          Annual
+        </p>
       </div>
-      <Chart options={options} series={series} type="bar" height={350} />
+      <Chart options={options} series={series} type="bar" height={325} />
     </div>
   );
 };

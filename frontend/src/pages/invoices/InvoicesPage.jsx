@@ -1,4 +1,5 @@
 import jsPDF from "jspdf";
+import emailjs from "emailjs-com";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -8,6 +9,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../../components/utils/LoadingSpinner";
 import Error from "../../components/utils/Error";
+import Modal from "../../components/ui/modal/Modal";
 
 const InvoicesPage = () => {
   const dispatch = useDispatch();
@@ -21,6 +23,8 @@ const InvoicesPage = () => {
   const [openMenuId, setOpenMenuId] = useState(null);
   const [sortField, setSortField] = useState("date");
   const [sortOrder, setSortOrder] = useState("desc");
+  const [showModalDelete, setShowModalDelete] = useState(false);
+  const [selectedInvoice, setSelectedInvoice] = useState(null);
 
   useEffect(() => {
     if (userId) {
@@ -90,22 +94,37 @@ const InvoicesPage = () => {
     doc.save(`Invoice-${invoice.number}.pdf`);
   };
 
-  const handleEmail = async (invoice) => {
-    try {
-      await api.post(
-        `/invoices/users/${userId}/invoices/${invoice.id}/send-email`
-      );
-      alert("Invoice sent successfully via email!");
-    } catch (err) {
-      console.error("Email Error:", err);
-      alert("Error sending invoice by email.");
-    }
+  const handleEmail = (invoice) => {
+    emailjs
+      .send(
+        "SERVICE_ID",
+        "TEMPLATE_ID",
+        {
+          client_name: invoice.client_name,
+          invoice_number: invoice.number,
+          invoice_date: invoice.date,
+          total_amount: invoice.total_amount,
+          to_email: invoice.email,
+        },
+        "USER_ID"
+      )
+      .then(() => {
+        alert("Invoice sent successfully!");
+      })
+      .catch((error) => {
+        console.error("Email sending error:", error);
+        alert("Failed to send invoice by email.");
+      });
+  };
+
+  const handleConfirmDelete = (invoice) => {
+    setSelectedInvoice(invoice);
+    setShowModalDelete(true);
   };
 
   const handleDelete = (invoice) => {
-    if (window.confirm("Are you sure you want to delete this invoice?")) {
-      dispatch(deleteInvoice({ userId, invoiceId: invoice.id }));
-    }
+    dispatch(deleteInvoice({ userId, invoiceId: selectedInvoice.id }));
+    setShowModalDelete(false);
   };
 
   return (
@@ -251,7 +270,7 @@ const InvoicesPage = () => {
                       Send Email
                     </button>
                     <button
-                      onClick={() => handleDelete(invoice)}
+                      onClick={() => handleConfirmDelete(invoice)}
                       className="block w-full rounded-md text-left px-2 py-1 text-red-500 hover:bg-red-100 transition duration-200"
                     >
                       Delete
@@ -261,6 +280,33 @@ const InvoicesPage = () => {
               </div>
             </div>
           ))}
+        {showModalDelete && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div className="bg-white text-gray-600 p-10 rounded-xl relative shadow-xl max-w-lg mx-auto flex flex-col items-center justify-center gap-4">
+              <p className="text-lg md:text-2xl font-semibold text-center tracking-tighter text-red-600">
+                Are you sure you want to delete this Invoice?
+              </p>
+              <p className="text-sm text-center max-w-sm text-gray-500 tracking-tight">
+                All data associated with this invoice will be deleted and cannot
+                be recovered.
+              </p>
+              <div className="flex justify-center gap-4">
+                <button
+                  onClick={handleDelete}
+                  className="px-4 py-2 bg-red-600 font-semibold text-white rounded-lg hover:bg-red-700 transition duration-200 cursor-pointer"
+                >
+                  Delete
+                </button>
+                <button
+                  onClick={() => showModalDelete(false)}
+                  className="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-300  duration-200 cursor-pointer"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Pagination */}

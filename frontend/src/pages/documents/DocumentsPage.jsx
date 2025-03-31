@@ -155,7 +155,7 @@ const DocumentsPages = () => {
                 </div>
               </div>
               {openMenuId === doc.id && (
-                <div className="absolute bg-white shadow-lg rounded-lg flex flex-col gap-1 items-start justify-between text-sm w-48 p-3 z-10 top-[100%] right-0">
+                <div className="absolute top-[100%] right-0 z-10 bg-white shadow-lg rounded-lg flex flex-col gap-1 items-start justify-between text-sm w-48 p-3">
                   <button
                     onClick={() => handleEdit(doc)}
                     className="w-full text-left px-2 py-2 rounded-lg hover:bg-emerald-100 transition duration-200 text-sm cursor-pointer"

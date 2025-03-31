@@ -1,21 +1,23 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchInvoicesByType } from "../../store/slices/invoicesSlice";
-import { Link } from "react-router-dom";
+import {
+  fetchInvoicesByType,
+  deleteInvoice,
+} from "../../store/slices/invoicesSlice";
+import { Link, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../../components/utils/LoadingSpinner";
 import Error from "../../components/utils/Error";
 
 const InvoicesPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userId = useSelector((state) => state.auth.user.id);
   const { invoices, loading, error } = useSelector((state) => state.invoices);
-
   const [invoiceType, setInvoiceType] = useState("income");
   const [dateFilter, setDateFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 8;
   const [openMenuId, setOpenMenuId] = useState(null);
-
   const [sortField, setSortField] = useState("date");
   const [sortOrder, setSortOrder] = useState("desc");
 
@@ -71,24 +73,49 @@ const InvoicesPage = () => {
   };
 
   const handleInvoiceClick = (invoice) => {
-    console.log("Abrir fatura", invoice);
+    console.log("Invoice clicked:", invoice);
   };
 
-  // const handleEdit = (invoice) => {
-  //   console.log("Editar", invoice);
-  // };
+  const handleEdit = (invoice) => {
+    navigate(`/invoices/edit/${invoice.id}`);
+  };
 
-  // const handleDownload = (invoice) => {
-  //   console.log("Download", invoice);
-  // };
+  const handleDownload = async (invoice) => {
+    try {
+      const response = await api.get(
+        `/invoices/users/${userId}/invoices/${invoice.id}/download`,
+        { responseType: "blob" }
+      );
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `Invoice-${invoice.number}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (err) {
+      console.error("Download Error:", err);
+      alert("Error downloading invoice.");
+    }
+  };
 
-  // const handleEmail = (invoice) => {
-  //   console.log("Enviar por email", invoice);
-  // };
+  const handleEmail = async (invoice) => {
+    try {
+      await api.post(
+        `/invoices/users/${userId}/invoices/${invoice.id}/send-email`
+      );
+      alert("Invoice sent successfully via email!");
+    } catch (err) {
+      console.error("Email Error:", err);
+      alert("Error sending invoice by email.");
+    }
+  };
 
-  // const handleDelete = (invoice) => {
-  //   console.log("Deletar", invoice);
-  // };
+  const handleDelete = (invoice) => {
+    if (window.confirm("Are you sure you want to delete this invoice?")) {
+      dispatch(deleteInvoice({ userId, invoiceId: invoice.id }));
+    }
+  };
 
   return (
     <section className="container mx-auto p-6 space-y-6">
@@ -99,10 +126,10 @@ const InvoicesPage = () => {
             <button
               key={type}
               onClick={() => setInvoiceType(type)}
-              className={`px-6 py-2 rounded-lg ${
+              className={`px-6 py-2 rounded-lg cursor-pointer tracking-tighter text-center ${
                 invoiceType === type
-                  ? "bg-emerald-200 font-semibold text-emerald-600"
-                  : "bg-emerald-50 text-emerald-600"
+                  ? "bg-emerald-200 w-40 h-14 text-2xl font-semibold hover:bg-emerald-300 text-emerald-600"
+                  : "bg-emerald-50 text-emerald-600 w-40 h-14 text-lg font-normal hover:bg-emerald-200"
               } transition duration-200`}
             >
               {type.charAt(0).toUpperCase() + type.slice(1)}
@@ -125,12 +152,12 @@ const InvoicesPage = () => {
           {/* Buttons New Invoices */}
           <div className="flex items-center space-x-2">
             <Link to="/invoices/new-income">
-              <button className="px-5 py-2 text-white bg-emerald-600 rounded-lg hover:bg-emerald-500 transition text-sm">
+              <button className="px-5 py-2 font-semibold text-white bg-emerald-600 rounded-lg hover:bg-emerald-500 transition text-sm cursor-pointer">
                 + New Income
               </button>
             </Link>
             <Link to="/invoices/new-expense">
-              <button className="px-5 py-2 text-emerald-600 bg-emerald-50 rounded-lg hover:bg-red-200 hover:text-red-600 transition text-sm">
+              <button className="px-5 py-2 font-semibold text-emerald-600 bg-emerald-50 rounded-lg hover:bg-red-200 hover:text-red-600 transition text-sm cursor-pointer">
                 + New Expense
               </button>
             </Link>
@@ -139,37 +166,48 @@ const InvoicesPage = () => {
       </div>
 
       {/* Invoices List */}
-      <div className="bg-white rounded-2xl overflow-hidden">
-        <div className="grid grid-cols-4 bg-gray-100 px-4 py-2 text-start font-semibold cursor-pointer">
+      <div className="bg-white p-4 rounded-2xl shadow-[0_0px_5px_rgba(0,0,0,0.1)] overflow-y-auto hover:shadow-lg transition duration-300">
+        <div className="grid grid-cols-4  px-4 py-2 text-start font-semibold">
           <div className="flex items-center space-x-1">
-            <p onClick={() => handleSort("client_name")}>Name</p>
-            <img
-              src="https://img.icons8.com/?size=24&id=85502&format=png"
-              alt="arrow down"
-              className={`w-4 h-4 ${
-                sortField === "client_name" ? "rotate-180" : ""
-              }`}
-            />
+            <div
+              className="flex items-center space-x-1 cursor-pointer"
+              onClick={() => handleSort("client_name")}
+            >
+              <p>Name</p>
+              <img
+                src="https://img.icons8.com/?size=24&id=85502&format=png"
+                alt="arrow down"
+                className="w-4 h-4"
+              />
+            </div>
           </div>
           <div className="flex items-center space-x-1">
-            <p onClick={() => handleSort("date")}>Date</p>
-            <img
-              src="https://img.icons8.com/?size=24&id=85502&format=png"
-              alt="arrow down"
-              className={`w-4 h-4 ${sortField === "date" ? "rotate-180" : ""}`}
-            />
+            <div
+              className="flex items-center space-x-1 cursor-pointer"
+              onClick={() => handleSort("date")}
+            >
+              <p>Date</p>
+              <img
+                src="https://img.icons8.com/?size=24&id=85502&format=png"
+                alt="arrow down"
+                className="w-4 h-4"
+              />
+            </div>
           </div>
           <div className="flex items-center space-x-1">
-            <p onClick={() => handleSort("amount")}>Amount</p>
-            <img
-              src="https://img.icons8.com/?size=24&id=85502&format=png"
-              alt="arrow down"
-              className={`w-4 h-4 ${
-                sortField === "amount" ? "rotate-180" : ""
-              }`}
-            />
+            <div
+              className="flex items-center space-x-1 cursor-pointer"
+              onClick={() => handleSort("amount")}
+            >
+              <p>Amount</p>
+              <img
+                src="https://img.icons8.com/?size=24&id=85502&format=png"
+                alt="arrow down"
+                className="w-4 h-4"
+              />
+            </div>
           </div>
-          <div className="flex">
+          <div className="justify-self-end">
             <p>Actions</p>
           </div>
         </div>
@@ -185,45 +223,45 @@ const InvoicesPage = () => {
           paginatedInvoices.map((invoice) => (
             <div
               key={invoice.number}
-              className="grid grid-cols-4 items-center text-start px-4 py-2 hover:bg-emerald-100 transition"
+              className="grid grid-cols-4 items-center text-start px-4 py-2 rounded-lg hover:bg-emerald-100 duration-200 cursor-pointer relative border-b border-b-gray-100"
               onClick={() => handleInvoiceClick(invoice)}
             >
               <p>{invoice.client_name}</p>
               <p>{new Date(invoice.date).toLocaleDateString()}</p>
               <p>{parseInt(invoice.total_amount)}€</p>
-              <div className="relative">
+              <div className="relative flex justify-end">
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     toggleMenu(invoice.id);
                   }}
-                  className="bg-gray-50 w-8 h-8 rounded-full"
+                  className="bg-gray-50 w-7 h-7 rounded-full"
                 >
                   ⋮
                 </button>
                 {openMenuId === invoice.id && (
-                  <div className="absolute right-0 bg-white shadow rounded p-2 z-10">
+                  <div className="absolute right-0 w-32 bg-white shadow rounded-lg p-2 z-10 text-sm text-gray-500">
                     <button
                       onClick={() => handleEdit(invoice)}
-                      className="block w-full text-left px-2 py-1 hover:bg-gray-100"
+                      className="block w-full rounded-md text-left px-2 py-1 hover:bg-emerald-100 transition duration-200"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => handleDownload(invoice)}
-                      className="block w-full text-left px-2 py-1 hover:bg-gray-100"
+                      className="block w-full rounded-md text-left px-2 py-1 hover:bg-emerald-100 transition duration-200"
                     >
                       Download
                     </button>
                     <button
                       onClick={() => handleEmail(invoice)}
-                      className="block w-full text-left px-2 py-1 hover:bg-gray-100"
+                      className="block w-full rounded-md text-left px-2 py-1 hover:bg-emerald-100 transition duration-200"
                     >
-                      Email
+                      Send Email
                     </button>
                     <button
                       onClick={() => handleDelete(invoice)}
-                      className="block w-full text-left px-2 py-1 text-red-500 hover:bg-red-100"
+                      className="block w-full rounded-md text-left px-2 py-1 text-red-500 hover:bg-red-100 transition duration-200"
                     >
                       Delete
                     </button>
@@ -236,14 +274,14 @@ const InvoicesPage = () => {
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex justify-center mt-6 space-x-2">
+        <div className="flex justify-center space-x-2">
           {Array.from({ length: totalPages }, (_, i) => (
             <button
               key={i}
               onClick={() => setCurrentPage(i + 1)}
-              className={`w-8 h-8 rounded-full ${
+              className={`w-6 h-6 rounded-full ${
                 currentPage === i + 1
-                  ? "bg-emerald-500 text-white"
+                  ? "bg-emerald-500 text-white font-semibold"
                   : "bg-white text-emerald-500"
               } hover:bg-emerald-200 transition`}
             >

@@ -1,14 +1,19 @@
-import { useEffect, useState } from "react";
+import jsPDF from "jspdf";
+import emailjs from "emailjs-com";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useRef } from "react";
 import { fetchQuarterlyTax } from "../../store/slices/quarterlyTaxSlice.js";
 import { fetchAnnualTax } from "../../store/slices/annualTaxSlice.js";
+import { deleteQuarterlyTax } from "../../store/slices/quarterlyTaxSlice.js";
+import { deleteAnnualTax } from "../../store/slices/annualTaxSlice.js";
 import LoadingSpinner from "../../components/utils/LoadingSpinner";
 import Error from "../../components/utils/Error";
 
 const DocumentsPages = () => {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.user.id);
+  const user = useSelector((state) => state.auth.user);
+  const userEmail = useSelector((state) => state.auth.user.email);
   const {
     quarterlyTax,
     loading: loadingQuarterly,
@@ -24,9 +29,12 @@ const DocumentsPages = () => {
   const [dateFilter, setDateFilter] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 20;
+  const itemsPerPage = 8;
 
   const [openMenuId, setOpenMenuId] = useState(null);
+  const [showModalDelete, setShowModalDelete] = useState(false);
+  const [selectedDoc, setSelectedDoc] = useState(null);
+
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -42,44 +50,95 @@ const DocumentsPages = () => {
     setCurrentPage(1);
   }, [documentType, dateFilter]);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setOpenMenuId(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const data = documentType === "quarterly" ? quarterlyTax : annualTax;
   const loading =
     documentType === "quarterly" ? loadingQuarterly : loadingAnnual;
   const error = documentType === "quarterly" ? errorQuarterly : errorAnnual;
 
-  const filteredDocuments = data.filter((doc) => {
-    if (!dateFilter) return true;
-    return doc.date >= dateFilter;
-  });
+  const filteredDocuments = data
+    .filter((doc) => !dateFilter || doc.date >= dateFilter)
+    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
   const totalPages = Math.ceil(filteredDocuments.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentDocuments = filteredDocuments.slice(
     startIndex,
-    startIndex + itemsPerPage
+    currentPage + itemsPerPage
   );
 
   const toggleMenu = (id) => {
     setOpenMenuId((prev) => (prev === id ? null : id));
   };
 
+  const handleSort = () => {
+    filteredDocuments.reverse();
+  };
+
   const handleDownload = (doc) => {
-    console.log("Download", doc);
+    const docPDF = new jsPDF();
+    docPDF.text(`Document Type: ${documentType}`, 10, 10);
+    docPDF.text(`Year: ${doc.year}`, 10, 20);
+    if (documentType === "quarterly") {
+      docPDF.text(`Quarter: ${doc.quarter}`, 10, 30);
+    }
+    docPDF.text(
+      `Created At: ${new Date(doc.created_at).toLocaleDateString()}`,
+      10,
+      40
+    );
+    docPDF.save(`${documentType}-document-${doc.year}.pdf`);
   };
 
   const handleEmail = (doc) => {
-    console.log("Enviar por email", doc);
+    emailjs
+      .send(
+        "SERVICE_ID",
+        "TEMPLATE_ID",
+        {
+          document_type: documentType,
+          year: doc.year,
+          quarter: doc.quarter || "N/A",
+          created_at: new Date(doc.created_at).toLocaleDateString(),
+          to_email: userEmail,
+        },
+        "USER_ID"
+      )
+      .then(() => alert("Document sent successfully!"))
+      .catch((error) => {
+        console.error(error);
+        alert("Failed to send document by email.");
+      });
   };
 
-  const handleDelete = (doc) => {
-    console.log("Deletar", doc);
+  const handleConfirmDelete = (doc) => {
+    setSelectedDoc(doc);
+    setShowModalDelete(true);
+  };
+
+  const handleDelete = () => {
+    dispatch(
+      documentType === "quarterly"
+        ? deleteQuarterlyTax({ userId, quarterlyTaxId: selectedDoc.id })
+        : deleteAnnualTax({ userId, annualTaxId: selectedDoc.id })
+    );
+    setshowModalDelete(false);
   };
 
   return (
     <section className="container mx-auto p-6 space-y-6">
-      <div className="flex justify-between items-end space-x-2">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-end space-x-2">
         {/* Quarterly/Annual Toggle */}
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 mb-4 md:mb-0">
           {["quarterly", "annual"].map((type) => (
             <button
               key={type}
@@ -96,7 +155,7 @@ const DocumentsPages = () => {
         </div>
 
         {/* Date Filter */}
-        <div className="flex items-center space-x-1 px-4 text-gray-500">
+        <div className="flex justify-end space-x-1 px-4 text-gray-500">
           <label htmlFor="dateFilter" className="font-semibold text-sm">
             Filter:
           </label>
@@ -111,11 +170,11 @@ const DocumentsPages = () => {
       </div>
 
       {/* Documents List */}
-      <div className="bg-white p-4 rounded-2xl shadow-[0_0px_5px_rgba(0,0,0,0.1)] overflow-y-auto hover:shadow-lg transition duration-300 relative">
-        <div className="grid grid-cols-2 px-4 py-2 tracking-tight font-semibold">
+      <div className="bg-white p-4 rounded-2xl shadow-[0_0px_5px_rgba(0,0,0,0.1)] hover:shadow-lg transition duration-300 relative">
+        <div className="grid grid-cols-2 bg-emerald-50 rounded-t-xl px-4 py-2 tracking-tight font-semibold">
           <div
             className="flex items-center space-x-1 cursor-pointer"
-            onClick={() => handleSort("client_name")}
+            onClick={handleSort()}
           >
             <p>Document</p>
             <img
@@ -124,12 +183,13 @@ const DocumentsPages = () => {
               className="w-4 h-4"
             />
           </div>
-          <div className="flex items-center justify-end cursor-pointer">
-            <p className="text-sm">
+          <div className="flex items-end justify-end cursor-pointer">
+            <p className="text-xs md:text-sm">
               {currentDocuments.length} of {filteredDocuments.length} documents
             </p>
           </div>
         </div>
+
         {loading && <LoadingSpinner />}
         {error && <Error message={error} />}
 
@@ -144,9 +204,9 @@ const DocumentsPages = () => {
           currentDocuments.map((doc) => (
             <div
               key={doc.id}
-              className="grid grid-cols-1 items-center text-start px-4 py-2 rounded-lg hover:bg-emerald-100 duration-200 cursor-pointer relative border-b border-b-gray-100"
+              className="grid grid-cols-1 items-center text-start px-4 py-3 rounded-lg hover:bg-emerald-100 duration-200 cursor-pointer relative border-b border-b-gray-100"
             >
-              <div className="md:flex justify-between items-center md:gap-4">
+              <div className="flex justify-between items-center md:gap-4 text-sm md:text-base">
                 <p className="font-semibold md:w-66">
                   {documentType === "quarterly"
                     ? `Quarter ${doc.quarter} - ${doc.year}`
@@ -169,23 +229,23 @@ const DocumentsPages = () => {
               {openMenuId === doc.id && (
                 <div
                   ref={menuRef}
-                  className="absolute top-12 right-0 w-32 bg-white shadow flex flex-col rounded-lg p-2 z-80 text-sm text-gray-500"
+                  className="absolute top-2 right-2 w-32 bg-white shadow flex flex-col rounded-lg p-2 z-[1000] text-sm text-gray-500"
                 >
                   <button
                     onClick={() => handleDownload(doc)}
-                    className="block w-full rounded-md text-left px-2 py-2 hover:bg-emerald-100 transition duration-200"
+                    className="block w-full rounded-md text-left px-2 py-2 hover:bg-emerald-100 transition duration-200 cursor-pointer"
                   >
                     Download
                   </button>
                   <button
                     onClick={() => handleEmail(doc)}
-                    className="block w-full rounded-md text-left px-2 py-2 hover:bg-emerald-100 transition duration-200"
+                    className="block w-full rounded-md text-left px-2 py-2 hover:bg-emerald-100 transition duration-200 cursor-pointer"
                   >
                     Send Email
                   </button>
                   <button
                     onClick={() => handleConfirmDelete(doc)}
-                    className="block w-full rounded-md text-left px-2 py-2 text-red-500 hover:bg-red-100 transition duration-200"
+                    className="block w-full rounded-md text-left px-2 py-2 text-red-500 hover:bg-red-100 transition duration-200 cursor-pointer"
                   >
                     Delete
                   </button>
@@ -194,6 +254,29 @@ const DocumentsPages = () => {
             </div>
           ))}
       </div>
+      {showModalDelete && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white text-gray-600 p-10 rounded-xl relative shadow-xl max-w-lg mx-auto flex flex-col items-center justify-center gap-4">
+            <p className="text-lg md:text-2xl font-semibold text-center tracking-tighter text-red-600">
+              Are you sure you want to delete this Document?
+            </p>
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={handleDelete}
+                className="px-4 py-2 bg-red-600 font-semibold text-white rounded-lg hover:bg-red-700 transition duration-200 cursor-pointer"
+              >
+                Delete
+              </button>
+              <button
+                onClick={() => setShowModalDelete(false)}
+                className="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-300  duration-200 cursor-pointer"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Pagination */}
       {totalPages > 1 && (

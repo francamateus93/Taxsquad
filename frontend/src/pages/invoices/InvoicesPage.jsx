@@ -21,7 +21,7 @@ const InvoicesPage = () => {
   const [invoiceType, setInvoiceType] = useState("income");
   const [dateFilter, setDateFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
+  const itemsPerPage = 6;
 
   const [openMenuId, setOpenMenuId] = useState(null);
   const [sortField, setSortField] = useState("date");
@@ -96,9 +96,9 @@ const InvoicesPage = () => {
     console.log("Invoice clicked:", invoice);
   };
 
-  const handleEdit = (invoice) => {
-    navigate(`/invoices/edit/${invoice.id}`);
-  };
+  // const handleEdit = (invoice) => {
+  //   navigate(`/invoices/edit/${invoice.id}`);
+  // };
 
   const handleDownload = (invoice) => {
     const doc = new jsPDF();
@@ -142,9 +142,9 @@ const InvoicesPage = () => {
 
   return (
     <section className="container mx-auto p-6 space-y-6">
-      <div className="flex justify-between items-end space-x-2">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-end space-x-2">
         {/* Income / Expense Toggle */}
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 mb-4 md:mb-0">
           {["income", "expense"].map((type) => (
             <button
               key={type}
@@ -160,7 +160,7 @@ const InvoicesPage = () => {
           ))}
         </div>
 
-        <div className="flex flex-col gap-3 space-x-2 justify-end">
+        <div className="flex flex-col gap-3 space-x-2 items-end">
           {/* Date Filter */}
           <div className="flex items-center space-x-1 text-gray-500">
             <label className="font-semibold text-sm">Filter:</label>
@@ -175,12 +175,12 @@ const InvoicesPage = () => {
           {/* Buttons New Invoices */}
           <div className="flex items-center space-x-2">
             <Link to="/invoices/new-income">
-              <button className="px-5 py-2 font-semibold text-white bg-emerald-600 rounded-lg hover:bg-emerald-500 transition cursor-pointer">
+              <button className="px-3 md:px-5 py-2 text-sm md:text-base font-semibold text-white bg-emerald-600 rounded-lg hover:bg-emerald-500 transition cursor-pointer">
                 + New Income
               </button>
             </Link>
             <Link to="/invoices/new-expense">
-              <button className="px-5 py-2 font-semibold text-emerald-600 bg-emerald-50 rounded-lg hover:bg-red-200 hover:text-red-600 transition cursor-pointer">
+              <button className="px-3 md:px-5 py-2 text-sm md:text-base font-semibold text-emerald-600 bg-emerald-50 rounded-lg hover:bg-red-200 hover:text-red-600 transition cursor-pointer">
                 + New Expense
               </button>
             </Link>
@@ -189,14 +189,14 @@ const InvoicesPage = () => {
       </div>
 
       {/* Invoices List */}
-      <div className="bg-white p-4 rounded-2xl shadow-[0_0px_5px_rgba(0,0,0,0.1)] overflow-y-auto hover:shadow-lg transition duration-300">
-        <div className="grid grid-cols-4 px-4 py-2 text-start font-semibold">
-          <div className="flex items-center space-x-1">
+      <div className="bg-white p-4 rounded-2xl shadow-[0_0px_5px_rgba(0,0,0,0.1)] hover:shadow-lg transition duration-300">
+        <div className="grid grid-cols-12 bg-emerald-50 px-4 py-2 text-start font-bold rounded-t-xl">
+          <div className="col-span-4 flex items-center space-x-1">
             <div
               className="flex items-center space-x-1 cursor-pointer"
               onClick={() => handleSort("client_name")}
             >
-              <p>Name</p>
+              <p className="text-sm md:text-base">Name</p>
               <img
                 src="https://img.icons8.com/?size=24&id=85502&format=png"
                 alt="arrow down"
@@ -204,12 +204,12 @@ const InvoicesPage = () => {
               />
             </div>
           </div>
-          <div className="flex items-center space-x-1">
+          <div className="col-span-3 flex items-center space-x-1">
             <div
               className="flex items-center space-x-1 cursor-pointer"
               onClick={() => handleSort("date")}
             >
-              <p>Date</p>
+              <p className="text-sm md:text-base">Date</p>
               <img
                 src="https://img.icons8.com/?size=24&id=85502&format=png"
                 alt="arrow down"
@@ -217,12 +217,12 @@ const InvoicesPage = () => {
               />
             </div>
           </div>
-          <div className="flex items-center space-x-1">
+          <div className="col-span-3 flex items-center space-x-1">
             <div
               className="flex items-center space-x-1 cursor-pointer"
               onClick={() => handleSort("amount")}
             >
-              <p>Amount</p>
+              <p className="text-sm md:text-base">Amount</p>
               <img
                 src="https://img.icons8.com/?size=24&id=85502&format=png"
                 alt="arrow down"
@@ -230,8 +230,8 @@ const InvoicesPage = () => {
               />
             </div>
           </div>
-          <div className="justify-self-end">
-            <p>Actions</p>
+          <div className="col-span-2 justify-self-end">
+            <p className="text-sm md:text-base">Actions</p>
           </div>
         </div>
 
@@ -246,13 +246,19 @@ const InvoicesPage = () => {
           paginatedInvoices.map((invoice) => (
             <div
               key={invoice.number}
-              className="grid grid-cols-4 items-center text-start px-4 py-2 rounded-lg hover:bg-emerald-100 duration-200 cursor-pointer relative border-b border-b-gray-100"
+              className="grid grid-cols-12 items-center text-start px-4 py-3 rounded-lg hover:bg-emerald-100 duration-200 cursor-pointer relative border-b border-b-gray-100"
               onClick={() => handleInvoiceClick(invoice)}
             >
-              <p className="font-semibold">{invoice.client_name}</p>
-              <p>{new Date(invoice.date).toLocaleDateString()}</p>
-              <p>{parseInt(invoice.total_amount)}€</p>
-              <div className="relative flex justify-end">
+              <p className="col-span-4 font-semibold text-sm md:text-base">
+                {invoice.client_name}
+              </p>
+              <p className="col-span-3 text-sm md:text-base">
+                {new Date(invoice.date).toLocaleDateString()}
+              </p>
+              <p className="col-span-3 text-sm md:text-base">
+                {parseInt(invoice.total_amount)}€
+              </p>
+              <div className="col-span-2 relative flex justify-end">
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
@@ -269,25 +275,25 @@ const InvoicesPage = () => {
                   >
                     <button
                       onClick={() => handleEdit(invoice)}
-                      className="block w-full rounded-md text-left px-2 py-2 hover:bg-emerald-100 transition duration-200"
+                      className="block w-full rounded-md text-left px-2 py-2 hover:bg-emerald-100 transition duration-200 cursor-pointer"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => handleDownload(invoice)}
-                      className="block w-full rounded-md text-left px-2 py-2 hover:bg-emerald-100 transition duration-200"
+                      className="block w-full rounded-md text-left px-2 py-2 hover:bg-emerald-100 transition duration-200 cursor-pointer"
                     >
                       Download
                     </button>
                     <button
                       onClick={() => handleEmail(invoice)}
-                      className="block w-full rounded-md text-left px-2 py-2 hover:bg-emerald-100 transition duration-200"
+                      className="block w-full rounded-md text-left px-2 py-2 hover:bg-emerald-100 transition duration-200 cursor-pointer"
                     >
                       Send Email
                     </button>
                     <button
                       onClick={() => handleConfirmDelete(invoice)}
-                      className="block w-full rounded-md text-left px-2 py-2 text-red-500 hover:bg-red-100 transition duration-200"
+                      className="block w-full rounded-md text-left px-2 py-2 text-red-500 hover:bg-red-100 transition duration-200 cursor-pointer"
                     >
                       Delete
                     </button>

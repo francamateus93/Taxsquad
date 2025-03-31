@@ -12,7 +12,7 @@ const TaxesCard = ({ title, date, deadline, documentType }) => {
   const route = routesMap[documentType];
 
   return (
-    <div className="bg-white shadow-[0_0px_5px_rgba(0,0,0,0.1)] hover:shadow-xl transition duration-300 rounded-xl p-10 space-y-4 mb-8 max-w-4xl">
+    <div className="bg-white shadow-[0_0px_5px_rgba(0,0,0,0.1)] hover:shadow-xl transition duration-300 rounded-xl p-10 space-y-4 max-w-4xl">
       <div className="flex flex-col gap-4 items-center">
         <h2 className="text-3xl font-semibold tracking-tighter">{title}</h2>
         <p className="text-lg tracking-tighter">{date}</p>

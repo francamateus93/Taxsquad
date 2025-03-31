@@ -129,7 +129,7 @@ const Sidebar = () => {
             </Link>
           </li>
           <li>
-            <div className="bg-gray-100 flex flex-col gap-2 items-start text-start px-4 py-4 justify-center rounded-xl transition duration-200 cursor-pointer hover:bg-emerald-200 mt-3">
+            <div className="bg-emerald-50 flex flex-col gap-2 items-start text-start px-4 py-4 justify-center rounded-xl transition duration-200 cursor-pointer hover:bg-emerald-200 mt-3">
               <h4 className="text-lg font-bold tracking-tight">
                 Upgrade Pro! <span className="text-sm">👑</span>
               </h4>

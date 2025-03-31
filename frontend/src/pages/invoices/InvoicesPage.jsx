@@ -175,12 +175,12 @@ const InvoicesPage = () => {
           {/* Buttons New Invoices */}
           <div className="flex items-center space-x-2">
             <Link to="/invoices/new-income">
-              <button className="px-5 py-2 font-semibold text-white bg-emerald-600 rounded-lg hover:bg-emerald-500 transition text-sm cursor-pointer">
+              <button className="px-5 py-2 font-semibold text-white bg-emerald-600 rounded-lg hover:bg-emerald-500 transition cursor-pointer">
                 + New Income
               </button>
             </Link>
             <Link to="/invoices/new-expense">
-              <button className="px-5 py-2 font-semibold text-emerald-600 bg-emerald-50 rounded-lg hover:bg-red-200 hover:text-red-600 transition text-sm cursor-pointer">
+              <button className="px-5 py-2 font-semibold text-emerald-600 bg-emerald-50 rounded-lg hover:bg-red-200 hover:text-red-600 transition cursor-pointer">
                 + New Expense
               </button>
             </Link>
@@ -190,7 +190,7 @@ const InvoicesPage = () => {
 
       {/* Invoices List */}
       <div className="bg-white p-4 rounded-2xl shadow-[0_0px_5px_rgba(0,0,0,0.1)] overflow-y-auto hover:shadow-lg transition duration-300">
-        <div className="grid grid-cols-4  px-4 py-2 text-start font-semibold">
+        <div className="grid grid-cols-4 px-4 py-2 text-start font-semibold">
           <div className="flex items-center space-x-1">
             <div
               className="flex items-center space-x-1 cursor-pointer"
@@ -249,7 +249,7 @@ const InvoicesPage = () => {
               className="grid grid-cols-4 items-center text-start px-4 py-2 rounded-lg hover:bg-emerald-100 duration-200 cursor-pointer relative border-b border-b-gray-100"
               onClick={() => handleInvoiceClick(invoice)}
             >
-              <p>{invoice.client_name}</p>
+              <p className="font-semibold">{invoice.client_name}</p>
               <p>{new Date(invoice.date).toLocaleDateString()}</p>
               <p>{parseInt(invoice.total_amount)}€</p>
               <div className="relative flex justify-end">
@@ -258,7 +258,7 @@ const InvoicesPage = () => {
                     e.stopPropagation();
                     toggleMenu(invoice.id);
                   }}
-                  className="bg-gray-50 w-7 h-7 rounded-full"
+                  className="bg-gray-50 w-7 h-7 rounded-full cursor-pointer"
                 >
                   ⋮
                 </button>

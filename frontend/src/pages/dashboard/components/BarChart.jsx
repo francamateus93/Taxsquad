@@ -123,7 +123,7 @@ const BarChart = ({ invoices }) => {
   return (
     <div className="bg-white rounded-xl w-full p-4 shadow-[0_0px_5px_rgba(0,0,0,0.1)] hover:shadow-lg transition duration-300">
       <div className="flex items-center justify-between">
-        <h4 className="text-start text-2xl font-bold tracking-tighter px-4 py-2">
+        <h4 className="hidden md:block text-start text-2xl font-bold tracking-tighter px-4 md:py-2 py-8">
           Money Flow
         </h4>
         <p className="text-gray-400 px-6 text-end tracking-tighter cursor-pointer">

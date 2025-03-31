@@ -23,6 +23,7 @@ import AuthListener from "../components/auth/AuthListener.jsx";
 import NewAnnual from "../pages/taxes/components/NewAnnualTax.jsx";
 import NewQuarterly from "../pages/taxes/components/NewQuarterlyTax.jsx";
 import AuthenticatedRoute from "./AuthenticatedRoute.jsx";
+import EditInvoicePage from "../pages/invoices/EditInvoicePage.jsx";
 
 const AppRouter = () => {
   const user = useSelector((state) => state.auth);
@@ -70,6 +71,18 @@ const AppRouter = () => {
                 <PrivateRoute>
                   <DashboardLayout>
                     <NewIncomeInvoice />
+                  </DashboardLayout>
+                </PrivateRoute>
+              </AuthenticatedRoute>
+            }
+          />
+          <Route
+            path="/invoices/edit:id"
+            element={
+              <AuthenticatedRoute>
+                <PrivateRoute>
+                  <DashboardLayout>
+                    <EditInvoicePage />
                   </DashboardLayout>
                 </PrivateRoute>
               </AuthenticatedRoute>

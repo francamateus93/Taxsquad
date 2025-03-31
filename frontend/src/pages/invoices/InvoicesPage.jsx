@@ -1,3 +1,4 @@
+import jsPDF from "jspdf";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -80,23 +81,13 @@ const InvoicesPage = () => {
     navigate(`/invoices/edit/${invoice.id}`);
   };
 
-  const handleDownload = async (invoice) => {
-    try {
-      const response = await api.get(
-        `/invoices/users/${userId}/invoices/${invoice.id}/download`,
-        { responseType: "blob" }
-      );
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", `Invoice-${invoice.number}.pdf`);
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-    } catch (err) {
-      console.error("Download Error:", err);
-      alert("Error downloading invoice.");
-    }
+  const handleDownload = (invoice) => {
+    const doc = new jsPDF();
+    doc.text(`Invoice #${invoice.number}`, 10, 10);
+    doc.text(`Client: ${invoice.client_name}`, 10, 20);
+    doc.text(`Date: ${new Date(invoice.date).toLocaleDateString()}`, 10, 30);
+    doc.text(`Total Amount: ${invoice.total_amount}€`, 10, 40);
+    doc.save(`Invoice-${invoice.number}.pdf`);
   };
 
   const handleEmail = async (invoice) => {

@@ -1,6 +1,6 @@
 import jsPDF from "jspdf";
 import emailjs from "emailjs-com";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   fetchInvoicesByType,
@@ -9,22 +9,27 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../../components/utils/LoadingSpinner";
 import Error from "../../components/utils/Error";
-import Modal from "../../components/ui/modal/Modal";
 
 const InvoicesPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userId = useSelector((state) => state.auth.user.id);
+  const userEmail = useSelector((state) => state.auth.user.email);
+
   const { invoices, loading, error } = useSelector((state) => state.invoices);
+
   const [invoiceType, setInvoiceType] = useState("income");
   const [dateFilter, setDateFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
+
   const [openMenuId, setOpenMenuId] = useState(null);
   const [sortField, setSortField] = useState("date");
   const [sortOrder, setSortOrder] = useState("desc");
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState(null);
+
+  const menuRef = useRef();
 
   useEffect(() => {
     if (userId) {
@@ -35,6 +40,16 @@ const InvoicesPage = () => {
   useEffect(() => {
     setCurrentPage(1);
   }, [invoiceType, dateFilter]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setOpenMenuId(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const sortInvoices = (a, b) => {
     if (sortField === "client_name") {
@@ -102,15 +117,13 @@ const InvoicesPage = () => {
         {
           client_name: invoice.client_name,
           invoice_number: invoice.number,
-          invoice_date: invoice.date,
+          invoice_date: new Date(invoice.date).toLocaleDateString(),
           total_amount: invoice.total_amount,
-          to_email: invoice.email,
+          to_email: userEmail,
         },
         "USER_ID"
       )
-      .then(() => {
-        alert("Invoice sent successfully!");
-      })
+      .then(() => alert("Invoice sent successfully!"))
       .catch((error) => {
         console.error("Email sending error:", error);
         alert("Failed to send invoice by email.");
@@ -250,28 +263,31 @@ const InvoicesPage = () => {
                   ⋮
                 </button>
                 {openMenuId === invoice.id && (
-                  <div className="absolute right-0 w-32 bg-white shadow rounded-lg p-2 z-10 text-sm text-gray-500">
+                  <div
+                    ref={menuRef}
+                    className="absolute right-0 w-32 bg-white shadow flex flex-col rounded-lg p-2 z-10 text-sm text-gray-500"
+                  >
                     <button
                       onClick={() => handleEdit(invoice)}
-                      className="block w-full rounded-md text-left px-2 py-1 hover:bg-emerald-100 transition duration-200"
+                      className="block w-full rounded-md text-left px-2 py-2 hover:bg-emerald-100 transition duration-200"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => handleDownload(invoice)}
-                      className="block w-full rounded-md text-left px-2 py-1 hover:bg-emerald-100 transition duration-200"
+                      className="block w-full rounded-md text-left px-2 py-2 hover:bg-emerald-100 transition duration-200"
                     >
                       Download
                     </button>
                     <button
                       onClick={() => handleEmail(invoice)}
-                      className="block w-full rounded-md text-left px-2 py-1 hover:bg-emerald-100 transition duration-200"
+                      className="block w-full rounded-md text-left px-2 py-2 hover:bg-emerald-100 transition duration-200"
                     >
                       Send Email
                     </button>
                     <button
                       onClick={() => handleConfirmDelete(invoice)}
-                      className="block w-full rounded-md text-left px-2 py-1 text-red-500 hover:bg-red-100 transition duration-200"
+                      className="block w-full rounded-md text-left px-2 py-2 text-red-500 hover:bg-red-100 transition duration-200"
                     >
                       Delete
                     </button>
@@ -298,7 +314,7 @@ const InvoicesPage = () => {
                   Delete
                 </button>
                 <button
-                  onClick={() => showModalDelete(false)}
+                  onClick={() => setShowModalDelete(false)}
                   className="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-300  duration-200 cursor-pointer"
                 >
                   Cancel

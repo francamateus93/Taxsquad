@@ -27,10 +27,8 @@ const DocumentsPages = () => {
 
   const [documentType, setDocumentType] = useState("quarterly");
   const [dateFilter, setDateFilter] = useState("");
-
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
-
   const [openMenuId, setOpenMenuId] = useState(null);
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [selectedDoc, setSelectedDoc] = useState(null);
@@ -78,10 +76,6 @@ const DocumentsPages = () => {
 
   const toggleMenu = (id) => {
     setOpenMenuId((prev) => (prev === id ? null : id));
-  };
-
-  const handleSort = () => {
-    filteredDocuments.reverse();
   };
 
   const handleDownload = (doc) => {
@@ -174,9 +168,9 @@ const DocumentsPages = () => {
         <div className="grid grid-cols-2 bg-emerald-50 rounded-t-xl px-4 py-2 tracking-tight font-semibold">
           <div
             className="flex items-center space-x-1 cursor-pointer"
-            onClick={handleSort()}
+            // onClick={handleSort()}
           >
-            <p>Document</p>
+            <p className="font-bold">Document</p>
             <img
               src="https://img.icons8.com/?size=24&id=85502&format=png"
               alt="arrow down"

@@ -149,7 +149,7 @@ const InvoicesPage = () => {
             <button
               key={type}
               onClick={() => setInvoiceType(type)}
-              className={`px-6 py-2 rounded-lg cursor-pointer tracking-tighter text-center ${
+              className={`px-6 py-2 rounded-xl cursor-pointer tracking-tighter text-center ${
                 invoiceType === type
                   ? "bg-emerald-200 w-40 h-14 text-2xl font-semibold hover:bg-emerald-300 text-emerald-600"
                   : "bg-emerald-50 text-emerald-600 w-40 h-14 text-lg font-normal hover:bg-emerald-200"
@@ -180,7 +180,7 @@ const InvoicesPage = () => {
               </button>
             </Link>
             <Link to="/invoices/new-expense">
-              <button className="px-3 md:px-5 py-2 text-sm md:text-base font-semibold text-emerald-600 bg-emerald-50 rounded-lg hover:bg-red-200 hover:text-red-600 transition cursor-pointer">
+              <button className="px-3 md:px-5 py-2 text-sm md:text-base font-semibold text-emerald-600 bg-emerald-50 rounded-lg hover:text-red-400 transition duration-200 cursor-pointer">
                 + New Expense
               </button>
             </Link>

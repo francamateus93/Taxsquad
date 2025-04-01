@@ -71,21 +71,10 @@ const ProfilePage = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProfile((prev) => ({ ...prev, [name]: value }));
-    setTouched({ ...touched, [e.target.name]: true });
+    setTouched((prev) => ({ ...prev, [name]: value }));
     const isValid = validateField(name, value);
     setErrors((prev) => ({ ...prev, [name]: !isValid }));
   };
-
-  useEffect(() => {
-    const newErrors = {};
-    for (const key in profile) {
-      const value = profile[key];
-      if (touched[key]) {
-        newErrors[key] = !validateField(key, value);
-      }
-    }
-    setErrors(newErrors);
-  }, [profile, touched]);
 
   const validateForm = () => {
     const newErrors = {};
@@ -115,14 +104,14 @@ const ProfilePage = () => {
       .unwrap()
       .then(() => {
         setShowModalSave(true);
-        setTimeout(() => setShowModalSave(false), 4000);
+        setTimeout(() => setShowModalSave(false), 3000);
       })
       .catch((err) => console.error("Update failed:", err));
   };
 
   const handlePasswordReset = () => {
     setShowModalPassword(true);
-    setTimeout(() => setShowModalPassword(false), 4000);
+    setTimeout(() => setShowModalPassword(false), 3000);
   };
 
   const handleDelete = () => {
@@ -153,14 +142,14 @@ const ProfilePage = () => {
 
   return (
     <section className="container mx-auto p-6">
-      <div className="max-w-5xl mx-auto p-10 bg-white rounded-2xl shadow">
+      <div className="max-w-5xl mx-auto p-10 bg-white rounded-2xl shadow-[0_0px_5px_rgba(0,0,0,0.1)]">
         <h2 className="text-2xl font-bold mb-8 text-center">
           Personal Information
         </h2>
 
         <form className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {fieldsToShow.map((key) => {
-            const isValid = validateField(name, value);
+          {fieldsToShow.map((key, value) => {
+            const isValid = validateField(key, value);
             const showError = errors[key];
 
             return (
@@ -181,7 +170,22 @@ const ProfilePage = () => {
                   readOnly={key === "email"}
                 />
                 {touched[key] && errors[key] && (
-                  <p className="text-red-500 text-xs mt-1">Campo inválido</p>
+                  <p className="text-red-500 text-xs mt-1 text-start">
+                    {key === "first_name" &&
+                      "First name must have at least 3 letters and no numbers."}
+                    {key === "last_name" &&
+                      "Last name must have at least 3 letters and no numbers."}
+                    {key === "date_of_birth" &&
+                      "Birthdate must be before 2025."}
+                    {key === "identification_number" &&
+                      "ID number must be at least 6 characters."}
+                    {key === "phone" &&
+                      "Phone must start with + and contain at least 6 digits."}
+                    {key === "address" &&
+                      "Address must be at least 6 characters and contain a number."}
+                    {key === "city" && "City must contain only letters."}
+                    {key === "country" && "Country must contain only letters."}
+                  </p>
                 )}
               </div>
             );

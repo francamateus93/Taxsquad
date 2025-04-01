@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser, deleteUser } from "../../store/slices/authSlice";
 import Modal from "../../components/ui/modal/Modal";
@@ -47,59 +47,53 @@ const ProfilePage = () => {
     }
   }, [user]);
 
-  const handleChange = (e) => {
-    setProfile({ ...profile, [e.target.name]: e.target.value });
-    setTouched({ ...touched, [e.target.name]: true });
+  const validateField = (name, value) => {
+    switch (name) {
+      case "first_name":
+      case "last_name":
+        return value.length >= 3 && !/\d/.test(value);
+      case "date_of_birth":
+        return new Date(value) < new Date("2025-01-01");
+      case "identification_number":
+        return value.length >= 6;
+      case "phone":
+        return /^\+\d{6,}$/.test(value);
+      case "address":
+        return value.length >= 6 && /\d/.test(value);
+      case "city":
+      case "country":
+        return /^[A-Za-z\s]+$/.test(value);
+      default:
+        return true;
+    }
   };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProfile((prev) => ({ ...prev, [name]: value }));
+    setTouched({ ...touched, [e.target.name]: true });
+    const isValid = validateField(name, value);
+    setErrors((prev) => ({ ...prev, [name]: !isValid }));
+  };
+
+  useEffect(() => {
+    const newErrors = {};
+    for (const key in profile) {
+      const value = profile[key];
+      if (touched[key]) {
+        newErrors[key] = !validateField(key, value);
+      }
+    }
+    setErrors(newErrors);
+  }, [profile, touched]);
 
   const validateForm = () => {
     const newErrors = {};
-
-    if (
-      !profile.first_name | (profile.first_name.length < 3) ||
-      /\d/.test(profile.first_name)
-    )
-      newErrors.first_name =
-        "First name must have at least 3 letters and no numbers.";
-
-    if (
-      !profile.last_name ||
-      profile.last_name.length < 3 ||
-      /\d/.test(profile.last_name)
-    )
-      newErrors.last_name =
-        "Last name must have at least 3 letters and no numbers.";
-
-    if (new Date(profile.date_of_birth) >= new Date("2025-01-01"))
-      newErrors.date_of_birth = "Birthdate must be before 2025.";
-
-    if (
-      !profile.identification_number ||
-      profile.identification_number.length < 6
-    )
-      newErrors.identification_number =
-        "Identification number must have at least 6 characters.";
-
-    if (!/^\+\d{6,}$/.test(profile.phone))
-      newErrors.phone =
-        "Phone number must start with '+' and have at least 6 digits.";
-
-    if (
-      !profile.address ||
-      profile.address.length < 6 ||
-      !/\d/.test(profile.address)
-    )
-      newErrors.address =
-        "Address must have at least 6 characters and one number.";
-
-    if (!profile.city || /\d/.test(profile.city))
-      newErrors.city = "City not found.";
-
-    if (!profile.country || /\d/.test(profile.country))
-      newErrors.country = "Country not found.";
-
+    Object.entries(profile).forEach(([name, value]) => {
+      newErrors[name] = !validateField(name, value);
+    });
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return Object.values(newErrors).every((error) => !error);
   };
 
   const handleUpdate = () => {
@@ -153,9 +147,9 @@ const ProfilePage = () => {
   const inputClass = (key) =>
     touched[key]
       ? errors[key]
-        ? "border-red-500"
-        : "border-green-500"
-      : "border-gray-300";
+        ? "border-2 border-red-500"
+        : "border-2 border-emerald-500"
+      : "border border-gray-200";
 
   return (
     <section className="container mx-auto p-6">
@@ -164,30 +158,35 @@ const ProfilePage = () => {
           Personal Information
         </h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {fieldsToShow.map((key) => (
-            <div key={key}>
-              <label className="block font-semibold capitalize mb-1 text-start">
-                {key.replace("_", " ")}*
-              </label>
-              <input
-                type={key === "date_of_birth" ? "date" : "text"}
-                name={key}
-                value={profile[key]}
-                onChange={handleChange}
-                className={`p-2 md:p-3 border ${inputClass(
-                  key
-                )} rounded-lg w-full text-gray-500 ${
-                  key === "email" && "bg-gray-100"
-                }`}
-                readOnly={key === "email"}
-              />
-              {errors[key] && (
-                <p className="text-red-500 text-xs mt-1">{errors[key]}</p>
-              )}
-            </div>
-          ))}
-        </div>
+        <form className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {fieldsToShow.map((key) => {
+            const isValid = validateField(name, value);
+            const showError = errors[key];
+
+            return (
+              <div key={key}>
+                <label className="block font-semibold capitalize mb-1 text-start">
+                  {key.replace("_", " ")}*
+                </label>
+                <input
+                  type={key === "date_of_birth" ? "date" : "text"}
+                  name={key}
+                  value={profile[key]}
+                  onChange={handleChange}
+                  className={`p-2 md:p-3 ${inputClass(
+                    key
+                  )} rounded-lg w-full text-gray-500 ${
+                    key === "email" && "bg-gray-100"
+                  }`}
+                  readOnly={key === "email"}
+                />
+                {touched[key] && errors[key] && (
+                  <p className="text-red-500 text-xs mt-1">Campo inválido</p>
+                )}
+              </div>
+            );
+          })}
+        </form>
 
         <div className="flex flex-col md:flex-row justify-between gap-4 mt-8">
           <button

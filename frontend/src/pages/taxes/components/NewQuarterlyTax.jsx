@@ -23,6 +23,7 @@ const NewQuarterlyTax = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
   const [showModal, setShowModal] = useState(false);
 
   const validateField = (name, value) => {
@@ -39,6 +40,7 @@ const NewQuarterlyTax = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+    setTouched({ ...touched, [e.target.name]: true });
     const isValid = validateField(name, value);
     setErrors((prev) => ({ ...prev, [name]: !isValid }));
   };
@@ -82,6 +84,13 @@ const NewQuarterlyTax = () => {
     }
   };
 
+  const inputClass = (key) =>
+    touched[key]
+      ? errors[key]
+        ? "border-2 border-red-500"
+        : "border-2 border-emerald-500"
+      : "border-gray-200";
+
   return (
     <section className="container mx-auto p-6">
       <div className="max-w-5xl mx-auto bg-white p-6 rounded-2xl shadow-[0_0px_5px_rgba(0,0,0,0.1)] hover:shadow-xl transition duration-300">
@@ -108,13 +117,9 @@ const NewQuarterlyTax = () => {
                   value={value}
                   placeholder={getPlaceholder(key)}
                   onChange={handleChange}
-                  className={`p-2 md:p-3 border rounded-lg w-full text-gray-500 transition duration-200 ${
-                    errors[key] === undefined
-                      ? "border-gray-300"
-                      : showError
-                      ? "border-red-500"
-                      : "border-emerald-500"
-                  }`}
+                  className={`p-2 md:p-3 border rounded-lg w-full text-gray-500 transition duration-200 ${inputClass(
+                    key
+                  )}`}
                   required
                 />
                 {showError && (

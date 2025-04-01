@@ -190,7 +190,7 @@ const Navbar = () => {
             </ul>
 
             {!user ? (
-              <ul className="flex flex-col gap-2 mt-4 text-start">
+              <ul className="flex flex-col gap-4 mt-4 px-2 text-start">
                 <li className="hover:text-emerald-500 hover:font-semibold transition duration-200">
                   <Link
                     to="/register"

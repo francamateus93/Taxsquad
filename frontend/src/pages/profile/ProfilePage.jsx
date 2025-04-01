@@ -245,7 +245,7 @@ const ProfilePage = () => {
                   Delete
                 </button>
                 <button
-                  onClick={() => setShowDeleteModal(false)}
+                  onClick={() => setShowModalDelete(false)}
                   className="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-300  duration-200 cursor-pointer"
                 >
                   Cancel

@@ -170,7 +170,7 @@ const DocumentsPages = () => {
       </div>
 
       {/* Documents List */}
-      <div className="bg-white p-4 rounded-2xl shadow-[0_0px_5px_rgba(0,0,0,0.1)] hover:shadow-lg transition duration-300 relative">
+      <div className="bg-white p-4 rounded-2xl shadow-[0_0px_5px_rgba(0,0,0,0.1)] hover:shadow-xl transition duration-300 relative">
         <div className="grid grid-cols-2 bg-emerald-50 rounded-t-xl px-4 py-2 tracking-tight font-semibold">
           <div
             className="flex items-center space-x-1 cursor-pointer"

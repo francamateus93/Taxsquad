@@ -136,9 +136,14 @@ const authSlice = createSlice({
         localStorage.setItem("user", JSON.stringify(action.payload));
       })
       .addCase(updateUser.fulfilled, (state, action) => {
-        state.user = action.payload;
-        localStorage.setItem("user", JSON.stringify(action.payload));
+        if (action.payload && action.payload.id) {
+          state.user = action.payload;
+          localStorage.setItem("user", JSON.stringify(action.payload));
+        } else {
+          state.error = "Invalid user data received";
+        }
       })
+
       .addCase(updateUser.rejected, (state, action) => {
         state.error = action.payload;
       })

@@ -107,7 +107,12 @@ export const updatedUser = async (req, res) => {
         userId,
       ]
     );
-    res.status(200).json(updatedUser || rows[0]);
+
+    const [rows] = await db.execute(`SELECT * FROM users WHERE id=?`, [userId]);
+    const updatedUser = rows[0];
+
+    res.status(200).json(updatedUser);
+    console.log(updatedUser);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

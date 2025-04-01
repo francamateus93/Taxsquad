@@ -61,7 +61,7 @@ const Login = () => {
           <button
             type="button"
             onClick={handleGoogleLogin}
-            className="px-6 flex justify-center items-center gap-3 py-2 mt-3 bg-gray-200 p-2 text-gray-800 rounded-lg w-full hover:bg-gray-300"
+            className="px-6 flex justify-center items-center gap-3 py-2 mt-3 bg-emerald-50 p-2 text-gray-800 rounded-lg w-full hover:bg-emerald-100"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

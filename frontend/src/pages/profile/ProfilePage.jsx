@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { logout, updateUser, deleteUser } from "../../store/slices/authSlice";
+import { updateUser, deleteUser } from "../../store/slices/authSlice";
 import Modal from "../../components/ui/modal/Modal";
-import Button from "../../components/ui/button/ButtonPrimary";
-import ButtonSecondary from "../../components/ui/button/ButtonSecondary";
+import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -28,6 +26,7 @@ const ProfilePage = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
 
   useEffect(() => {
     if (user) {
@@ -50,14 +49,14 @@ const ProfilePage = () => {
 
   const handleChange = (e) => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
+    setTouched({ ...touched, [e.target.name]: true });
   };
 
   const validateForm = () => {
     const newErrors = {};
 
     if (
-      !profile.first_name ||
-      profile.first_name.length < 3 ||
+      !profile.first_name | (profile.first_name.length < 3) ||
       /\d/.test(profile.first_name)
     )
       newErrors.first_name =
@@ -71,7 +70,7 @@ const ProfilePage = () => {
       newErrors.last_name =
         "Last name must have at least 3 letters and no numbers.";
 
-    if (new Date(profile.date_of_birth) > new Date("2025-01-01"))
+    if (new Date(profile.date_of_birth) >= new Date("2025-01-01"))
       newErrors.date_of_birth = "Birthdate must be before 2025.";
 
     if (
@@ -100,22 +99,25 @@ const ProfilePage = () => {
       newErrors.country = "Country not found.";
 
     setErrors(newErrors);
-
     return Object.keys(newErrors).length === 0;
   };
 
   const handleUpdate = () => {
     if (!validateForm()) return;
 
-    const updatedData = { ...profile };
+    const formattedDate = new Date(profile.date_of_birth)
+      .toISOString()
+      .split("T")[0];
 
-    if (updatedData.date_of_birth) {
-      updatedData.date_of_birth = new Date(
-        updatedData.date_of_birth
-      ).toISOString();
-    }
-
-    dispatch(updateUser({ userId: user.id, userData: updatedData }))
+    dispatch(
+      updateUser({
+        userId: user.id,
+        userData: {
+          ...profile,
+          date_of_birth: formattedDate,
+        },
+      })
+    )
       .unwrap()
       .then(() => {
         setShowModalSave(true);
@@ -132,10 +134,7 @@ const ProfilePage = () => {
   const handleDelete = () => {
     dispatch(deleteUser(user.id))
       .unwrap()
-      .then(() => {
-        dispatch(logout());
-        navigate("/");
-      })
+      .then(() => navigate("/"))
       .catch((error) => console.error("Failed to delete user:", error));
   };
 
@@ -151,9 +150,16 @@ const ProfilePage = () => {
     "country",
   ];
 
+  const inputClass = (key) =>
+    touched[key]
+      ? errors[key]
+        ? "border-red-500"
+        : "border-green-500"
+      : "border-gray-300";
+
   return (
     <section className="container mx-auto p-6">
-      <div className="max-w-5xl mx-auto p-10 bg-white rounded-2xl shadow-[0_0px_5px_rgba(0,0,0,0.1)] hover:shadow-lg transition duration-300">
+      <div className="max-w-5xl mx-auto p-10 bg-white rounded-2xl shadow">
         <h2 className="text-2xl font-bold mb-8 text-center">
           Personal Information
         </h2>
@@ -168,11 +174,10 @@ const ProfilePage = () => {
                 type={key === "date_of_birth" ? "date" : "text"}
                 name={key}
                 value={profile[key]}
-                placeholder={key.replace("_", " ")}
                 onChange={handleChange}
-                className={`p-2 md:p-3 border ${
-                  errors[key] ? "border-red-500" : "border-gray-300"
-                } rounded-lg w-full text-gray-400 ${
+                className={`p-2 md:p-3 border ${inputClass(
+                  key
+                )} rounded-lg w-full text-gray-500 ${
                   key === "email" && "bg-gray-100"
                 }`}
                 readOnly={key === "email"}
@@ -187,7 +192,7 @@ const ProfilePage = () => {
         <div className="flex flex-col md:flex-row justify-between gap-4 mt-8">
           <button
             onClick={handleUpdate}
-            className="px-6 py-3 text-white bg-emerald-600 rounded-lg hover:bg-emerald-500 cursor-pointer transition duration-200 text-base font-semibold leading-4"
+            className="px-6 py-3 text-white bg-emerald-600 rounded-lg hover:bg-emerald-500 transition duration-200 font-semibold"
           >
             Save Changes
           </button>
@@ -207,7 +212,7 @@ const ProfilePage = () => {
 
         {showModalSave && (
           <Modal
-            message="✅ User updated successfully!"
+            message="User updated successfully!"
             onClose={() => setShowModalSave(false)}
           />
         )}
@@ -220,27 +225,13 @@ const ProfilePage = () => {
         )}
 
         {showDeleteModal && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="bg-white p-10 rounded-xl shadow-xl text-center">
-              <p className="text-xl text-red-600 font-bold mb-4">
-                Are you sure you want to delete your account?
-              </p>
-              <div className="flex gap-4 justify-center">
-                <button
-                  onClick={handleDelete}
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg"
-                >
-                  Delete
-                </button>
-                <button
-                  onClick={() => setShowDeleteModal(false)}
-                  className="px-4 py-2 bg-gray-200 rounded-lg"
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </div>
+          <Modal
+            message="Are you sure you want to delete your account?"
+            confirmText="Delete"
+            cancelText="Cancel"
+            onConfirm={handleDelete}
+            onClose={() => setShowDeleteModal(false)}
+          />
         )}
       </div>
     </section>

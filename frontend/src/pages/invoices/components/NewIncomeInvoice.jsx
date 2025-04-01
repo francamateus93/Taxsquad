@@ -26,8 +26,8 @@ const NewInvoiceIncome = () => {
   };
 
   return (
-    <section className="container mx-auto p-12">
-      <div className="max-w-3xl mx-auto">
+    <section className="container mx-auto p-6">
+      <div className="max-w-5xl mx-auto bg-white p-6 rounded-2xl shadow-[0_0px_5px_rgba(0,0,0,0.1)] hover:shadow-xl transition duration-300">
         <h2 className="text-2xl font-bold mb-6 text-center tracking-tight">
           New Income Invoice
         </h2>

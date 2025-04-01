@@ -31,6 +31,7 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState({});
   const [showModal, setShowModal] = useState(false);
+  const [touched, setTouched] = useState({});
 
   useEffect(() => {
     const hasChanged = Object.entries(defaultValues).some(
@@ -41,9 +42,65 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
     }
   }, [JSON.stringify(defaultValues)]);
 
+  const validateField = (name, value) => {
+    switch (name) {
+      case "number":
+        return value.trim() ? "" : "Invoice number is required.";
+      case "date":
+        return value ? "" : "Date is required.";
+      case "client_name":
+        return /^[A-Za-z\s]{3,}$/.test(value)
+          ? ""
+          : "Client name must be at least 3 letters.";
+      case "client_id":
+        return /^[A-Za-z0-9]{6,}$/.test(value)
+          ? ""
+          : "NIF must have at least 6 alphanumeric characters.";
+      case "client_address":
+        return value.length >= 6 && /\d/.test(value)
+          ? ""
+          : "Address must have at least 6 characters and a number.";
+      case "city":
+      case "country":
+        return /^[A-Za-z\s]+$/.test(value)
+          ? ""
+          : `${
+              name.charAt(0).toUpperCase() + name.slice(1)
+            } must contain only letters.`;
+      case "concept":
+        return value.length >= 3
+          ? ""
+          : "Concept must be at least 3 characters.";
+      case "quantity":
+        return /^\d+(\.\d{1,2})?$/.test(value)
+          ? ""
+          : "Quantity must be a valid number.";
+      case "price":
+        return /^\d+(\.\d{1,2})?$/.test(value)
+          ? ""
+          : "Price must be a valid number.";
+      case "payment_method":
+        return value.trim() ? "" : "Payment method is required.";
+      default:
+        return "";
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+    setTouched({ ...touched, [name]: true });
+    const isValid = validateField(name, value);
+    setErrors((prev) => ({ ...prev, [name]: isValid }));
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    for (const key in form) {
+      newErrors[key] = validateField(key, form[key]);
+    }
+    setErrors(newErrors);
+    return Object.values(newErrors).every((err) => !err);
   };
 
   const calculateTotal = () => {
@@ -53,74 +110,100 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
     return base + vat + irpf;
   };
 
-  const validateForm = () => {
-    const newErrors = {};
-
-    if (!form.number.trim()) newErrors.number = "Invoice number is required.";
-    if (!form.date) newErrors.date = "Date is required.";
-    if (!form.client_name.trim())
-      newErrors.client_name = "Client name is required.";
-    if (!form.quantity || isNaN(form.quantity))
-      newErrors.quantity = "Quantity must be a number.";
-    if (!form.price || isNaN(form.price))
-      newErrors.price = "Price must be a number.";
-    if (!form.payment_method.trim())
-      newErrors.payment_method = "Payment method is required.";
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateForm()) return;
     onSubmit({ ...form, totalAmount: calculateTotal(), type });
     setForm(initialForm);
     setShowModal(true);
-    setTimeout(() => setShowModal(false), 3000);
+    setTimeout(() => setShowModal(false), 2000);
   };
 
+  const inputClass = (key) =>
+    touched[key]
+      ? errors[key]
+        ? "border-2 border-red-500"
+        : "border-2 border-emerald-500"
+      : "border border-gray-300";
+
   const inputFields = [
-    { label: "Invoice Number", name: "number" },
-    { label: "Date", name: "date", type: "date" },
-    { label: "Client Name", name: "client_name" },
-    { label: "Client ID", name: "client_id" },
-    { label: "Address", name: "client_address" },
-    { label: "City", name: "city" },
-    { label: "Country", name: "country" },
-    { label: "Concept", name: "concept", type: "textarea" },
-    { label: "Quantity", name: "quantity", type: "number" },
-    { label: "Price", name: "price", type: "number" },
-    { label: "Payment Method", name: "payment_method" },
+    { label: "Invoice Number", name: "number", placeholder: "Ex: 0001" },
+    { label: "Date", name: "date", type: "date", placeholder: "" },
+    {
+      label: "Client Name",
+      name: "client_name",
+      placeholder: "Ex: Arnau Garcia",
+    },
+    { label: "Client ID", name: "client_id", placeholder: "Ex: 12345678X" },
+    {
+      label: "Address",
+      name: "client_address",
+      placeholder: "Ex: Calle Valencia, 143",
+    },
+    { label: "City", name: "city", placeholder: "Ex: Barcelona" },
+    { label: "Country", name: "country", placeholder: "Ex: Spain" },
+    {
+      label: "Concept",
+      name: "concept",
+      type: "textarea",
+      placeholder: "Ex: Design services",
+    },
+    {
+      label: "Quantity",
+      name: "quantity",
+      type: "number",
+      placeholder: "Ex: 1",
+    },
+    {
+      label: "Price",
+      name: "price",
+      type: "number",
+      placeholder: "Ex: 2000.00",
+    },
+    {
+      label: "Payment Method",
+      name: "payment_method",
+      placeholder: "Ex: Bank transfer",
+    },
   ];
 
   return (
-    <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6 text-sm">
-      {inputFields.map(({ label, name, type = "text" }) => (
+    <form
+      onSubmit={handleSubmit}
+      className="grid md:grid-cols-2 gap-6 text-sm text-start"
+    >
+      {inputFields.map(({ label, name, type = "text", placeholder }) => (
         <div key={name}>
           <label className="font-semibold">{label}</label>
           {type === "textarea" ? (
             <textarea
               name={name}
               value={form[name]}
+              placeholder={placeholder}
               onChange={handleChange}
-              className={`p-2 border rounded-lg w-full h-28${errors[name]} ? "border-red-500 : border-gray-300`}
+              className={`p-2 rounded-lg w-full h-18 tracking-tight ${inputClass(
+                name
+              )}`}
             />
           ) : (
             <input
               type={type}
               name={name}
               value={form[name]}
+              placeholder={placeholder}
               onChange={handleChange}
-              className={`p-2 border rounded-lg w-full h-28${errors[name]} ? "border-red-500 : border-gray-300`}
+              className={`p-2 rounded-lg w-full tracking-tight ${inputClass(
+                name
+              )}`}
             />
+          )}
+          {touched[name] && errors[name] && (
+            <p className="text-red-500 text-xs mt-1">{errors[name]}</p>
           )}
         </div>
       ))}
 
-      {errors[name] && <Error message={errors[name]} />}
-
-      <div className="space-y-4">
+      <div className="space-y-4 md:col-span-2">
         <div className="grid grid-cols-2 gap-4">
           <SelectField
             label="VAT (%)"

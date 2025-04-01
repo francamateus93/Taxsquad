@@ -84,6 +84,8 @@ export const deleteUser = createAsyncThunk(
     try {
       await api.delete(`/users/${userId}`);
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      thunkAPI.dispatch(logout());
       return userId;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -143,7 +145,6 @@ const authSlice = createSlice({
           state.error = "Invalid user data received";
         }
       })
-
       .addCase(updateUser.rejected, (state, action) => {
         state.error = action.payload;
       })
@@ -157,6 +158,11 @@ const authSlice = createSlice({
       .addCase(googleLogin.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(deleteUser.fulfilled, (state) => {
+        state.user = null;
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
       });
   },
 });

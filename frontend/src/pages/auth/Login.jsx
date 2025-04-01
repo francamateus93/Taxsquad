@@ -3,17 +3,58 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser, googleLogin } from "../../store/slices/authSlice.js";
 import Button from "../../components/ui/button/ButtonPrimary.jsx";
+import LoadingSpinner from "../../components/utils/LoadingSpinner.jsx";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const { loading, error } = useSelector((state) => state.auth);
+
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [touched, setTouched] = useState({});
+  const [errors, setErrors] = useState({});
+
+  const validateField = (name, value) => {
+    switch (name) {
+      case "email":
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+          ? ""
+          : "Please enter a valid email address.";
+      case "password":
+        return /^(?=.*[A-Za-z]).{6,}$/.test(value)
+          ? ""
+          : "Password must be at least 6 characters, including 1 letter and 1 number.";
+      default:
+        return "";
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    const isValid = validateField(name, value);
+    setErrors((prev) => ({ ...prev, [name]: isValid }));
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    Object.entries(form).forEach(([key, value]) => {
+      newErrors[key] = validateField(key, value);
+    });
+    setErrors(newErrors);
+    return Object.values(newErrors).every((error) => error === "");
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(loginUser({ email, password }))
+    if (!validateForm()) return;
+
+    dispatch(loginUser(form))
       .unwrap()
       .then(() => navigate("/dashboard"))
       .catch((err) => console.error("Login error:", err));
@@ -25,6 +66,15 @@ const Login = () => {
       .then(() => navigate("/dashboard"))
       .catch((err) => console.error("Login error:", err));
   };
+
+  const inputClass = (key) =>
+    touched[key]
+      ? errors[key]
+        ? "border-2 border-red-500"
+        : "border-2 border-emerald-500"
+      : "border border-gray-300";
+
+  if (loading) return <LoadingSpinner />;
 
   return (
     <section className="flex flex-col items-center justify-center min-h-screen p-4">
@@ -40,28 +90,42 @@ const Login = () => {
           className="flex flex-col text-xs md:text-sm"
         >
           <input
-            className="p-2 md:p-3 mb-2 border border-gray-300 rounded-lg"
+            name="email"
             type="email"
             placeholder="info@gmail.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
+            value={form.email}
+            onChange={handleChange}
+            className={`p-2 mb-2 tracking-tight rounded-lg ${inputClass(
+              "email"
+            )}`}
           />
+          {touched.email && errors.email && (
+            <p className="text-red-500 text-xs text-start mb-2">
+              {errors.email}
+            </p>
+          )}
           <input
-            className="p-2 md:p-3 mb-6 border border-gray-300 rounded-lg"
+            name="password"
             type="password"
             placeholder="Enter your Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
+            value={form.password}
+            onChange={handleChange}
+            className={`p-2 mb-2 tracking-tight rounded-lg ${inputClass(
+              "password"
+            )}`}
           />
+          {touched.password && errors.password && (
+            <p className="text-red-500 text-xs text-start mb-4">
+              {errors.password}
+            </p>
+          )}
           <Button type="submit" disabled={loading}>
             Login
           </Button>
           <button
             type="button"
             onClick={handleGoogleLogin}
-            className="px-6 flex justify-center items-center gap-3 py-2 mt-3 bg-emerald-50 p-2 text-gray-800 rounded-lg w-full hover:bg-emerald-100"
+            className="px-6 flex justify-center items-center gap-3 py-2 mt-2 bg-emerald-50 p-2 text-gray-800 rounded-lg w-full hover:bg-emerald-100"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +157,7 @@ const Login = () => {
         </form>
         <p className="text-xs md:text-sm text-gray-600 mt-6">
           Don't have an account?{" "}
-          <Link to={"/register"} className="text-emerald-500 font-semibold">
+          <Link to="/register" className="text-emerald-500 font-semibold">
             Register
           </Link>
         </p>

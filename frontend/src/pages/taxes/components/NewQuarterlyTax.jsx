@@ -117,7 +117,7 @@ const NewQuarterlyTax = () => {
                   value={value}
                   placeholder={getPlaceholder(key)}
                   onChange={handleChange}
-                  className={`p-2 md:p-3 border rounded-lg w-full text-gray-500 transition duration-200 ${inputClass(
+                  className={`p-2 border rounded-lg w-full text-gray-500 transition duration-200 tracking-tight ${inputClass(
                     key
                   )}`}
                   required
@@ -143,7 +143,7 @@ const NewQuarterlyTax = () => {
           <div className="col-span-2 flex justify-between items-center gap-4 mt-4">
             <div className="flex gap-4">
               <Button type="submit">Save Tax</Button>
-              <Link to="/documents">
+              <Link to="/taxes">
                 <button
                   type="button"
                   className="px-6 py-2 bg-red-50 text-red-600 font-semibold rounded-lg hover:bg-red-200 transition duration-200 text-base cursor-pointer"
@@ -152,7 +152,7 @@ const NewQuarterlyTax = () => {
                 </button>
               </Link>
             </div>
-            <Link to="/documents">
+            <Link to="/taxes">
               <ButtonSecondary type="button">Back</ButtonSecondary>
             </Link>
           </div>

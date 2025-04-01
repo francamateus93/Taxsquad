@@ -27,11 +27,8 @@ const NewExpenseInvoice = () => {
   };
 
   return (
-    <section className="container mx-auto p-12">
+    <section className="container mx-auto p-6 bg-gray-50">
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-2xl font-bold mb-6 text-center tracking-tight">
-          New Expense Invoice
-        </h2>
         <InvoiceForm type="expense" onSubmit={handleCreate} />
         {showModal && (
           <Modal

@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Button from "../../../components/ui/button/ButtonPrimary";
 import ButtonSecondary from "../../../components/ui/button/ButtonSecondary";
 import SelectField from "../../../components/utils/SelectField";
-import Error from "../../../components/utils/Error";
+import LoadingSpinner from "../../../components/utils/LoadingSpinner";
 import Modal from "../../../components/ui/modal/Modal";
 
 const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
   const navigate = useNavigate();
+  const { loading } = useSelector((state) => state.invoices);
 
   const initialForm = {
     number: "",
@@ -126,85 +128,156 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
         : "border-2 border-emerald-500"
       : "border border-gray-300";
 
-  const inputFields = [
-    { label: "Invoice Number", name: "number", placeholder: "Ex: 0001" },
-    { label: "Date", name: "date", type: "date", placeholder: "" },
-    {
-      label: "Client Name",
-      name: "client_name",
-      placeholder: "Ex: Arnau Garcia",
-    },
-    { label: "Client ID", name: "client_id", placeholder: "Ex: 12345678X" },
-    {
-      label: "Address",
-      name: "client_address",
-      placeholder: "Ex: Calle Valencia, 143",
-    },
-    { label: "City", name: "city", placeholder: "Ex: Barcelona" },
-    { label: "Country", name: "country", placeholder: "Ex: Spain" },
-    {
-      label: "Concept",
-      name: "concept",
-      type: "textarea",
-      placeholder: "Ex: Design services",
-    },
-    {
-      label: "Quantity",
-      name: "quantity",
-      type: "number",
-      placeholder: "Ex: 1",
-    },
-    {
-      label: "Price",
-      name: "price",
-      type: "number",
-      placeholder: "Ex: 2000.00",
-    },
-    {
-      label: "Payment Method",
-      name: "payment_method",
-      placeholder: "Ex: Bank transfer",
-    },
-  ];
+  if (loading) return <LoadingSpinner />;
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="grid md:grid-cols-2 gap-6 text-sm text-start"
+      className="text-sm text-start space-y-4 bg-white p-6 rounded-xl shadow-lg  hover:shadow-xl transition duration-300"
     >
-      {inputFields.map(({ label, name, type = "text", placeholder }) => (
-        <div key={name}>
-          <label className="font-semibold">{label}</label>
-          {type === "textarea" ? (
-            <textarea
-              name={name}
-              value={form[name]}
-              placeholder={placeholder}
-              onChange={handleChange}
-              className={`p-2 rounded-lg w-full h-18 tracking-tight ${inputClass(
-                name
-              )}`}
-            />
-          ) : (
-            <input
-              type={type}
-              name={name}
-              value={form[name]}
-              placeholder={placeholder}
-              onChange={handleChange}
-              className={`p-2 rounded-lg w-full tracking-tight ${inputClass(
-                name
-              )}`}
-            />
+      {/* Header */}
+      <div className="flex justify-between items-center pb-2 mb-4">
+        <div>
+          <h3
+            className={`text-3xl font-bold text-emerald-600 mb-1 tracking-tight ${
+              type === "income" ? "text-emerald-600" : "text-red-400"
+            }`}
+          >
+            {type === "income" ? "Income" : "Expense"} Invoice
+          </h3>
+          <p className="text-gray-500">Your Company Name</p>
+        </div>
+        <div className="text-right">
+          <input
+            name="number"
+            placeholder="Invoice #0001"
+            value={form.number}
+            onChange={handleChange}
+            className={`font-semibold text-lg ${inputClass(
+              "number"
+            )} p-2 rounded-lg w-full max-w-[150px]`}
+          />
+          {touched.number && errors.number && (
+            <p className="text-red-500 text-xs mt-1">{errors.number}</p>
           )}
-          {touched[name] && errors[name] && (
-            <p className="text-red-500 text-xs mt-1">{errors[name]}</p>
+          <input
+            name="date"
+            type="date"
+            value={form.date}
+            onChange={handleChange}
+            className={`mt-2 ${inputClass(
+              "date"
+            )} p-2 rounded-lg w-full max-w-[150px] text-gray-400`}
+          />
+          {touched.date && errors.date && (
+            <p className="text-red-500 text-xs mt-1">{errors.date}</p>
           )}
         </div>
-      ))}
+      </div>
 
-      <div className="space-y-4 md:col-span-2">
-        <div className="grid grid-cols-2 gap-4">
+      {/* Client Section */}
+      <div className="grid md:grid-cols-2 gap-4">
+        {[
+          {
+            name: "client_name",
+            label: "Client Name",
+            placeholder: "Ex: Arnau Garcia",
+          },
+          {
+            name: "client_id",
+            label: "Client ID (NIF)",
+            placeholder: "Ex: 12345678X",
+          },
+          {
+            name: "client_address",
+            label: "Address",
+            placeholder: "Ex: Calle Valencia, 143",
+          },
+          { name: "city", label: "City", placeholder: "Ex: Barcelona" },
+          { name: "country", label: "Country", placeholder: "Ex: Spain" },
+        ].map(({ name, label, placeholder }) => (
+          <div key={name}>
+            <label className="font-semibold">{label}</label>
+            <input
+              name={name}
+              value={form[name]}
+              placeholder={placeholder}
+              onChange={handleChange}
+              className={`p-2 rounded-lg w-full ${inputClass(name)}`}
+            />
+            {touched[name] && errors[name] && (
+              <p className="text-red-500 text-xs mt-1">{errors[name]}</p>
+            )}
+          </div>
+        ))}
+
+        {/* Concept Section */}
+        <div>
+          <label className="font-semibold">Concept</label>
+          <textarea
+            name="concept"
+            value={form.concept}
+            placeholder="Ex: Design services"
+            onChange={handleChange}
+            className={`p-2 rounded-lg w-full ${inputClass("concept")}`}
+          />
+          {touched.concept && errors.concept && (
+            <p className="text-red-500 text-xs mt-1">{errors.concept}</p>
+          )}
+        </div>
+      </div>
+
+      {/* Invoice Details Table */}
+      <div className="rounded-lg p-6 border border-gray-200">
+        <div className="grid grid-cols-3 gap-4 mb-4">
+          <div>
+            <label className="font-semibold">Quantity</label>
+            <input
+              name="quantity"
+              type="number"
+              value={form.quantity}
+              onChange={handleChange}
+              placeholder="Ex: 1"
+              className={`p-2 rounded-lg w-full ${inputClass("quantity")}`}
+            />
+            {touched.quantity && errors.quantity && (
+              <p className="text-red-500 text-xs mt-1">{errors.quantity}</p>
+            )}
+          </div>
+          <div>
+            <label className="font-semibold">Price</label>
+            <input
+              name="price"
+              type="number"
+              value={form.price}
+              onChange={handleChange}
+              placeholder="Ex: 2000.00"
+              className={`p-2 rounded-lg w-full ${inputClass("price")}`}
+            />
+            {touched.price && errors.price && (
+              <p className="text-red-500 text-xs mt-1">{errors.price}</p>
+            )}
+          </div>
+          <div>
+            <label className="font-semibold">Payment Method</label>
+            <input
+              name="payment_method"
+              value={form.payment_method}
+              onChange={handleChange}
+              placeholder="Ex: Bank Transfer"
+              className={`p-2 rounded-lg w-full ${inputClass(
+                "payment_method"
+              )}`}
+            />
+            {touched.payment_method && errors.payment_method && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.payment_method}
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-4">
           <SelectField
             label="VAT (%)"
             name="vat"
@@ -219,22 +292,27 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
             options={[0, -7, -15]}
             onChange={handleChange}
           />
+          <SelectField
+            label="Currency"
+            name="currency"
+            value={form.currency}
+            options={["EUR", "USD", "GBP"]}
+            onChange={handleChange}
+          />
         </div>
+      </div>
 
-        <SelectField
-          label="Currency"
-          name="currency"
-          value={form.currency}
-          options={["EUR", "USD", "GBP"]}
-          onChange={handleChange}
-        />
+      {/* Total Section */}
+      <div className="text-right text-lg font-semibold tracking-tight">
+        Total:{" "}
+        <span className="text-green-600 px-2">
+          {calculateTotal().toFixed(2)} {form.currency}
+        </span>
+      </div>
 
-        <p className="font-semibold text-lg">
-          Total:{" "}
-          <span className="text-green-600">{calculateTotal().toFixed(2)}</span>
-        </p>
-
-        <div className="flex justify-end gap-4 mt-4">
+      {/* Action Buttons */}
+      <div className="flex justify-between items-center pt-2">
+        <div className="flex gap-4">
           <Link to="/invoices">
             <ButtonSecondary type="button">Back</ButtonSecondary>
           </Link>
@@ -246,19 +324,19 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
               Cancel
             </button>
           </Link>
-          <Button type="submit">Save Invoice</Button>
         </div>
-
-        {showModal && (
-          <Modal
-            message="New Invoice created successfully!"
-            onClose={() => {
-              setShowModal(false);
-              navigate("/invoices");
-            }}
-          />
-        )}
+        <Button type="submit">Save Invoice</Button>
       </div>
+
+      {showModal && (
+        <Modal
+          message="New Invoice created successfully!"
+          onClose={() => {
+            setShowModal(false);
+            navigate("/invoices");
+          }}
+        />
+      )}
     </form>
   );
 };

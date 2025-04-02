@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Button from "../../../components/ui/button/ButtonPrimary";
 import ButtonSecondary from "../../../components/ui/button/ButtonSecondary";
 
-const TaxFormActions = () => (
+const QuarterlyActions = () => (
   <div className="col-span-2 flex justify-between items-center gap-4 mt-4">
     <div className="flex gap-4">
       <Button type="submit">Save Tax</Button>
@@ -21,4 +21,4 @@ const TaxFormActions = () => (
   </div>
 );
 
-export default TaxFormActions;
+export default QuarterlyActions;

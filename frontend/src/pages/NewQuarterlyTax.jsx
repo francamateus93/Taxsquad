@@ -1,6 +1,6 @@
 import { useQuarterly } from "../features/quarterly/hook/useQuarterly";
 import QuarterlyForm from "../features/quarterly/components/QuarterlyForm";
-import TaxFormActions from "../features/quarterly/components/TaxFormActions";
+import QuarterlyActions from "../features/quarterly/components/QuarterlyActions";
 import Modal from "../components/ui/Modal";
 
 const NewQuarterlyTax = () => {
@@ -29,7 +29,7 @@ const NewQuarterlyTax = () => {
             handleChange={handleChange}
           />
 
-          <TaxFormActions />
+          <QuarterlyActions />
         </form>
 
         {showModal && (

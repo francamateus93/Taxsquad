@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Navbar from "../features/navbar/Navbar.jsx";
-import Login from "../features/auth/Login";
-import Register from "../features/auth/Register";
+import Login from "../pages/Login.jsx";
+import Register from "../pages/Register.jsx";
 import LandingPage from "../pages/LandingPage";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import DashboardPage from "../pages/DashboardPage";

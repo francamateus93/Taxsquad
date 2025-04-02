@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import ButtonSecondary from "../components/ui/button/ButtonSecondary";
 
-const NotFound = () => {
+const NotFoundPage = () => {
   return (
     <section className="h-screen container mx-auto p-10 md:py-12 md:px-20 mt-32">
       <div className="flex flex-col items-center justify-center mb-2">
@@ -20,4 +20,4 @@ const NotFound = () => {
   );
 };
 
-export default NotFound;
+export default NotFoundPage;

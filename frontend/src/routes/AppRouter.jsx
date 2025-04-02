@@ -5,7 +5,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Navbar from "../components/navbar/Navbar.jsx";
+import Navbar from "../components/layout/navbar/Navbar";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import LandingPage from "../pages/LandingPage";

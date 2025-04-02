@@ -109,6 +109,13 @@ export const useRegister = () => {
       .catch((err) => console.error(err));
   };
 
+  const inputClass = (key) =>
+    touched[key]
+      ? errors[key]
+        ? "border-2 border-red-500"
+        : "border-2 border-emerald-500"
+      : "border border-gray-200";
+
   return {
     form,
     touched,
@@ -119,5 +126,6 @@ export const useRegister = () => {
     setAcceptedTerms,
     handleChange,
     handleSubmit,
+    inputClass,
   };
 };

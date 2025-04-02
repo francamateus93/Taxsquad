@@ -185,7 +185,7 @@ const InvoicesPage = () => {
       </div>
 
       {/* Invoices List */}
-      <div className="bg-white p-4 rounded-2xl shadow-[0_0px_5px_rgba(0,0,0,0.1)] hover:shadow-lg transition duration-300">
+      <div className="bg-white p-4 rounded-2xl shadow-[0_0px_5px_rgba(0,0,0,0.1)] hover:shadow-xl transition duration-300">
         <div className="grid grid-cols-12 bg-emerald-50 px-4 py-2 text-start font-bold rounded-t-xl">
           <div className="col-span-4 flex items-center space-x-1">
             <div

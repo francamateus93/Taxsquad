@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { logout, setUser } from "../store/slices/authSlice";
 import api from "../services/data/Api";
 
-const AuthListener = () => {
+const authListener = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,4 +21,4 @@ const AuthListener = () => {
   return null;
 };
 
-export default AuthListener;
+export default authListener;

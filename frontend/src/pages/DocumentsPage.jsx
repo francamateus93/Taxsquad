@@ -40,26 +40,27 @@ const DocumentsPages = () => {
         setDateFilter={setDateFilter}
       />
 
-      <DocumentListNavigation
-        currentDocuments={currentDocuments}
-        filteredDocuments={filteredDocuments}
-      />
-
-      {loading && <LoadingSpinner />}
-      {error && <Error message={error} />}
-      {!loading && !error && (
-        <DocumentsList
+      <div className="bg-white p-4 rounded-2xl shadow-[0_0px_5px_rgba(0,0,0,0.1)] hover:shadow-xl  transition duration-300 relative">
+        <DocumentListNavigation
           currentDocuments={currentDocuments}
-          documentType={documentType}
-          openMenuId={openMenuId}
-          toggleMenu={toggleMenu}
-          menuRef={menuRef}
-          handleDownload={handleDownload}
-          handleEmail={handleEmail}
-          handleConfirmDelete={handleConfirmDelete}
+          filteredDocuments={filteredDocuments}
         />
-      )}
 
+        {loading && <LoadingSpinner />}
+        {error && <Error message={error} />}
+        {!loading && !error && (
+          <DocumentsList
+            currentDocuments={currentDocuments}
+            documentType={documentType}
+            openMenuId={openMenuId}
+            toggleMenu={toggleMenu}
+            menuRef={menuRef}
+            handleDownload={handleDownload}
+            handleEmail={handleEmail}
+            handleConfirmDelete={handleConfirmDelete}
+          />
+        )}
+      </div>
       {showModalDelete && (
         <DeleteModal
           onConfirm={handleDelete}

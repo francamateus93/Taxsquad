@@ -14,7 +14,7 @@ import DocumentsPages from "../pages/DocumentsPage.jsx";
 import ProfilePage from "../pages/ProfilePage.jsx";
 import PrivateRoute from "./PrivateRoute";
 import NotFound from "../pages/NotFoundPage.jsx";
-import AuthListener from "../components/auth/AuthListener.jsx";
+import AuthListener from "../app/authListener.js";
 import NewAnnual from "../pages/NewAnnualTax.jsx";
 import NewQuarterly from "../pages/NewQuarterlyTax.jsx";
 import AuthenticatedRoute from "./AuthenticatedRoute.jsx";

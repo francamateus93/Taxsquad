@@ -16,8 +16,6 @@ const Register = () => {
     inputClass,
   } = useRegister();
 
-  if (loading) return <LoadingSpinner />;
-
   return (
     <section className="container mx-auto p-6">
       <div className="max-w-xl mx-auto p-10 bg-white rounded-2xl mt-10">

@@ -3,9 +3,7 @@ import LoginForm from "../features/auth/components/login/LoginForm.jsx";
 import { useLogin } from "../features/auth/hooks/useLogin.js";
 
 const Login = () => {
-  const { loading, ...loginProps } = useLogin();
-
-  if (loading) return <LoadingSpinner />;
+  const { ...loginProps } = useLogin();
 
   return (
     <section className="flex flex-col items-center justify-center min-h-screen p-4">

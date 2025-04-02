@@ -5,8 +5,18 @@ const DeleteModal = ({ onConfirm, onCancel }) => (
         Are you sure you want to delete this Document?
       </p>
       <div className="flex justify-center gap-4">
-        <button onClick={onConfirm} className="px-4 py-2 bg-red-600 font-semibold text-white rounded-lg hover:bg-red-700 transition duration-200 cursor-pointer">Delete</button>
-        <button onClick={onCancel} className="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-300 duration-200 cursor-pointer">Cancel</button>
+        <button
+          onClick={onConfirm}
+          className="px-4 py-2 bg-red-600 font-semibold text-white rounded-lg hover:bg-red-700 transition duration-200 cursor-pointer"
+        >
+          Delete
+        </button>
+        <button
+          onClick={onCancel}
+          className="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-300 duration-200 cursor-pointer"
+        >
+          Cancel
+        </button>
       </div>
     </div>
   </div>

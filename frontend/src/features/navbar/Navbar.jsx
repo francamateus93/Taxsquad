@@ -1,8 +1,8 @@
-import LogoComponent from "./Logo";
-import DesktopNav from "./DesktopNav";
-import MobileNav from "./MobileNav";
-import AuthButtons from "./AuthButtons";
-import { useNavbar } from "./useNavbar";
+import LogoComponent from "./components/Logo";
+import DesktopNav from "./components/DesktopNav";
+import MobileNav from "./components/MobileNav";
+import AuthButtons from "./components/AuthButtons";
+import { useNavbar } from "./hook/useNavbar";
 
 const Navbar = () => {
   const { isOpen, setIsOpen, isActive, handleLogout, user } = useNavbar();

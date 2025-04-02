@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { logout, setUser } from "../../../store/slices/authSlice";
-import { getCurrentUser, logoutUser } from "../../../services/auth/firebaseAuthService";
+import {
+  getCurrentUser,
+  logoutUser,
+} from "../../../services/auth/firebaseAuthService";
 
 export const useNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import Button from "../../ui/button/ButtonPrimary";
-import ButtonSecondary from "../../ui/button/ButtonSecondary";
+import Button from "../../../components/ui/button/ButtonPrimary";
+import ButtonSecondary from "../../../components/ui/button/ButtonSecondary";
 import { FaSignOutAlt } from "react-icons/fa";
 import Icon from "../../../assets/icon-perfil.png";
 

@@ -48,19 +48,19 @@ const DocumentsList = ({
         >
           <button
             onClick={() => handleDownload(doc)}
-            className="hover:bg-emerald-100 px-2 py-2 rounded-md"
+            className="hover:bg-emerald-100 px-2 py-2 rounded-md text-start"
           >
             Download
           </button>
           <button
             onClick={() => handleEmail(doc)}
-            className="hover:bg-emerald-100 px-2 py-2 rounded-md"
+            className="hover:bg-emerald-100 px-2 py-2 rounded-md text-start"
           >
             Send Email
           </button>
           <button
             onClick={() => handleConfirmDelete(doc)}
-            className="text-red-500 hover:bg-red-100 px-2 py-2 rounded-md"
+            className="text-red-500 hover:bg-red-100 px-2 py-2 rounded-md text-start"
           >
             Delete
           </button>

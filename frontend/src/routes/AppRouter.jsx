@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Navbar from "../components/layout/navbar/Navbar";
+import Navbar from "../features/navbar/Navbar.jsx";
 import Login from "../features/auth/Login";
 import Register from "../features/auth/Register";
 import LandingPage from "../pages/LandingPage";

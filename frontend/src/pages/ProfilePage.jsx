@@ -195,19 +195,19 @@ const ProfilePage = () => {
         <div className="flex flex-col md:flex-row justify-between gap-4 mt-8">
           <button
             onClick={handleUpdate}
-            className="px-6 py-3 text-white bg-emerald-600 rounded-lg hover:bg-emerald-500 transition duration-200 font-semibold"
+            className="px-6 py-3 text-white bg-emerald-600 rounded-lg hover:bg-emerald-500 transition duration-200 font-semibold cursor-pointer"
           >
             Save Changes
           </button>
           <button
             onClick={handlePasswordReset}
-            className="px-6 py-2 bg-emerald-50 text-emerald-600 font-semibold rounded-lg hover:bg-emerald-200 transition"
+            className="px-6 py-2 bg-emerald-50 text-emerald-600 font-semibold rounded-lg hover:bg-emerald-200 transition cursor-pointer"
           >
             Change Password
           </button>
           <button
             onClick={() => setShowDeleteModal(true)}
-            className="px-6 py-2 bg-red-50 text-red-600 font-semibold rounded-lg hover:bg-red-200 transition"
+            className="px-6 py-2 bg-red-50 text-red-600 font-semibold rounded-lg hover:bg-red-200 transition cursor-pointer"
           >
             Delete Account
           </button>
@@ -245,7 +245,7 @@ const ProfilePage = () => {
                   Delete
                 </button>
                 <button
-                  onClick={() => setShowModalDelete(false)}
+                  onClick={() => setShowDeleteModal(false)}
                   className="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-300  duration-200 cursor-pointer"
                 >
                   Cancel

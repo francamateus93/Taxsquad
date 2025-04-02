@@ -136,14 +136,14 @@ const NewAnnualTax = () => {
   };
 
   return (
-    <section className="container mx-auto p-10 md:py-12 md:px-20">
+    <section className="container mx-auto p-6">
       <div className="max-w-5xl mx-auto bg-white p-6 rounded-2xl shadow">
         <h2 className="text-2xl font-bold mb-8 text-center tracking-tighter">
           Annual Tax
         </h2>
         <form
           onSubmit={handleSubmit}
-          className="grid grid-cols-1 lg:grid-cols-3 gap-6 text-start"
+          className="flex flex-col lg:grid lg:grid-cols-3 gap-6 text-start"
         >
           {Object.entries(form).map(([key, value]) => (
             <div key={key}>

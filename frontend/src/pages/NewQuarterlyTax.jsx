@@ -100,7 +100,7 @@ const NewQuarterlyTax = () => {
 
         <form
           onSubmit={handleSubmit}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-6 text-start"
+          className="flex flex-col lg:grid lg:grid-cols-2 gap-6 text-start"
         >
           {Object.entries(form).map(([key, value]) => {
             const isValid = validateField(key, value);

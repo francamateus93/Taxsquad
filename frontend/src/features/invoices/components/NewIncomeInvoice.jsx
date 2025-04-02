@@ -3,7 +3,7 @@ import { createInvoice } from "../../../store/slices/invoicesSlice";
 import { useNavigate } from "react-router-dom";
 import InvoiceForm from "./InvoiceForm";
 import { useState } from "react";
-import Modal from "../../../components/ui/modal/Modal";
+import Modal from "../../../components/ui/Modal";
 
 const NewInvoiceIncome = () => {
   const dispatch = useDispatch();

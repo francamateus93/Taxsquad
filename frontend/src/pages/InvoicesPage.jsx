@@ -5,10 +5,10 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   fetchInvoicesByType,
   deleteInvoice,
-} from "../../store/slices/invoicesSlice";
+} from "../store/slices/invoicesSlice";
 import { Link, useNavigate } from "react-router-dom";
-import LoadingSpinner from "../../components/utils/LoadingSpinner";
-import Error from "../../components/utils/Error";
+import LoadingSpinner from "../components/ui/LoadingSpinner.jsx";
+import Error from "../components/ui/Error.jsx";
 
 const InvoicesPage = () => {
   const dispatch = useDispatch();
@@ -95,10 +95,6 @@ const InvoicesPage = () => {
   const handleInvoiceClick = (invoice) => {
     console.log("Invoice clicked:", invoice);
   };
-
-  // const handleEdit = (invoice) => {
-  //   navigate(`/invoices/edit/${invoice.id}`);
-  // };
 
   const handleDownload = (invoice) => {
     const doc = new jsPDF();

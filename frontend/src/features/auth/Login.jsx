@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser, googleLogin } from "../../store/slices/authSlice.js";
 import Button from "../../components/ui/button/ButtonPrimary.jsx";
-import LoadingSpinner from "../../components/utils/LoadingSpinner.jsx";
+import LoadingSpinner from "../../components/ui/LoadingSpinner.jsx";
 
 const Login = () => {
   const dispatch = useDispatch();

@@ -1,5 +1,5 @@
 import React from "react";
-import TaxesCard from "./components/TaxesCard";
+import TaxesCard from "../features/taxes/components/TaxesCard.jsx";
 
 const TaxesPages = () => {
   return (

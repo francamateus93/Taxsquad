@@ -1,7 +1,7 @@
 import { useState, useEffect, use } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateUser, deleteUser } from "../../store/slices/authSlice";
-import Modal from "../../components/ui/modal/Modal";
+import { updateUser, deleteUser } from "../store/slices/authSlice";
+import Modal from "../components/ui/Modal";
 import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {

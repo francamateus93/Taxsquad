@@ -3,9 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Button from "../../../components/ui/button/ButtonPrimary";
 import ButtonSecondary from "../../../components/ui/button/ButtonSecondary";
-import SelectField from "../../../components/utils/SelectField";
-import LoadingSpinner from "../../../components/utils/LoadingSpinner";
-import Modal from "../../../components/ui/modal/Modal";
+import SelectField from "../../../components/ui/SelectField";
+import LoadingSpinner from "../../../components/ui/LoadingSpinner";
+import Modal from "../../../components/ui/Modal";
 
 const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
   const navigate = useNavigate();

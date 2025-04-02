@@ -1,9 +1,9 @@
-import { useDashboard } from "./hook/useDashboard";
-import BarChart from "./components/BarChart";
-import DashboardCard from "./components/DashboardCard";
-import LoadingSpinner from "../../components/utils/LoadingSpinner";
-import Error from "../../components/utils/Error";
-import RecentActivities from "./components/RecentActivities";
+import { useDashboard } from "../features/dashboard/hook/useDashboard.js";
+import BarChart from "../features/dashboard/components/BarChart.jsx";
+import DashboardCard from "../features/dashboard/components/DashboardCard.jsx";
+import LoadingSpinner from "../components/ui/LoadingSpinner.jsx";
+import Error from "../components/ui/Error";
+import RecentActivities from "../features/dashboard/components/RecentActivities.jsx";
 
 const DashboardPage = () => {
   const {

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { createAnnualTax } from "../../../store/slices/annualTaxSlice";
-import Button from "../../../components/ui/button/ButtonPrimary";
-import ButtonSecondary from "../../../components/ui/button/ButtonSecondary";
-import Modal from "../../../components/ui/modal/Modal";
+import { createAnnualTax } from "../store/slices/annualTaxSlice";
+import Button from "../components/ui/button/ButtonPrimary";
+import ButtonSecondary from "../components/ui/button/ButtonSecondary";
+import Modal from "../components/ui/Modal";
 
 const autonomousCommunities = [
   "Andalucía",

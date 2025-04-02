@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import checked from "../../../../public/icons8-checked.gif";
+import checked from "../../../public/icons8-checked.gif";
 
 const backdrop = {
   hidden: { opacity: 0 },

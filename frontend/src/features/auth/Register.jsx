@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../../store/slices/authSlice.js";
-import LoadingSpinner from "../../components/utils/LoadingSpinner.jsx";
-import Error from "../../components/utils/Error.jsx";
+import LoadingSpinner from "../../components/ui/LoadingSpinner.jsx";
+import Error from "../../components/ui/Error.jsx";
 
 const Register = () => {
   const dispatch = useDispatch();

@@ -5,9 +5,9 @@ import {
   updateInvoice,
   fetchInvoicesByType,
 } from "../../store/slices/invoicesSlice";
-import LoadingSpinner from "../../components/utils/LoadingSpinner";
-import Error from "../../components/utils/Error";
-import Modal from "../../components/ui/modal/Modal";
+import LoadingSpinner from "../../components/ui/LoadingSpinner";
+import Error from "../../components/ui/Error";
+import Modal from "../../components/ui/Modal";
 
 const EditInvoicePage = () => {
   const dispatch = useDispatch();
@@ -26,12 +26,10 @@ const EditInvoicePage = () => {
 
   const [showModal, setShowModal] = useState(false);
 
-  // Carrega faturas ao abrir página
   useEffect(() => {
     if (userId) dispatch(fetchInvoicesByType({ userId, type: "all" }));
   }, [dispatch, userId]);
 
-  // Carrega dados da fatura no form
   useEffect(() => {
     const invoice = invoices.find((inv) => inv.id.toString() === id);
     if (invoice) {
@@ -51,7 +49,7 @@ const EditInvoicePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await dispatch(updateInvoice({ userId, invoiceId: id, invoiceData }));
+    dispatch(updateInvoice({ userId, invoiceId: id, invoiceData }));
     setShowModal(true);
   };
 

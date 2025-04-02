@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createInvoice } from "../../../store/slices/invoicesSlice";
 import InvoiceForm from "./InvoiceForm";
-import Modal from "../../../components/ui/modal/Modal";
+import Modal from "../../../components/ui/Modal";
 
 const NewExpenseInvoice = () => {
   const dispatch = useDispatch();

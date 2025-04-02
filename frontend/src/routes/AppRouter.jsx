@@ -1,29 +1,24 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Navbar from "../components/layout/navbar/Navbar";
-import Login from "../pages/auth/Login";
-import Register from "../pages/auth/Register";
+import Login from "../features/auth/Login";
+import Register from "../features/auth/Register";
 import LandingPage from "../pages/LandingPage";
 import DashboardLayout from "../components/layout/DashboardLayout";
-import DashboardPage from "../pages/dashboard/DashboardPage";
-import InvoicesPage from "../pages/invoices/InvoicesPage";
-import NewExpenseInvoice from "../pages/invoices/components/NewExpenseInvoice.jsx";
-import NewIncomeInvoice from "../pages/invoices/components/NewIncomeInvoice.jsx";
-import TaxesPages from "../pages/taxes/TaxesPage.jsx";
-import DocumentsPages from "../pages/documents/DocumentsPage.jsx";
-import ProfilePage from "../pages/profile/ProfilePage.jsx";
+import DashboardPage from "../pages/DashboardPage";
+import InvoicesPage from "../pages/InvoicesPage";
+import NewExpenseInvoice from "../features/invoices/components/NewExpenseInvoice.jsx";
+import NewIncomeInvoice from "../features/invoices/components/NewIncomeInvoice.jsx";
+import TaxesPages from "../pages/TaxesPage.jsx";
+import DocumentsPages from "../pages/DocumentsPage.jsx";
+import ProfilePage from "../pages/ProfilePage.jsx";
 import PrivateRoute from "./PrivateRoute";
-import NotFound from "../pages/NotFound";
+import NotFound from "../pages/NotFoundPage.jsx";
 import AuthListener from "../components/auth/AuthListener.jsx";
-import NewAnnual from "../pages/taxes/components/NewAnnualTax.jsx";
-import NewQuarterly from "../pages/taxes/components/NewQuarterlyTax.jsx";
+import NewAnnual from "../pages/NewAnnualTax.jsx";
+import NewQuarterly from "../pages/NewQuarterlyTax.jsx";
 import AuthenticatedRoute from "./AuthenticatedRoute.jsx";
-import EditInvoicePage from "../pages/invoices/EditInvoicePage.jsx";
+import EditInvoicePage from "../features/invoices/EditInvoicePage.jsx";
 
 const AppRouter = () => {
   const user = useSelector((state) => state.auth);

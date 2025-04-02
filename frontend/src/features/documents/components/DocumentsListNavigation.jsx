@@ -1,4 +1,4 @@
-const DocumentListNavigation = ({ currentDocuments, filteredDocuments }) => {
+const DocumentsListNavigation = ({ currentDocuments, filteredDocuments }) => {
   return (
     <div className="grid grid-cols-2 bg-emerald-50 rounded-t-xl px-4 py-2 tracking-tight font-semibold">
       <div className="flex items-center space-x-1 cursor-pointer">
@@ -16,4 +16,4 @@ const DocumentListNavigation = ({ currentDocuments, filteredDocuments }) => {
   );
 };
 
-export default DocumentListNavigation;
+export default DocumentsListNavigation;

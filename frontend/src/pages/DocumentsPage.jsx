@@ -1,8 +1,8 @@
-import DocumentsHeader from "../features/documents/components/DocumentHeader.jsx";
-import DocumentListNavigation from "../features/documents/components/DocumentListNavigation.jsx";
+import DocumentsHeader from "../features/documents/components/DocumentsHeader.jsx";
+import DocumentsListNavigation from "../features/documents/components/DocumentsListNavigation.jsx";
 import DocumentsList from "../features/documents/components/DocumentsList.jsx";
 import DeleteModal from "../features/documents/components/DeleteModal.jsx";
-import Pagination from "../features/documents/components/Pagination.jsx";
+import DocumentsPagination from "../features/documents/components/DocumentsPagination.jsx";
 import { useDocuments } from "../features/documents/hooks/useDocuments.js";
 import LoadingSpinner from "../components/ui/LoadingSpinner.jsx";
 import Error from "../components/ui/Error.jsx";
@@ -41,7 +41,7 @@ const DocumentsPages = () => {
       />
 
       <div className="bg-white p-4 rounded-2xl shadow-[0_0px_5px_rgba(0,0,0,0.1)] hover:shadow-xl  transition duration-300 relative">
-        <DocumentListNavigation
+        <DocumentsListNavigation
           currentDocuments={currentDocuments}
           filteredDocuments={filteredDocuments}
         />
@@ -69,7 +69,7 @@ const DocumentsPages = () => {
       )}
 
       {totalPages > 1 && (
-        <Pagination
+        <DocumentsPagination
           currentPage={currentPage}
           totalPages={totalPages}
           setCurrentPage={setCurrentPage}

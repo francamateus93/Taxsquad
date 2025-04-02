@@ -1,4 +1,4 @@
-const Pagination = ({ currentPage, totalPages, setCurrentPage }) => (
+const DocumentsPagination = ({ currentPage, totalPages, setCurrentPage }) => (
   <div className="flex justify-center mt-6 space-x-1">
     <button
       onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
@@ -20,4 +20,4 @@ const Pagination = ({ currentPage, totalPages, setCurrentPage }) => (
   </div>
 );
 
-export default Pagination;
+export default DocumentsPagination;

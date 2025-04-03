@@ -63,7 +63,7 @@ const DocumentsPages = () => {
       </div>
       {showModalDelete && (
         <DeleteModal
-          onConfirm={handleDelete}
+          handleDelete={handleDelete}
           onCancel={() => setShowModalDelete(false)}
         />
       )}

@@ -120,10 +120,15 @@ export const useDocuments = () => {
   const handleDelete = () => {
     dispatch(
       documentType === "quarterly"
-        ? deleteQuarterlyTax({ userId, quarterlyTaxId: selectedDoc.id })
-        : deleteAnnualTax({ userId, annualTaxId: selectedDoc.id })
-    );
-    setShowModalDelete(false);
+        ? deleteQuarterlyTax({ userId, quarterlyId: selectedDoc.id })
+        : deleteAnnualTax({ userId, annualId: selectedDoc.id })
+    )
+      .unwrap()
+      .then(() => {
+        setShowModalDelete(false);
+        setSelectedDoc(null);
+      })
+      .catch((error) => console.error(error));
   };
 
   return {

@@ -1,6 +1,6 @@
 import React from "react";
 
-const InvoiceModal = ({ showModal, handleDelete, setShowModalDelete }) => {
+const InvoiceModal = ({ showModal, handleDelete, onCancel }) => {
   if (!showModal) return null;
 
   return (
@@ -21,7 +21,7 @@ const InvoiceModal = ({ showModal, handleDelete, setShowModalDelete }) => {
             Delete
           </button>
           <button
-            onClick={() => setShowModalDelete(false)}
+            onClick={onCancel}
             className="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-300  duration-200 cursor-pointer"
           >
             Cancel

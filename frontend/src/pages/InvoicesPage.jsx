@@ -3,6 +3,7 @@ import InvoicesHeader from "../features/invoices/components/InvoicesHeader";
 import InvoicesList from "../features/invoices/components/InvoicesList";
 7;
 import InvoicePagination from "../features/invoices/components/InvoicesPagination.jsx";
+import InvoiceModal from "../features/invoices/components/InvoicesModal";
 
 const InvoicesPage = () => {
   const {
@@ -48,7 +49,7 @@ const InvoicesPage = () => {
       {showModalDelete && (
         <InvoiceModal
           showModal={showModalDelete}
-          onDelete={handleDelete}
+          handleDelete={handleDelete}
           onCancel={() => setShowModalDelete(false)}
         />
       )}

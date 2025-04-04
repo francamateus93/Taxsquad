@@ -1,7 +1,7 @@
-import { useAnnual } from "../features/annual/hook/useAnnual";
-import Modal from "../components/ui/Modal";
-import AnnualForm from "../features/annual/components/AnnualForm";
-import AnnualActions from "../features/annual/components/AnnualActions";
+import { useAnnual } from "../../features/annual/hook/useAnnual";
+import Modal from "../../components/ui/Modal";
+import AnnualForm from "../../features/annual/components/AnnualForm";
+import AnnualActions from "../../features/annual/components/AnnualActions";
 
 const NewAnnualTax = () => {
   const {

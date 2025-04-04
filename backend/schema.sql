@@ -94,6 +94,23 @@ VALUES
 (1, 'income', '#11', '2025-11-10', 'Jordi Albanil', 'ID001', 'Avinguda Diagonal, 63', 'Barcelona', 'Spain', 'Massage Services', 2, 800, 21, 0, 'EUR', 'cash', 1936),
 (1, 'income', '#12', '2025-12-10', 'Jordi Albanil', 'ID001', 'Avinguda Diagonal, 63', 'Barcelona', 'Spain', 'Massage Services', 2, 1000, 21, 0, 'EUR', 'cash', 2420);
 
+-- Invoices 2024
+
+INSERT INTO invoices (user_id, invoice_type, number, date, client_name, client_id, client_address, city, country, concept, quantity, price, vat, irpf, currency, payment_method, total_amount)
+VALUES 
+(1, 'income', '#12024', '2024-01-10', 'Centro de Masajes', 'ID002', 'Calle Sants, 12', 'Barcelona', 'Spain', 'Massage Services', 2, 1000, 21, 0, 'EUR', 'cash', 2420),
+(1, 'income', '#22024', '2024-02-10', 'Centro de Masajes', 'ID002', 'Calle Sants, 12', 'Barcelona', 'Spain', 'Massage Services', 2, 1000, 21, 0, 'EUR', 'cash', 2420),
+(1, 'income', '#32024', '2024-03-10', 'Centro de Masajes', 'ID002', 'Calle Sants, 12', 'Barcelona', 'Spain', 'Massage Services', 2, 900, 21, 0, 'EUR', 'cash', 2178),
+(1, 'income', '#42024', '2024-04-10', 'Centro de Masajes', 'ID002', 'Calle Sants, 12', 'Barcelona', 'Spain', 'Massage Services', 2, 700, 21, 0, 'EUR', 'cash', 1694),
+(1, 'income', '#52024', '2024-05-10', 'Centro de Masajes', 'ID002', 'Calle Sants, 12', 'Barcelona', 'Spain', 'Massage Services', 2, 1000, 21, 0, 'EUR', 'cash', 2420),
+(1, 'income', '#62024', '2024-06-10', 'Centro de Masajes', 'ID002', 'Calle Sants, 12', 'Barcelona', 'Spain', 'Massage Services', 2, 800, 21, 0, 'EUR', 'cash', 1936),  
+(1, 'income', '#72024', '2024-07-10', 'Centro de Masajes', 'ID002', 'Calle Sants, 12', 'Barcelona', 'Spain', 'Massage Services', 2, 1000, 21, 0, 'EUR', 'cash', 2420),
+(1, 'income', '#82024', '2024-08-10', 'Jordi Albanil', 'ID001', 'Avinguda Diagonal, 63', 'Barcelona', 'Spain', 'Massage Services', 2, 800, 21, 0, 'EUR', 'cash', 1936),
+(1, 'income', '#92024', '2024-09-10', 'Centro de Masajes', 'ID002', 'Calle Sants, 12', 'Barcelona', 'Spain', 'Massage Services', 2, 1000, 21, 0, 'EUR', 'cash', 2420),
+(1, 'income', '#102024', '2024-10-10', 'Centro de Masajes', 'ID002', 'Calle Sants, 12', 'Barcelona', 'Spain', 'Massage Services', 2, 1000, 21, 0, 'EUR', 'cash', 2420),
+(1, 'income', '#112024', '2024-11-10', 'Jordi Albanil', 'ID001', 'Avinguda Diagonal, 63', 'Barcelona', 'Spain', 'Massage Services', 2, 800, 21, 0, 'EUR', 'cash', 1936),
+(1, 'income', '#122024', '2024-12-10', 'Jordi Albanil', 'ID001', 'Avinguda Diagonal, 63', 'Barcelona', 'Spain', 'Massage Services', 2, 800, 21, 0, 'EUR', 'cash', 1936);
+
 
 INSERT INTO invoices (user_id, invoice_type, number, date, client_name, client_id, client_address, city, country, concept, quantity, price, vat, irpf, currency, payment_method, total_amount)
 VALUES 

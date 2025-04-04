@@ -1,9 +1,9 @@
-import { useInvoices } from "../features/invoices/hook/useInvoices";
-import InvoicesHeader from "../features/invoices/components/InvoicesHeader";
-import InvoicesList from "../features/invoices/components/InvoicesList";
+import { useInvoices } from "../../features/invoices/hook/useInvoices.js";
+import InvoicesHeader from "../../features/invoices/components/InvoicesHeader.jsx";
+import InvoicesList from "../../features/invoices/components/InvoicesList.jsx";
 7;
-import InvoicePagination from "../features/invoices/components/InvoicesPagination.jsx";
-import InvoiceModal from "../features/invoices/components/InvoicesModal";
+import InvoicePagination from "../../features/invoices/components/InvoicesPagination.jsx";
+import InvoiceModal from "../../features/invoices/components/InvoicesModal.jsx";
 
 const InvoicesPage = () => {
   const {

@@ -19,7 +19,7 @@ const ProfileForm = ({ profile, errors, touched, handleChange }) => {
       : "border border-gray-200";
 
   return (
-    <form className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <form className="grid grid-cols-1 lg:grid-cols-3 gap-4">
       {fieldsToShow.map((key) => (
         <div key={key}>
           <label className="block font-semibold capitalize mb-1 text-start">

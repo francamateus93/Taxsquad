@@ -4,7 +4,7 @@ const NavLinkItem = ({ to, label, isActive, onClick }) => (
   <Link
     to={to}
     onClick={onClick}
-    className={`hover:text-emerald-500 py-2 hover:font-semibold transition duration-200 ${
+    className={`hover:text-emerald-500 py-2 hover:font-semibold text-lg transition duration-200 ${
       isActive(to) ? "font-bold text-emerald-500" : ""
     }`}
   >

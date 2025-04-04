@@ -1,5 +1,4 @@
 import React from "react";
-import Error from "../../../../components/ui/Error.jsx";
 import LoadingSpinner from "../../../../components/ui/LoadingSpinner.jsx";
 
 const RegisterForm = ({
@@ -12,7 +11,6 @@ const RegisterForm = ({
   handleSubmit,
   inputClass,
   loading,
-  error,
 }) => {
   return (
     <form
@@ -76,8 +74,6 @@ const RegisterForm = ({
       >
         {loading ? <LoadingSpinner /> : "Register"}
       </button>
-
-      {error && <Error message={error} />}
     </form>
   );
 };

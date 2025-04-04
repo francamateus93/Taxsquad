@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Suspense } from "react";
 import Navbar from "../features/navbar/Navbar.jsx";
-import DashboardLayout from "../components/layout/DashboardLayout";
+import DashboardLayout from "../layout/DashboardLayout.jsx";
 import PrivateRoute from "./PrivateRoute";
 import AuthenticatedRoute from "./AuthenticatedRoute";
 import AuthListener from "../app/authListener.js";

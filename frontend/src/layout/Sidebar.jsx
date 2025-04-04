@@ -10,7 +10,7 @@ import {
 import { IoMdHelpCircleOutline } from "react-icons/io";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import Logo from "../../assets/logo/Logo_TaxSquad.png";
+import Logo from "../assets/logo/Logo_TaxSquad.png";
 
 const Sidebar = () => {
   const location = useLocation();

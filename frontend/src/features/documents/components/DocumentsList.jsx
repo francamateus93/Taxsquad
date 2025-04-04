@@ -19,7 +19,7 @@ const DocumentsList = ({
   return currentDocuments.map((doc) => (
     <div
       key={doc.id}
-      className="grid grid-cols-1 items-center text-start px-4 py-3 rounded-lg hover:bg-emerald-100 duration-200 cursor-pointer relative border-b border-b-gray-100"
+      className="grid grid-cols-1 items-center text-start p-2 md:p-3 rounded-lg hover:bg-emerald-100 duration-200 cursor-pointer relative border-b border-b-gray-100"
     >
       <div className="flex justify-between items-center md:gap-4 text-sm md:text-base">
         <p className="font-semibold md:w-66">
@@ -28,7 +28,7 @@ const DocumentsList = ({
             : `Annual Income Tax - ${doc.year}`}
         </p>
         <div className="flex items-center justify-end gap-10 md:w-46 relative z-0">
-          <p className="text-end md:w-44 relative z-0">
+          <p className="text-end text-sm md:text-base md:w-44 relative z-0">
             {doc.created_at
               ? new Date(doc.created_at).toLocaleDateString()
               : ""}

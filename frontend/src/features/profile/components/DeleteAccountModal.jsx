@@ -1,7 +1,7 @@
 const DeleteAccountModal = ({ onDelete, onCancel }) => (
   <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-    <div className="bg-white text-gray-600 p-10 rounded-xl shadow-xl max-w-lg mx-auto flex flex-col items-center gap-4">
-      <p className="text-2xl font-semibold text-center text-red-600">
+    <div className="bg-white text-gray-600 p-10 rounded-xl shadow-xl max-w-lg mx-5 md:mx-auto flex flex-col items-center gap-4">
+      <p className="text-2xl font-semibold text-center text-red-600 leading-tight">
         Are you sure you want to delete your account?
       </p>
       <p className="text-sm text-center max-w-sm text-gray-500">

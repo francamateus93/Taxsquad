@@ -311,8 +311,8 @@ const InvoiceForm = ({ type, onSubmit, defaultValues = {} }) => {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex justify-between items-center pt-2">
-        <div className="flex gap-4">
+      <div className="flex justify-between items-center md:pt-2">
+        <div className="flex gap-2 md:gap-4 mr-2">
           <Link to="/invoices">
             <ButtonSecondary type="button">Back</ButtonSecondary>
           </Link>

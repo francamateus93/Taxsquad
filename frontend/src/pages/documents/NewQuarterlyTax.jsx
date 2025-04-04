@@ -1,7 +1,7 @@
-import { useQuarterly } from "../features/quarterly/hook/useQuarterly";
-import QuarterlyForm from "../features/quarterly/components/QuarterlyForm";
-import QuarterlyActions from "../features/quarterly/components/QuarterlyActions";
-import Modal from "../components/ui/Modal";
+import { useQuarterly } from "../../features/quarterly/hook/useQuarterly";
+import QuarterlyForm from "../../features/quarterly/components/QuarterlyForm";
+import QuarterlyActions from "../../features/quarterly/components/QuarterlyActions";
+import Modal from "../../components/ui/Modal";
 
 const NewQuarterlyTax = () => {
   const {

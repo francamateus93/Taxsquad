@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { createInvoice } from "../store/slices/invoicesSlice";
-import InvoiceForm from "../features/invoices/components/InvoiceForm";
-import Modal from "../components/ui/Modal";
+import { createInvoice } from "../../store/slices/invoicesSlice";
+import InvoiceForm from "../../features/invoices/components/InvoiceForm";
+import Modal from "../../components/ui/Modal";
 
 const NewExpenseInvoice = () => {
   const dispatch = useDispatch();

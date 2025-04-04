@@ -15,14 +15,14 @@ const InputField = ({
       : "border border-1 border-gray-200";
 
   return (
-    <div className="mb-4">
+    <div className="mb-2">
       <input
         name={name}
         type={type}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={`p-2 tracking-tight rounded-lg w-full ${getBorder()}`}
+        className={`p-3 tracking-tight rounded-lg w-full ${getBorder()}`}
       />
       {touched && error && (
         <p className="text-red-500 text-xs text-start mt-1">{error}</p>

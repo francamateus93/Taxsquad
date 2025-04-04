@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 const BarChart = ({ invoices }) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [viewMode, setViewMode] = useState("yearly");
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -25,38 +26,69 @@ const BarChart = ({ invoices }) => {
     "Dec",
   ];
 
-  const monthsMobile = ["Jan", "Feb", "Mar", "Apr", "May"];
+  const quarterlyFull = ["Q1", "Q2", "Q3", "Q4"];
 
-  const categories = isMobile ? monthsMobile : monthsFull;
-
-  const calculateMonthlyTotal = (type) => {
-    const totals = categories.map((month) => {
-      const monthIndex = monthsFull.indexOf(month);
-      return invoices
-        .filter((inv) => {
-          const date = new Date(inv.date);
-          return inv.invoice_type === type && date.getMonth() === monthIndex;
-        })
+  const getMonthlyData = () => {
+    return monthsFull.map((month, index) => {
+      const income = invoices
+        .filter(
+          (inv) =>
+            inv.invoice_type === "income" &&
+            new Date(inv.date).getMonth() === index
+        )
         .reduce((sum, inv) => sum + Number(inv.total_amount), 0);
+
+      const expense = invoices
+        .filter(
+          (inv) =>
+            inv.invoice_type === "expense" &&
+            new Date(inv.date).getMonth() === index
+        )
+        .reduce((sum, inv) => sum + Number(inv.total_amount), 0);
+
+      return { income, expense };
     });
-    return totals;
   };
 
+  const getQuarterlyData = () => {
+    const quarters = [0, 3, 6, 9];
+    return quarters.map((start, i) => {
+      const end = start + 3;
+      const income = invoices
+        .filter((inv) => inv.invoice_type === "income")
+        .filter((inv) => {
+          const month = new Date(inv.date).getMonth();
+          return month >= start && month < end;
+        })
+        .reduce((sum, inv) => sum + Number(inv.total_amount), 0);
+
+      const expense = invoices
+        .filter((inv) => inv.invoice_type === "expense")
+        .filter((inv) => {
+          const month = new Date(inv.date).getMonth();
+          return month >= start && month < end;
+        })
+        .reduce((sum, inv) => sum + Number(inv.total_amount), 0);
+
+      return { income, expense, label: `Q${i + 1}` };
+    });
+  };
+
+  const data = viewMode === "monthly" ? getMonthlyData() : getQuarterlyData();
+
   const series = [
-    {
-      name: "Income",
-      data: calculateMonthlyTotal("income"),
-    },
-    {
-      name: "Expenses",
-      data: calculateMonthlyTotal("expense"),
-    },
+    { name: "Income", data: data.map((d) => d.income) },
+    { name: "Expenses", data: data.map((d) => d.expense) },
   ];
+
+  const categories =
+    viewMode === "monthly" ? monthsFull : data.map((d) => d.label);
 
   const options = {
     chart: {
       type: "bar",
       height: 350,
+      width: "100%",
       stacked: true,
       toolbar: { show: false },
     },
@@ -73,7 +105,7 @@ const BarChart = ({ invoices }) => {
       enabled: false,
     },
     xaxis: {
-      categories,
+      categories: viewMode === "monthly" ? monthsFull : quarterlyFull,
       labels: {
         style: {
           colors: "#9ca3af",
@@ -93,7 +125,7 @@ const BarChart = ({ invoices }) => {
       position: "top",
       fontSize: "14px",
       horizontalAlign: "center",
-      offsetY: -35,
+      offsetY: isMobile ? 5 : -35,
       markers: {
         radius: 50,
       },
@@ -121,16 +153,36 @@ const BarChart = ({ invoices }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl w-full p-4 shadow-[0_0px_5px_rgba(0,0,0,0.1)] hover:shadow-lg transition duration-300">
-      <div className="flex items-center justify-between">
-        <h4 className="hidden md:block text-start text-2xl font-bold tracking-tighter px-4 md:py-2 py-8">
-          Money Flow
-        </h4>
-        <p className="text-gray-400 px-6 text-end tracking-tighter cursor-pointer">
-          Annual
-        </p>
+    <div className="bg-white rounded-xl w-full md:p-4 px-2 py-4 shadow-[0_0px_5px_rgba(0,0,0,0.1)] hover:shadow-lg transition duration-300">
+      <div className="flex items-center justify-between px-2 mt-4">
+        <h4 className="text-2xl px-2 font-bold tracking-tight">Money Flow</h4>
+        <div className="flex justify-end md:mb-2 gap-2 cursor-pointer">
+          <button
+            onClick={() =>
+              setViewMode(viewMode === "monthly" ? "quarterly" : "monthly")
+            }
+            className="cursor-pointer text-sm flex items-center gap-1 text-gray-400 md:px-4 md:py-2 px-2 hover:font-medium transition duration-200"
+          >
+            {viewMode === "monthly" ? "Quarterly" : "Monthly"}
+            <img
+              src="https://img.icons8.com/?size=24&id=85502&format=png"
+              alt="arrow down"
+              className="w-4 h-4 opacity-40 cursor-pointer"
+            />
+          </button>
+        </div>
       </div>
-      <Chart options={options} series={series} type="bar" height={325} />
+
+      {/* Scroll wrapper for mobile */}
+      <div className="mt-6 md:my-0">
+        <Chart
+          options={options}
+          series={series}
+          type="bar"
+          height={325}
+          className="pr-2 md:pr-0"
+        />
+      </div>
     </div>
   );
 };

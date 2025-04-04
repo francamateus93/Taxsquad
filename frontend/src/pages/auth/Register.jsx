@@ -1,6 +1,6 @@
-import { useRegister } from "../features/auth/hooks/useRegister.js";
+import { useRegister } from "../../features/auth/hooks/useRegister.js";
 import { Link } from "react-router-dom";
-import RegisterForm from "../features/auth/components/register/RegisterForm.jsx";
+import RegisterForm from "../../features/auth/components/register/RegisterForm.jsx";
 
 const Register = () => {
   const {
@@ -18,7 +18,7 @@ const Register = () => {
 
   return (
     <section className="container mx-auto p-6">
-      <div className="max-w-xl mx-auto p-10 bg-white rounded-2xl mt-10">
+      <div className="flex flex-col items-center justify-center min-h-screen mt-16 md:mt-0">
         <h2 className="text-2xl md:text-3xl font-bold mb-4 text-center tracking-tight">
           Register
         </h2>

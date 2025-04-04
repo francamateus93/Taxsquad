@@ -22,9 +22,9 @@ const ProfilePage = () => {
   } = useProfile();
 
   return (
-    <section className="container mx-auto p-6">
-      <div className="max-w-5xl mx-auto p-10 bg-white rounded-2xl shadow-[0_0px_5px_rgba(0,0,0,0.1)]">
-        <h2 className="text-2xl font-bold mb-8 text-center">
+    <section className="container mx-auto p-5">
+      <div className="max-w-5xl mx-auto px-4 py-6 md:p-10 bg-white rounded-2xl shadow-[0_0px_5px_rgba(0,0,0,0.1)]">
+        <h2 className="text-2xl font-bold mb-5 md:mb-8 text-center">
           Personal Information
         </h2>
 

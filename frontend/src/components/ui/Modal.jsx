@@ -46,14 +46,14 @@ const Modal = ({ message, duration = 50000, onClose }) => {
         exit="hidden"
       >
         <motion.div
-          className="bg-white text-gray-600 p-6 rounded-xl relative shadow-xl max-w-md mx-auto"
+          className="bg-white text-gray-500 p-5 rounded-xl relative shadow-xl max-w-md mx-5 md:mx-auto"
           variants={modal}
           initial="hidden"
           animate="visible"
           exit="exit"
         >
           <button
-            className="absolute top-2 right-2 p-4 text-gray-600 hover:text-emerald-400 hover:font-semibold transition duration-200"
+            className="absolute top-2 right-2 p-4 text-gray-600 hover:text-emerald-400 text-sm transition duration-200"
             onClick={onClose}
           >
             X

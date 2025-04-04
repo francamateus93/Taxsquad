@@ -45,7 +45,7 @@ const InvoicesHeader = ({
             </button>
           </Link>
           <Link to="/invoices/new-expense">
-            <button className="px-3 md:px-5 py-2 text-sm md:text-base font-semibold text-emerald-600 bg-emerald-50 rounded-lg hover:text-red-400 transition duration-200 cursor-pointer">
+            <button className="px-3 md:px-5 py-2 text-sm md:text-base font-semibold text-white bg-emerald-600 rounded-lg hover:bg-emerald-500 transition cursor-pointer">
               + New Expense
             </button>
           </Link>

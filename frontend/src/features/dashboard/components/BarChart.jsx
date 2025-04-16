@@ -156,7 +156,7 @@ const BarChart = ({ invoices }) => {
     <div className="bg-white rounded-xl w-full md:p-4 px-2 py-4 shadow-[0_0px_5px_rgba(0,0,0,0.1)] hover:shadow-lg transition duration-300">
       <div className="flex items-center justify-between px-2 mt-4">
         <h4 className="text-2xl px-2 font-bold tracking-tight">Money Flow</h4>
-        <div className="flex justify-end md:mb-2 gap-2 cursor-pointer">
+        <div className="flex justify-end gap-2">
           <button
             onClick={() =>
               setViewMode(viewMode === "monthly" ? "quarterly" : "monthly")

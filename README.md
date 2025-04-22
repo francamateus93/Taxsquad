@@ -4,7 +4,7 @@
 
 ## 🎥 Demo
 
-![Taxsquad](./frontend/public/Taxsquad-video.gif)
+![Taxsquad](./frontend/public/Taxsquad-video-2025.gif)
 
 ## 🚀 Features
 

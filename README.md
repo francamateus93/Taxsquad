@@ -1,6 +1,6 @@
 # TaxSquad - Your tax management in a simplified way.
 
-**Taxsquad** is a full-featured tax management web application designed for freelancers and small business owners in Spain. It allows users to create, manage and download invoices, calculate quarterly and annual taxes, and store all fiscal documents securely. The platform is optimized for mobile and desktop, offering a modern UI and fluid user experience.
+**Taxsquad** is a full-stack tax management web application designed for freelancers and small business owners in Spain. It allows users to create, manage and download invoices, calculate quarterly and annual taxes, and store all fiscal documents securely. The platform is optimized for mobile and desktop, offering a modern UI and fluid user experience.
 
 ## 🎥 Demo
 
